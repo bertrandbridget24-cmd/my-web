@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>其他服務 | [您的名字]</title>
+    <style>
+        /* ==================================== */
+        /* 基礎 CSS 樣式 (與 index.html 相同) */
+        /* ==================================== */
+        :root {
+            --primary-color: #3498db; 
+            --secondary-color: #e74c3c; 
+            --text-color: #333;
+            --bg-color: #f4f4f4;
+            --white: #fff;
+            --black: #1a1a1a; 
+            --service-color: #9b59b6; /* 為「服務」新增一個強調色 (例如紫色/專業諮詢) */
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* 導覽列 (與 index.html 黑色版本相同) */
+        .header {
+            background-color: var(--black); 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3); 
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo a {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--white); 
+            text-decoration: none;
+        }
+        
+        .logo a span {
+            color: var(--primary-color); 
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--white); 
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active { 
+            color: var(--primary-color); 
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+            left: unset;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+            left: 0;
+            background: var(--primary-color);
+        }
+
+        /* ==================================== */
+        /* 其他服務頁面專屬 CSS */
+        /* ==================================== */
+
+        .services-header {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--white);
+            border-bottom: 3px solid var(--service-color); /* 使用服務強調色 */
+            margin-bottom: 30px;
+        }
+
+        .services-header h1 {
+            color: var(--service-color);
+            font-size: 2.8em;
+            margin-bottom: 10px;
+        }
+        
+        .services-header p {
+            max-width: 800px;
+            margin: 0 auto;
+            color: #666;
+        }
+        
+        /* 服務卡片網格 */
+        .services-grid {
+            max-width: 1100px;
+            margin: 0 auto 50px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); /* 較寬的兩欄設計 */
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .service-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s;
+            border-top: 5px solid var(--primary-color); /* 專業服務用主色 */
+        }
+        
+        .service-card.culinary {
+            border-top: 5px solid var(--secondary-color); /* 烹飪服務用次色 */
+        }
+
+        .service-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .service-card h2 {
+            font-size: 2em;
+            color: var(--service-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 2px dashed #eee;
+            padding-bottom: 10px;
+        }
+        
+        .service-card ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .service-card ul li {
+            position: relative;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+        
+        .service-card ul li::before {
+            content: "✓"; /* 使用勾號作為列表符號 */
+            color: var(--service-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        .contact-cta {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            margin-top: 20px;
+            background-color: var(--service-color);
+            color: var(--white);
+            text-align: center;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+
+        .contact-cta.web {
+            background-color: var(--primary-color);
+        }
+        
+        .contact-cta.food {
+            background-color: var(--secondary-color);
+        }
+
+        .contact-cta:hover {
+            opacity: 0.9;
+        }
+
+        /* 響應式調整 */
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr; /* 手機上變為單欄 */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">您的<span>名字</span></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">主頁</a></li>
+                <li><a href="about.html">個人介紹</a></li>
+                <li><a href="cooking.html">烹飪作品</a></li>
+                <li><a href="web-design.html">網頁作品</a></li>
+                <li><a href="other-works.html">其他作品</a></li>
+                <li><a href="services.html" class="active">其他服務</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="services-header">
+        <h1>從代碼到廚房：我的跨界服務</h1>
+        <p>
+            運用我的專業技術與生活熱情，提供客製化服務。無論您需要一個高效能網站，還是一場難忘的美食體驗，我都能為您達成。
+        </p>
+    </section>
+    
+    <main class="services-grid">
+
+        <div class="service-card">
+            <h2>網站技術服務與諮詢</h2>
+            <p>
+                結合我的網頁作品經驗，為您的數位專案提供專業支援，確保品質與效率。
+            </p>
+            <ul>
+                <li>響應式網站開發 (RWD) 與優化</li>
+                <li>\[您的框架] 專案架構設計與輔導</li>
+                <li>網站效能診斷與速度提升</li>
+                <li>前端技術一對一教學/導師服務</li>
+            </ul>
+            <a href="mailto:youremail@example.com?subject=網站技術諮詢服務" class="contact-cta web">
+                洽談網站/技術合作
+            </a>
+        </div>
+
+        <div class="service-card culinary">
+            <h2>美食體驗與客製化服務</h2>
+            <p>
+                將我對烹飪的熱情與精準的步驟流程融入服務中，創造獨一無二的美味。
+            </p>
+            <ul>
+                <li>個人/小班制烹飪教學 (\[您的風格])</li>
+                <li>食譜開發與攝影擺盤合作</li>
+                <li>客製化節慶餐點設計/私人宴會顧問</li>
+                <li>餐飲部落格內容協作與撰寫</li>
+            </ul>
+            <a href="mailto:youremail@example.com?subject=烹飪/美食服務諮詢" class="contact-cta food">
+                預約美食體驗或課程
+            </a>
+        </div>
+        
+        </main>
+
+    <section style="text-align: center; margin-top: 30px; padding: 40px 20px; background-color: var(--service-color); color: var(--white);">
+        <h2>不確定您的需求屬於哪一項？</h2>
+        <p style="font-size: 1.2em;">
+            沒關係！直接透過以下方式告訴我您的想法，讓我們一起找到最佳的解決方案。
+        </p>
+        <a href="mailto:youremail@example.com" style="display: inline-block; padding: 15px 40px; background-color: var(--white); color: var(--service-color); border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 1.1em; margin-top: 20px;">
+            傳送電子郵件聯繫我
+        </a>
+    </section>
+
+
+    <footer style="text-align: center; padding: 20px; background-color: #333; color: var(--white);">
+        <p>&copy; 2024 您的名字. All rights reserved.</p>
+        <div class="social-links" style="margin-top: 10px;">
+            <a href="#" style="color: var(--white); margin: 0 10px;">IG</a>
+            <a href="#" style="color: var(--white); margin: 0 10px;">LinkedIn</a>
+            <a href="mailto:youremail@example.com" style="color: var(--white); margin: 0 10px;">Email</a>
+        </div>
+    </footer>
+
+</body>
+</html>
