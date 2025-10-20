@@ -47,17 +47,33 @@
             padding: 15px 20px;
         }
 
-        .logo a {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: var(--white); /* Logo 文字改為白色 */
-            text-decoration: none;
-        }
-        
-        /* 讓 Logo 中的主要顏色仍然突出 */
-        .logo a span {
-            color: var(--primary-color); 
-        }
+        /* 新增：Logo 圖片樣式 */
+.site-logo {
+    /* 圖片高度：設定一個合適的高度，讓它在導覽列中清晰可見 */
+    height: 40px; 
+    /* 圖片寬度：設為 auto 以保持圖片比例 */
+    width: auto;
+    /* 確保圖片與導覽列文字垂直對齊 (雖然這裡沒有其他文字了) */
+    display: block; 
+}
+
+/* 確保 Logo 容器沒有額外間距 */
+.logo a {
+    padding: 0;
+}
+
+/* 如果您希望 Logo 佔用更多空間，可以調整 .navbar 的 padding */
+.navbar {
+    /* 假設您希望導覽列整體變高一些來容納 Logo */
+    padding: 10px 20px; 
+}
+
+/* (可選) 在手機版上調整 Logo 大小，以節省空間 */
+@media (max-width: 768px) {
+    .site-logo {
+        height: 30px; /* 手機上變小一點 */
+    }
+}
 
         .nav-links {
             list-style: none;
@@ -248,7 +264,9 @@
     <header class="header">
         <nav class="navbar">
             <div class="logo">
-                <a href="index.html">您的<span>名字</span></a>
+                <a href="index.html">
+                    <img src="logo.png" alt="Catherin 個人網站 Logo" class="site-logo">
+                </a>
             </div>
             <ul class="nav-links">
                 <li><a href="index.html">主頁</a></li>
@@ -262,7 +280,7 @@
     </header>
 
     <section class="hero" id="home">
-        <h1>[您的名字]，一位跨界的生活藝術家。</h1>
+        <h1>一位跨界的生活藝術家。</h1>
         <p>程式碼與食材的完美融合：理性邏輯建構數位世界，感性熱情創造美味生活。</p>
         <div class="cta-buttons">
             <a href="web-design.html" class="cta-primary">查看我的網頁作品 →</a>
@@ -273,7 +291,7 @@
     <section class="section intro-section">
         <h2>我的理念</h2>
         <p style="text-align: center; max-width: 700px; margin: 0 auto;">
-            嗨，我是[您的名字]。我擅長運用**\[技能一，如：前端開發]**為企業打造流暢的數位體驗。同時，我對烹飪有著深厚的熱情，特別鍾情於**\[您的烹飪風格]**。我相信，不論是設計網站或料理餐點，成功的關鍵都在於對細節的專注與對美感的追求。
+            嘿！我是Catherine。我擅長前端開發為顧客打造流暢的數位體驗。同時，我對烹飪有著深厚的熱情，特別鍾情於提拉米蘇！我相信，不論是設計網站或料理餐點，成功的關鍵都在於對細節的專注與對美感的追求。
         </p>
     </section>
 
@@ -295,19 +313,19 @@
 
             <a href="services.html" class="card">
                 <div class="card-img">服務諮詢圖片佔位符</div>
-                <h3>一對一教學/客製</h3>
-                <p>提供個人化烹飪課程與專業網頁諮詢服務。</p>
+                <h3>客製</h3>
+                <p>提供個人化諮詢服務。</p>
             </a>
 
         </div>
     </section>
 
     <footer style="text-align: center; padding: 20px; background-color: #333; color: var(--white);">
-        <p>&copy; 2024 您的名字. All rights reserved.</p>
+        <p>&copy; 2024 catherine0429. All rights reserved.</p>
         <div class="social-links" style="margin-top: 10px;">
-            <a href="#" style="color: var(--white); margin: 0 10px;">IG</a>
+            <a href="https://www.instagram.com/wzy.8_8_23/" style="color: var(--white); margin: 0 10px;">IG</a>
             <a href="#" style="color: var(--white); margin: 0 10px;">LinkedIn</a>
-            <a href="mailto:youremail@example.com" style="color: var(--white); margin: 0 10px;">Email</a>
+            <a href="https://mail.google.com/mail/u/0/?ogbl#inbox?compose=DmwnWsTJvbnGBJTShSvqJzrMzLqKKMHwXggNFFKbvbCsBgcFtXdnCcwpDwkfLscGXXWVbzbGtRtl" style="color: var(--white); margin: 0 10px;">Email</a>
         </div>
     </footer>
 
