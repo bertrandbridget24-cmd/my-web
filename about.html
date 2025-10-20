@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人介紹 | [您的名字]</title>
+    <title>個人介紹 | Catherine</title>
     <style>
         /* ==================================== */
         /* 基礎 CSS 樣式 (與 index.html 相同) */
@@ -44,15 +44,32 @@
             padding: 15px 20px;
         }
 
-        .logo a {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: var(--white); 
-            text-decoration: none;
+        /* 新增：Logo 圖片樣式 */
+        .site-logo {
+            /* 圖片高度：設定一個合適的高度，讓它在導覽列中清晰可見 */
+            height: 40px; 
+            /* 圖片寬度：設為 auto 以保持圖片比例 */
+         width: auto;
+            /* 確保圖片與導覽列文字垂直對齊 (雖然這裡沒有其他文字了) */
+            display: block; 
         }
-        
-        .logo a span {
-            color: var(--primary-color); 
+
+        /* 確保 Logo 容器沒有額外間距 */
+        .logo a {
+            padding: 0;
+        }
+
+        /* 如果您希望 Logo 佔用更多空間，可以調整 .navbar 的 padding */
+        .navbar {
+            /* 假設您希望導覽列整體變高一些來容納 Logo */
+            padding: 10px 20px; 
+        }
+
+        /* (可選) 在手機版上調整 Logo 大小，以節省空間 */
+        @media (max-width: 768px) {
+            .site-logo {
+                height: 30px; /* 手機上變小一點 */
+            }
         }
 
         .nav-links {
@@ -234,7 +251,9 @@
     <header class="header">
         <nav class="navbar">
             <div class="logo">
-                <a href="index.html">您的<span>名字</span></a>
+                <a href="index.html">
+                    <img src="logo.png" alt="Catherin 個人網站 Logo" class="site-logo">
+                </a>
             </div>
             <ul class="nav-links">
                 <li><a href="index.html">主頁</a></li>
@@ -252,9 +271,9 @@
         <div class="profile-header">
             <img src="profile-photo.jpg" alt="您的專業個人照片" class="profile-img">
             <div class="profile-info">
-                <h1>您好，我是 [您的名字]</h1>
+                <h1>您好，我是 Carherine</h1>
+                <p>你也可以叫我水豚老大、葡萄、夏天...等等，在保持禮貌的前提想怎麼稱呼就怎麼稱呼！</p>
                 <p>— 專業網頁開發者與美食愛好者，致力於創造兼具美感與實用性的體驗。</p>
-                <p>你也可以叫我水豚老大、葡萄、夏天...等等，都可以想怎麼稱呼就怎麼稱呼！</p>
             </div>
         </div>
         
@@ -315,11 +334,11 @@
     </main>
 
     <footer style="text-align: center; padding: 20px; background-color: #333; color: var(--white);">
-        <p>&copy; 2024 您的名字. All rights reserved.</p>
+        <p>&copy; 2024 catherine0429. All rights reserved.</p>
         <div class="social-links" style="margin-top: 10px;">
-            <a href="#" style="color: var(--white); margin: 0 10px;">IG</a>
+            <a href="https://www.instagram.com/wzy.8_8_23/" style="color: var(--white); margin: 0 10px;">IG</a>
             <a href="#" style="color: var(--white); margin: 0 10px;">LinkedIn</a>
-            <a href="mailto:youremail@example.com" style="color: var(--white); margin: 0 10px;">Email</a>
+            <a href="https://mail.google.com/mail/u/0/?ogbl#inbox?compose=DmwnWsTJvbnGBJTShSvqJzrMzLqKKMHwXggNFFKbvbCsBgcFtXdnCcwpDwkfLscGXXWVbzbGtRtl" style="color: var(--white); margin: 0 10px;">Email</a>
         </div>
     </footer>
 

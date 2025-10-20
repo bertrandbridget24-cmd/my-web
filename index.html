@@ -48,32 +48,32 @@
         }
 
         /* 新增：Logo 圖片樣式 */
-.site-logo {
-    /* 圖片高度：設定一個合適的高度，讓它在導覽列中清晰可見 */
-    height: 40px; 
-    /* 圖片寬度：設為 auto 以保持圖片比例 */
-    width: auto;
-    /* 確保圖片與導覽列文字垂直對齊 (雖然這裡沒有其他文字了) */
-    display: block; 
-}
+        .site-logo {
+            /* 圖片高度：設定一個合適的高度，讓它在導覽列中清晰可見 */
+            height: 40px; 
+            /* 圖片寬度：設為 auto 以保持圖片比例 */
+         width: auto;
+            /* 確保圖片與導覽列文字垂直對齊 (雖然這裡沒有其他文字了) */
+            display: block; 
+        }
 
-/* 確保 Logo 容器沒有額外間距 */
-.logo a {
-    padding: 0;
-}
+        /* 確保 Logo 容器沒有額外間距 */
+        .logo a {
+            padding: 0;
+        }
 
-/* 如果您希望 Logo 佔用更多空間，可以調整 .navbar 的 padding */
-.navbar {
-    /* 假設您希望導覽列整體變高一些來容納 Logo */
-    padding: 10px 20px; 
-}
+        /* 如果您希望 Logo 佔用更多空間，可以調整 .navbar 的 padding */
+        .navbar {
+            /* 假設您希望導覽列整體變高一些來容納 Logo */
+            padding: 10px 20px; 
+        }
 
-/* (可選) 在手機版上調整 Logo 大小，以節省空間 */
-@media (max-width: 768px) {
-    .site-logo {
-        height: 30px; /* 手機上變小一點 */
-    }
-}
+        /* (可選) 在手機版上調整 Logo 大小，以節省空間 */
+        @media (max-width: 768px) {
+            .site-logo {
+                height: 30px; /* 手機上變小一點 */
+            }
+        }
 
         .nav-links {
             list-style: none;
@@ -215,16 +215,22 @@
         }
         
         /* 圖片容器 (需替換圖片) */
+        /* 這是原本的圖片容器樣式 */
         .card-img {
-            height: 150px;
-            background-color: #eee; /* 佔位符 */
+            height: 150px; /* 固定圖片高度 */
+            background-color: #eee; /* 移除這個灰色佔位背景 (可選) */
             margin-bottom: 15px;
             border-radius: 5px;
-            /* 實際使用時請替換為圖片 */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #888;
+    
+            /* 移除 display: flex, justify-content, align-items, color 等屬性，因為現在是放圖片不是文字 */
+        }
+
+        /* 新增或修改圖片的樣式 */
+        .preview-img-style {
+             width: 100%; /* 圖片寬度填滿容器 */
+            height: 100%; /* 圖片高度填滿容器 */
+            object-fit: cover; /* 關鍵：確保圖片填滿空間且不變形 */
+            border-radius: 5px; /* 與容器邊角弧度一致 */
         }
 
         /* ==================================== */
@@ -291,7 +297,10 @@
     <section class="section intro-section">
         <h2>我的理念</h2>
         <p style="text-align: center; max-width: 700px; margin: 0 auto;">
-            嘿！我是Catherine。我擅長前端開發為顧客打造流暢的數位體驗。同時，我對烹飪有著深厚的熱情，特別鍾情於提拉米蘇！我相信，不論是設計網站或料理餐點，成功的關鍵都在於對細節的專注與對美感的追求。
+            嘿！我是Catherine。我擅長前端開發為顧客打造流暢的數位體驗。<br>
+            同時，我對烹飪有著深厚的熱情，特別鍾情於提拉米蘇！<br><br>
+            我相信，不論是設計網站或料理餐點，<br>
+            成功的關鍵都在於對細節的專注與對美感的追求。
         </p>
     </section>
 
@@ -300,10 +309,12 @@
         <div class="preview-grid">
             
             <a href="web-design.html" class="card">
-                <div class="card-img">網頁作品圖片佔位符</div>
-                <h3>網頁設計精選</h3>
-                <p>探索我的響應式設計與最新的前端專案。</p>
-            </a>
+    <div class="card-img">
+        <img src="b.png" alt="網頁作品預覽圖" class="preview-img-style">
+    </div>
+    <h3>網頁設計精選</h3>
+    <p>探索我的響應式設計與最新的前端專案。</p>
+</a>
 
             <a href="cooking.html" class="card">
                 <div class="card-img">烹飪作品圖片佔位符</div>
