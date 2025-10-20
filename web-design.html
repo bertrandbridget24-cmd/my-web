@@ -5,243 +5,252 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>網頁作品 | [您的名字]</title>
     <style>
-        /* ==================================== */
-        /* 基礎 CSS 樣式 (與 index.html 相同) */
-        /* ==================================== */
-        :root {
-            --primary-color: #3498db; /* 主要顏色 (適合科技/專業) */
-            --secondary-color: #e74c3c; 
-            --text-color: #333;
-            --bg-color: #f4f4f4;
-            --white: #fff;
-            --black: #1a1a1a; 
-        }
+    /* ==================================== */
+    /* 基礎 CSS 樣式 (與 index.html 相同) */
+    /* ==================================== */
+    :root {
+        --primary-color: #3498db; /* 主要顏色 (適合科技/專業) */
+        --secondary-color: #e74c3c; 
+        --text-color: #333;
+        --bg-color: #f4f4f4;
+        --white: #fff;
+        --black: #1a1a1a; 
+    }
 
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
+    body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+    }
 
-        /* 導覽列 (與 index.html 黑色版本相同) */
-        .header {
-            background-color: var(--black); 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3); 
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+    /* 導覽列 (與 index.html 黑色版本相同) */
+    .header {
+        background-color: var(--black); 
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3); 
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
 
-        .navbar {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-        }
+    .navbar {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+    }
 
-        /* 新增：Logo 圖片樣式 */
+    /* 新增：Logo 圖片樣式 */
+    .site-logo {
+        height: 40px; 
+        width: auto;
+        display: block; 
+    }
+
+    /* 確保 Logo 容器沒有額外間距 */
+    .logo a {
+        padding: 0;
+    }
+
+    /* 如果您希望 Logo 佔用更多空間，可以調整 .navbar 的 padding */
+    .navbar {
+        padding: 10px 20px; 
+    }
+
+    /* (可選) 在手機版上調整 Logo 大小，以節省空間 */
+    @media (max-width: 768px) {
         .site-logo {
-            /* 圖片高度：設定一個合適的高度，讓它在導覽列中清晰可見 */
-            height: 40px; 
-            /* 圖片寬度：設為 auto 以保持圖片比例 */
-         width: auto;
-            /* 確保圖片與導覽列文字垂直對齊 (雖然這裡沒有其他文字了) */
-            display: block; 
+            height: 30px; /* 手機上變小一點 */
         }
+    }
 
-        /* 確保 Logo 容器沒有額外間距 */
-        .logo a {
-            padding: 0;
-        }
+    .nav-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
 
-        /* 如果您希望 Logo 佔用更多空間，可以調整 .navbar 的 padding */
-        .navbar {
-            /* 假設您希望導覽列整體變高一些來容納 Logo */
-            padding: 10px 20px; 
-        }
+    .nav-links li {
+        margin-left: 25px;
+    }
 
-        /* (可選) 在手機版上調整 Logo 大小，以節省空間 */
-        @media (max-width: 768px) {
-            .site-logo {
-                height: 30px; /* 手機上變小一點 */
-            }
-        }
+    .nav-links a {
+        text-decoration: none;
+        color: var(--white); 
+        font-weight: 500;
+        transition: color 0.3s;
+        padding: 5px 0;
+        position: relative;
+    }
 
-        .nav-links {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
+    .nav-links a:hover,
+    .nav-links a.active { 
+        color: var(--primary-color); 
+    }
 
-        .nav-links li {
-            margin-left: 25px;
-        }
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        display: block;
+        margin-top: 5px;
+        right: 0;
+        background: var(--primary-color);
+        transition: width 0.3s ease;
+        left: unset;
+    }
 
-        .nav-links a {
-            text-decoration: none;
-            color: var(--white); 
-            font-weight: 500;
-            transition: color 0.3s;
-            padding: 5px 0;
-            position: relative;
-        }
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+        width: 100%;
+        left: 0;
+        background: var(--primary-color);
+    }
 
-        .nav-links a:hover,
-        .nav-links a.active { 
-            color: var(--primary-color); 
-        }
+    /* ==================================== */
+    /* 網頁作品頁面專屬 CSS */
+    /* ==================================== */
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            display: block;
-            margin-top: 5px;
-            right: 0;
-            background: var(--primary-color);
-            transition: width 0.3s ease;
-            left: unset;
-        }
+    .portfolio-header {
+        text-align: center;
+        padding: 40px 20px;
+        background-color: var(--white);
+        border-bottom: 3px solid var(--primary-color);
+        margin-bottom: 30px;
+    }
 
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
-            width: 100%;
-            left: 0;
-            background: var(--primary-color);
-        }
-
-        /* ==================================== */
-        /* 網頁作品頁面專屬 CSS */
-        /* ==================================== */
-
-        .portfolio-header {
-            text-align: center;
-            padding: 40px 20px;
-            background-color: var(--white);
-            border-bottom: 3px solid var(--primary-color);
-            margin-bottom: 30px;
-        }
-
-        .portfolio-header h1 {
-            color: var(--primary-color);
-            font-size: 2.8em;
-            margin-bottom: 10px;
-        }
+    .portfolio-header h1 {
+        color: var(--primary-color);
+        font-size: 2.8em;
+        margin-bottom: 10px;
+    }
+    
+    .portfolio-header p {
+        max-width: 800px;
+        margin: 0 auto;
+        color: #666;
+    }
+    
+    /* 作品集網格佈局 (Gallery Grid) */
+    .project-grid {
+        max-width: 1200px;
+        margin: 0 auto 50px auto;
+        display: grid;
+        /* 網格列配合 360px 寬度並靠左對齊 */
+        grid-template-columns: repeat(auto-fill, 360px); 
+        justify-content: start; 
         
-        .portfolio-header p {
-            max-width: 800px;
-            margin: 0 auto;
-            color: #666;
-        }
+        gap: 20px;
+        padding: 0 20px;
+    }
+
+    .project-card {
+        background-color: var(--white);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
         
-        /* 作品集網格佈局 (Gallery Grid) */
-        .project-grid {
-            max-width: 1200px;
-            margin: 0 auto 50px auto;
-            display: grid;
-            /* 預設三欄，最小寬度 300px */
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 0 20px;
-        }
+        /* === 固定卡片寬度為 360px，高度為 400px === */
+        width: 360px;
+        height: 400px; 
+    }
 
-        .project-card {
-            background-color: var(--white);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
 
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        }
+    .project-image {
+        width: 100%;
+        /* 圖片高度為 200px */
+        height: 200px; 
+        object-fit: cover; 
+    }
 
-        .project-image {
-            width: 100%;
-            height: 200px; /* 固定圖片高度，使網格整齊 */
-            object-fit: cover; /* 確保圖片覆蓋整個區域 (可以是網站截圖) */
-        }
-
-        .project-details {
-            padding: 15px;
-        }
-
-        .project-details h3 {
-            margin-top: 0;
-            color: var(--text-color);
-            font-size: 1.3em;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        .project-details p {
-            font-size: 0.95em;
-            color: #666;
-            margin-bottom: 15px;
-        }
+    .project-details {
+        padding: 15px;
         
-        /* 技術標籤樣式 */
-        .tech-tags {
-            list-style: none;
-            padding: 0;
-            margin-top: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .tech-tags li {
-            display: inline-block;
-            background-color: #eaf4fd; /* 淺藍色背景 */
-            color: var(--primary-color);
-            padding: 5px 10px;
-            margin-right: 5px;
-            margin-bottom: 5px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            font-weight: bold;
-        }
+        /* === 固定內容區塊高度 (400px - 200px = 200px 可用高度) === */
+        height: 200px; 
+        overflow: hidden; /* 確保內容不會溢出 */
+        /* 移除 flexbox 相關樣式，恢復預設區塊流 */
+    }
 
-        /* 連結按鈕群組 */
-        .project-links {
-            display: flex;
-            justify-content: space-between;
-            padding-top: 10px;
-            border-top: 1px dashed #eee;
-        }
+    .project-details h3 {
+        margin-top: 0;
+        color: var(--text-color);
+        font-size: 1.3em; 
+        border-bottom: 2px solid #eee; 
+        padding-bottom: 10px;
+        margin-bottom: 15px; /* 恢復原始間距 */
+    }
 
-        .project-links a {
-            display: inline-block;
-            padding: 8px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            font-size: 0.9em;
-        }
+    .project-details p {
+        font-size: 0.95em; 
+        color: #666;
+        margin-bottom: 15px; /* 恢復原始間距 */
+        line-height: 1.6; 
+    }
+    
+    /* 技術標籤樣式 */
+    .tech-tags {
+        list-style: none;
+        padding: 0;
+        margin-top: 10px; 
+        margin-bottom: 15px; /* 恢復原始間距 */
+    }
+    
+    .tech-tags li {
+        display: inline-block;
+        background-color: #eaf4fd; 
+        color: var(--primary-color);
+        padding: 5px 10px; 
+        margin-right: 5px;
+        margin-bottom: 5px;
+        border-radius: 4px;
+        font-size: 0.8em; 
+        font-weight: bold;
+    }
 
-        .link-primary {
-            background-color: var(--primary-color);
-            color: var(--white);
-        }
-        
-        .link-secondary {
-            background-color: #ddd;
-            color: var(--text-color);
-        }
-        
-        .link-primary:hover { background-color: #2980b9; }
-        .link-secondary:hover { background-color: #ccc; }
+    /* 連結按鈕群組 */
+    .project-links {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 10px; 
+        border-top: 1px dashed #eee;
+        /* 移除 margin-top: auto; 以恢復原始流 */
+    }
 
+    .project-links a {
+        display: inline-block;
+        padding: 8px 15px; 
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        font-size: 0.9em; 
+    }
 
-    </style>
+    .link-primary {
+        background-color: var(--primary-color);
+        color: var(--white);
+    }
+    
+    .link-secondary {
+        background-color: #ddd;
+        color: var(--text-color);
+    }
+    
+    .link-primary:hover { background-color: #2980b9; }
+    .link-secondary:hover { background-color: #ccc; }
+</style>
 </head>
 <body>
 
@@ -273,67 +282,28 @@
     <main class="project-grid">
 
         <article class="project-card">
-            <img src="project-screenshot-1.jpg" alt="專案一截圖：電商網站" class="project-image">
+            <a href="https://yitingwu.vercel.app/front-page.html" target="_blank" style="display: block;">
+                <img src="b.png" alt="專案一截圖：電商網站" class="project-image">
+            </a>
+            
             <div class="project-details">
-                <h3>響應式電子商務平台</h3>
+                <h3>響應式購物平台(正在進行中)</h3>
                 <p>
-                    **專案目標：** 提升行動裝置購物體驗並優化結帳流程，使轉換率增加 20%。
+                    目標：建置多種裝置適配購物網頁。
                 </p>
                 
                 <ul class="tech-tags">
                     <li>React</li>
                     <li>Node.js</li>
                     <li>MongoDB</li>
-                    <li>Sass</li>
+                    <li>Html</li>
+                    <li>JS</li>
+                    <li>CSS</li>
                 </ul>
 
                 <div class="project-links">
-                    <a href="https://demo-website.com" target="_blank" class="link-primary">實際網站連結 →</a>
+                    <a href="https://yitingwu.vercel.app/front-page.html" target="_blank" class="link-primary">實際網站連結 →</a>
                     <a href="https://github.com/your-repo/project-one" target="_blank" class="link-secondary">GitHub Repo</a>
-                </div>
-            </div>
-        </article>
-
-        <article class="project-card">
-            <img src="project-screenshot-2.jpg" alt="專案二截圖：部落格" class="project-image">
-            <div class="project-details">
-                <h3>高載速個人部落格系統</h3>
-                <p>
-                    **專案目標：** 採用靜態網站生成器，大幅提升載入速度，並提供優雅的排版設計。
-                </p>
-                
-                <ul class="tech-tags">
-                    <li>Next.js / Gatsby</li>
-                    <li>GraphQL</li>
-                    <li>Headless CMS</li>
-                    <li>Tailwind CSS</li>
-                </ul>
-
-                <div class="project-links">
-                    <a href="https://demo-blog.com" target="_blank" class="link-primary">實際網站連結 →</a>
-                    <a href="project-detail-2.html" class="link-secondary">專案分析</a>
-                </div>
-            </div>
-        </article>
-
-        <article class="project-card">
-            <img src="project-screenshot-3.jpg" alt="專案三截圖：互動工具" class="project-image">
-            <div class="project-details">
-                <h3>即時數據視覺化儀表板</h3>
-                <p>
-                    **專案目標：** 建立一個能即時更新數據並提供自訂篩選功能的互動式儀表板。
-                </p>
-                
-                <ul class="tech-tags">
-                    <li>Vue.js</li>
-                    <li>D3.js</li>
-                    <li>WebSocket</li>
-                    <li>API Integration</li>
-                </ul>
-
-                <div class="project-links">
-                    <a href="https://demo-dashboard.com" target="_blank" class="link-primary">實際網站連結 →</a>
-                    <a href="#" class="link-secondary">更多資訊</a>
                 </div>
             </div>
         </article>

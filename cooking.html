@@ -5,224 +5,241 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>烹飪作品 | [您的名字]</title>
     <style>
-        /* ==================================== */
-        /* 基礎 CSS 樣式 (與 index.html 相同) */
-        /* ==================================== */
-        :root {
-            --primary-color: #3498db; 
-            --secondary-color: #e74c3c; /* 烹飪主題可多使用此顏色 */
-            --text-color: #333;
-            --bg-color: #f4f4f4;
-            --white: #fff;
-            --black: #1a1a1a; 
-        }
+    /* ==================================== */
+    /* 基礎 CSS 樣式 (與 index.html 相同) */
+    /* ==================================== */
+    :root {
+        --primary-color: #3498db; 
+        --secondary-color: #e74c3c; /* 烹飪主題可多使用此顏色 */
+        --text-color: #333;
+        --bg-color: #f4f4f4;
+        --white: #fff;
+        --black: #1a1a1a; 
+    }
 
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
+    body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+    }
 
-        /* 導覽列 (與 index.html 黑色版本相同) */
-        .header {
-            background-color: var(--black); 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3); 
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+    /* 導覽列 (與 index.html 黑色版本相同) */
+    .header {
+        background-color: var(--black); 
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3); 
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
 
-        .navbar {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-        }
+    .navbar {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+    }
 
-        /* 新增：Logo 圖片樣式 */
+    /* 新增：Logo 圖片樣式 */
+    .site-logo {
+        height: 40px; 
+        width: auto;
+        display: block; 
+    }
+
+    /* 確保 Logo 容器沒有額外間距 */
+    .logo a {
+        padding: 0;
+    }
+
+    /* 如果您希望 Logo 佔用更多空間，可以調整 .navbar 的 padding */
+    .navbar {
+        padding: 10px 20px; 
+    }
+
+    /* (可選) 在手機版上調整 Logo 大小，以節省空間 */
+    @media (max-width: 768px) {
         .site-logo {
-            /* 圖片高度：設定一個合適的高度，讓它在導覽列中清晰可見 */
-            height: 40px; 
-            /* 圖片寬度：設為 auto 以保持圖片比例 */
-         width: auto;
-            /* 確保圖片與導覽列文字垂直對齊 (雖然這裡沒有其他文字了) */
-            display: block; 
+            height: 30px; /* 手機上變小一點 */
         }
+    }
 
-        /* 確保 Logo 容器沒有額外間距 */
-        .logo a {
-            padding: 0;
-        }
+    .nav-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
 
-        /* 如果您希望 Logo 佔用更多空間，可以調整 .navbar 的 padding */
-        .navbar {
-            /* 假設您希望導覽列整體變高一些來容納 Logo */
-            padding: 10px 20px; 
-        }
+    .nav-links li {
+        margin-left: 25px;
+    }
 
-        /* (可選) 在手機版上調整 Logo 大小，以節省空間 */
-        @media (max-width: 768px) {
-            .site-logo {
-                height: 30px; /* 手機上變小一點 */
-            }
-        }
+    .nav-links a {
+        text-decoration: none;
+        color: var(--white); 
+        font-weight: 500;
+        transition: color 0.3s;
+        padding: 5px 0;
+        position: relative;
+    }
 
-        .nav-links {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
+    .nav-links a:hover,
+    .nav-links a.active { 
+        color: var(--primary-color); 
+    }
 
-        .nav-links li {
-            margin-left: 25px;
-        }
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        display: block;
+        margin-top: 5px;
+        right: 0;
+        background: var(--primary-color);
+        transition: width 0.3s ease;
+        left: unset;
+    }
 
-        .nav-links a {
-            text-decoration: none;
-            color: var(--white); 
-            font-weight: 500;
-            transition: color 0.3s;
-            padding: 5px 0;
-            position: relative;
-        }
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+        width: 100%;
+        left: 0;
+        background: var(--primary-color);
+    }
 
-        .nav-links a:hover,
-        .nav-links a.active { 
-            color: var(--primary-color); 
-        }
+    /* ==================================== */
+    /* 烹飪作品頁面專屬 CSS */
+    /* ==================================== */
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            display: block;
-            margin-top: 5px;
-            right: 0;
-            background: var(--primary-color);
-            transition: width 0.3s ease;
-            left: unset;
-        }
+    .portfolio-header {
+        text-align: center;
+        padding: 40px 20px;
+        background-color: var(--white);
+        border-bottom: 3px solid var(--secondary-color);
+        margin-bottom: 30px;
+    }
 
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
-            width: 100%;
-            left: 0;
-            background: var(--primary-color);
-        }
+    .portfolio-header h1 {
+        color: var(--secondary-color);
+        font-size: 2.8em;
+        margin-bottom: 10px;
+    }
+    
+    .portfolio-header p {
+        max-width: 800px;
+        margin: 0 auto;
+        color: #666;
+    }
+    
+    /* 導覽篩選標籤 (Categories/Filters) */
+    .category-nav {
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
-        /* ==================================== */
-        /* 烹飪作品頁面專屬 CSS */
-        /* ==================================== */
+    .category-nav button {
+        background-color: transparent;
+        border: 2px solid var(--secondary-color);
+        color: var(--secondary-color);
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s, color 0.3s;
+    }
 
-        .portfolio-header {
-            text-align: center;
-            padding: 40px 20px;
-            background-color: var(--white);
-            border-bottom: 3px solid var(--secondary-color);
-            margin-bottom: 30px;
-        }
-
-        .portfolio-header h1 {
-            color: var(--secondary-color);
-            font-size: 2.8em;
-            margin-bottom: 10px;
-        }
+    .category-nav button:hover,
+    .category-nav button.active {
+        background-color: var(--secondary-color);
+        color: var(--white);
+    }
+    
+    /* 作品集網格佈局 (Gallery Grid) */
+    .gallery-grid {
+        max-width: 1200px;
+        margin: 0 auto 50px auto;
+        display: grid;
+        /* 修正 1: 讓網格列寬度固定，不平均分配剩餘空間 */
+        grid-template-columns: repeat(auto-fill, 350px); 
+        /* 修正 2: 讓網格內容靠左對齊 */
+        justify-content: start; 
         
-        .portfolio-header p {
-            max-width: 800px;
-            margin: 0 auto;
-            color: #666;
-        }
+        gap: 20px;
+        padding: 0 20px;
+    }
+
+    .recipe-card {
+        background-color: var(--white);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        cursor: pointer;
         
-        /* 導覽篩選標籤 (Categories/Filters) */
-        .category-nav {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        /* 固定卡片寬度為 350px */
+        width: 350px; 
+        /* 固定卡片高度為 400px */
+        height: 400px; 
 
-        .category-nav button {
-            background-color: transparent;
-            border: 2px solid var(--secondary-color);
-            color: var(--secondary-color);
-            padding: 10px 20px;
-            margin: 5px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s, color 0.3s;
-        }
+        /* 為篩選效果準備的過渡效果 */
+        transition: opacity 0.4s ease, transform 0.3s, box-shadow 0.3s;
+        opacity: 1; 
+        visibility: visible;
+    }
 
-        .category-nav button:hover,
-        .category-nav button.active {
-            background-color: var(--secondary-color);
-            color: var(--white);
-        }
-        
-        /* 作品集網格佈局 (Gallery Grid) */
-        .gallery-grid {
-            max-width: 1200px;
-            margin: 0 auto 50px auto;
-            display: grid;
-            /* 預設三欄，最小寬度 300px */
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 0 20px;
-        }
+    .recipe-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    
+    /* 可選：針對被隱藏的卡片，優化其空間佔用 */
+    .recipe-card[style*="visibility: hidden"] {
+        width: 0; 
+        padding: 0;
+        margin: 0;
+    }
 
-        .recipe-card {
-            background-color: var(--white);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
+    .recipe-image {
+        /* 讓圖片寬度與卡片容器 (350px) 一致 */
+        width: 100%;
+        height: 250px; /* 固定圖片高度，使網格整齊 */
+        object-fit: cover; /* 確保圖片覆蓋整個區域 */
+    }
 
-        .recipe-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        }
+    .recipe-details {
+        padding: 15px;
+        /* 固定文字區塊高度，隱藏溢出文字 */
+        height: 150px; 
+        overflow: hidden; 
+    }
 
-        .recipe-image {
-            width: 100%;
-            height: 250px; /* 固定圖片高度，使網格整齊 */
-            object-fit: cover; /* 確保圖片覆蓋整個區域 */
-        }
+    .recipe-details h3 {
+        margin-top: 0;
+        color: var(--text-color);
+        font-size: 1.3em;
+    }
 
-        .recipe-details {
-            padding: 15px;
-        }
-
-        .recipe-details h3 {
-            margin-top: 0;
-            color: var(--text-color);
-            font-size: 1.3em;
-        }
-
-        .recipe-details p {
-            font-size: 0.9em;
-            color: #777;
-        }
-        
-        .recipe-details .view-recipe {
-            display: inline-block;
-            margin-top: 10px;
-            color: var(--secondary-color);
-            text-decoration: none;
-            font-weight: bold;
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 2px;
-        }
-
-
-    </style>
+    .recipe-details p {
+        font-size: 0.9em;
+        color: #777;
+    }
+    
+    .recipe-details .view-recipe {
+        display: inline-block;
+        margin-top: 10px;
+        color: var(--secondary-color);
+        text-decoration: none;
+        font-weight: bold;
+        border-bottom: 2px solid var(--secondary-color);
+        padding-bottom: 2px;
+    }
+</style>
 </head>
 <body>
 
@@ -247,72 +264,41 @@
     <section class="portfolio-header">
         <h1>我的私房廚房：味蕾的程式碼</h1>
         <p>
-            探索我的精選食譜與餐點設計。從\[您的烹飪風格，例如：精緻法式]到\[您的另一風格，例如：日式家常]，每道菜都是對細節和美味的追求。
+            探索我的精選食譜與餐點設計。從精緻甜點到日式家常，每道菜都是對細節和美味的追求。
         </p>
     </section>
     
     <nav class="category-nav">
-        <button class="active">全部</button>
-        <button>甜點烘焙</button>
-        <button>主食料理</button>
-        <button>飲品調製</button>
-        <button>特殊節日</button>
+        <button class="active" data-filter="all">全部</button> 
+        <button data-filter="dessert">甜點烘焙</button> 
+        <button data-filter="main-course">主食料理</button> 
+        <button data-filter="drinks">飲品調製</button> 
+        <button data-filter="holiday">特殊節日</button> 
     </nav>
-
 
     <main class="gallery-grid">
 
-        <article class="recipe-card">
-            <img src="dish-photo-1.jpg" alt="法式檸檬塔" class="recipe-image">
+        <article class="recipe-card" data-category="dessert">
+            <img src="f.jpg" alt="椰子奶酥麵包" class="recipe-image">
             <div class="recipe-details">
-                <h3>法式檸檬塔</h3>
+                <h3>椰子奶酥麵包</h3>
                 <p>經典甜點。精確的酸甜平衡，搭配酥脆塔皮。考驗耐心與精準度。</p>
-                <a href="recipe-detail-1.html" class="view-recipe">查看食譜詳情 →</a>
             </div>
         </article>
 
-        <article class="recipe-card">
-            <img src="dish-photo-2.jpg" alt="舒肥牛排與烤時蔬" class="recipe-image">
+        <article class="recipe-card" data-category="main-course">
+            <img src="d.jpg" alt="奶油白醬焗烤義大利麵(螺旋)" class="recipe-image">
             <div class="recipe-details">
-                <h3>舒肥牛排與烤時蔬</h3>
+                <h3>奶油白醬焗烤義大利麵(螺旋)</h3>
                 <p>利用低溫舒肥技術精準控制熟度，展現食材最原始的風味。</p>
-                <a href="recipe-detail-2.html" class="view-recipe">查看過程影片 →</a>
             </div>
         </article>
 
-        <article class="recipe-card">
-            <img src="dish-photo-3.jpg" alt="地中海番茄濃湯" class="recipe-image">
+        <article class="recipe-card" data-category="dessert">
+            <img src="e.jpg" alt="草莓糖葫蘆" class="recipe-image">
             <div class="recipe-details">
-                <h3>地中海番茄濃湯</h3>
+                <h3>草莓糖葫蘆</h3>
                 <p>簡單食材，多層次風味的堆疊，展現快速邏輯的烹飪哲學。</p>
-                <a href="recipe-detail-3.html" class="view-recipe">查看擺盤技巧 →</a>
-            </div>
-        </article>
-        
-        <article class="recipe-card">
-            <img src="dish-photo-4.jpg" alt="作品照片 4" class="recipe-image">
-            <div class="recipe-details">
-                <h3>[作品名稱 4]</h3>
-                <p>\[簡短描述]</p>
-                <a href="#" class="view-recipe">查看詳情 →</a>
-            </div>
-        </article>
-        
-        <article class="recipe-card">
-            <img src="dish-photo-5.jpg" alt="作品照片 5" class="recipe-image">
-            <div class="recipe-details">
-                <h3>[作品名稱 5]</h3>
-                <p>\[簡短描述]</p>
-                <a href="#" class="view-recipe">查看詳情 →</a>
-            </div>
-        </article>
-        
-        <article class="recipe-card">
-            <img src="dish-photo-6.jpg" alt="作品照片 6" class="recipe-image">
-            <div class="recipe-details">
-                <h3>[作品名稱 6]</h3>
-                <p>\[簡短描述]</p>
-                <a href="#" class="view-recipe">查看詳情 →</a>
             </div>
         </article>
 
@@ -327,5 +313,37 @@
         </div>
     </footer>
 
-</body>
+    <script>
+        // 1. 獲取所有按鈕和所有作品卡片
+        const filterButtons = document.querySelectorAll('.category-nav button');
+        const recipeCards = document.querySelectorAll('.recipe-card');
+
+        // 2. 遍歷每個按鈕，並為其添加點擊事件監聽器
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // 獲取當前點擊按鈕的過濾值 (e.g., 'dessert' 或 'all')
+                const filterValue = this.getAttribute('data-filter');
+
+                // 移除所有按鈕的 active 狀態
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // 為當前點擊的按鈕添加 active 狀態
+                this.classList.add('active');
+
+                // 遍歷所有作品卡片
+                recipeCards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    
+                    // 判斷卡片是否應該顯示
+                    if (filterValue === 'all' || category === filterValue) {
+                        // 顯示卡片
+                        card.style.display = 'block'; 
+                    } else {
+                        // 隱藏卡片
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+    </body>
 </html>
