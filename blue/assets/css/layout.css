@@ -346,6 +346,12 @@
     width: 100%;
     line-height: 0;
     transform: rotate(180deg);
+    /* ★ 不要給這裡加 z-index 把浪疊到天空層上面。
+       試過了：浪會連帶把「滑上去顯示的名字」那個標籤一起蓋住切掉，
+       因為標籤是浮在物件正上方的，正好落在浪的範圍裡。
+       「東西不要跑到浪上面」是靠 ocean.js 裡每個 spot 的 top 排開來達成的
+       （桌機 top ≥ 23、手機用絕對 px），不是靠疊圖層。 */
+    pointer-events: none;
 }
 
 .cta-band .wave-top svg { display: block; width: 100%; height: 76px; }

@@ -190,11 +190,22 @@
             { k: 'ctaBtnHref', t: 'text', label: '按鈕連結' }
         ]},
 
+        { key: 'daysky', path: 'about.daysky', label: '早晨天空', fields: [
+            { g: '太陽與雲朵（個人介紹頁底部）' },
+            { k: 'sun',    t: 'text',  label: '太陽顯示的字（留空＝不放太陽）' },
+            { k: 'clouds', t: 'lines', label: '雲朵（一行一朵，最多 8 朵）' },
+            { k: 'games',  t: 'gamemap', label: '太陽或雲朵要藏哪個遊戲',
+              from: ['@sun', '@clouds'],
+              hint: '改完上面的名字後回到這裡，下面的清單會跟著更新。',
+              empty: '上面還沒填太陽和雲朵的名字。' }
+        ]},
+
         { key: 'nightsky', path: 'services.nightsky', label: '夜空星星', fields: [
             { g: '月亮與星星' },
             { k: 'moon',     t: 'text',  label: '月亮顯示的字（留空＝不放月亮）' },
             { k: 'stars',    t: 'lines', label: '星星（一行一顆，最多 8 顆）', rerender: true },
-            { k: 'games',    t: 'gamemap', label: '每顆星星要藏哪個遊戲' }
+            { k: 'games',    t: 'gamemap', label: '每顆星星要藏哪個遊戲',
+              from: ['services.nightsky.stars'] }
         ]}
     ];
 
@@ -338,15 +349,22 @@
         { v: 'starship', label: '飛船射擊 深海巡航' },
         { v: 'fishing',  label: '釣魚 淺海垂釣' },
         { v: 'maze',     label: '迷宮 深海迷宮' },
-        { v: 'life',     label: '人生選擇 潮汐之間' }
+        { v: 'life',     label: '人生選擇 潮汐之間' },
+        { v: 'sunfish',  label: '浪潮迭起（太陽魚超人）' }
     ];
 
     function gameMapField(obj, f) {
         var box = el('div');
         box.appendChild(el('div', 'hint',
-            '同一個遊戲可以掛在多顆星星上。改完星星名單後回到這裡，下面的清單會跟著更新。'));
+            (f.hint || '同一個遊戲可以掛在多顆星星上。改完星星名單後回到這裡，下面的清單會跟著更新。')));
 
-        var stars = (seg('services.nightsky').stars || []);
+        // from: 要列出哪些名字。每一項可以是 'services.nightsky.stars' 這種完整路徑，
+        //       或 '@sun' / '@clouds' 這種「當前這個區段底下的欄位」
+        var stars = [];
+        (f.from || ['services.nightsky.stars']).forEach(function (src) {
+            stars = stars.concat(pick(obj, src));
+        });
+        stars = stars.filter(function (v) { return v; });
         var map = obj[f.k] || (obj[f.k] = {});
 
         // 星星被刪掉的話，順手把殘留的對應清掉
@@ -370,8 +388,23 @@
             box.appendChild(wrap);
         });
 
-        if (!stars.length) box.appendChild(el('div', 'hint', '目前沒有星星，先到上面新增。'));
+        if (!stars.length) box.appendChild(el('div', 'hint', f.empty || '目前沒有星星，先到上面新增。'));
         return box;
+    }
+
+    /* 從資料裡取出一組名字。src 是 'services.nightsky.stars' 這種完整路徑，
+       或 '@sun' / '@clouds' 這種「當前這個區段底下的欄位」 */
+    function pick(obj, src) {
+        var v;
+        if (src.charAt(0) === '@') {
+            v = obj[src.slice(1)];
+        } else {
+            var parts = src.split('.'), d = data, i;
+            for (i = 0; i < parts.length && d; i++) d = d[parts[i]];
+            v = d;
+        }
+        if (v === undefined || v === null) return [];
+        return Array.isArray(v) ? v.slice() : [v];
     }
 
     /* 可重複的項目清單 */
@@ -503,7 +536,8 @@
             saveDraft();
             var map = { home: 'index.html', about: 'about.html', cooking: 'cooking.html',
                         webDesign: 'web-design.html', otherWorks: 'other-works.html',
-                        services: 'services.html', nightsky: 'services.html' };
+                        services: 'services.html', nightsky: 'services.html',
+                        daysky: 'about.html' };
             window.open((map[current] || 'index.html') + '?draft=1', '_blank');
         };
 

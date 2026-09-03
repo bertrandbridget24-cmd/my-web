@@ -32,8 +32,8 @@
             <ul class="nav-links" id="nav-links">
                 <li><a href="index.html">主頁</a></li>
                 <li><a href="about.html">個人介紹</a></li>
-                <li><a href="cooking.html">烹飪作品</a></li>
                 <li><a href="web-design.html" class="active">網頁作品</a></li>
+                <li><a href="cooking.html">烹飪作品</a></li>
                 <li><a href="other-works.html">其他作品</a></li>
                 <li><a href="services.html">其他服務</a></li>
             </ul>
@@ -51,7 +51,8 @@
     
 <main class="project-grid reveal" data-list="webDesign.cards"></main>
 
-    <section class="cta-band">
+    <!-- dusk ＝ 黃昏海洋（晚霞漸層＋夕陽、雲、飛鳥） -->
+    <section class="cta-band dusk">
         <div class="wave-top" aria-hidden="true">
             <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0,40 C220,86 420,4 660,32 C880,58 1040,88 1260,58 C1350,46 1400,34 1440,38 L1440,80 L0,80 Z"
@@ -64,6 +65,9 @@
             <p data-text="webDesign.ctaText"></p>
             <a class="btn-light" data-text="webDesign.ctaBtnText" data-href="webDesign.ctaBtnHref"></a>
         </div>
+
+        <!-- 黃昏天空：純裝飾。雲最多 6 朵、鳥最多 6 隻，不要太陽就寫 data-sun="0" -->
+        <div data-ocean="dusksky" data-clouds="5" data-birds="4"></div>
 
         <!-- 海床：海草數量改 data-weeds，不要螃蟹就把 data-crab 改成 0 -->
         <div data-ocean="seabed" data-weeds="10" data-crab="1"></div>

@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="assets/css/layout.css">
     <link rel="stylesheet" href="assets/css/pages.css">
     <link rel="stylesheet" href="assets/css/effects.css">
+    <link rel="stylesheet" href="assets/css/game.css">
+    <link rel="stylesheet" href="assets/css/sunfish.css">
 </head>
 <body class="page-about">
 
@@ -31,8 +33,8 @@
             <ul class="nav-links" id="nav-links">
                 <li><a href="index.html">主頁</a></li>
                 <li><a href="about.html" class="active">個人介紹</a></li>
-                <li><a href="cooking.html">烹飪作品</a></li>
                 <li><a href="web-design.html">網頁作品</a></li>
+                <li><a href="cooking.html">烹飪作品</a></li>
                 <li><a href="other-works.html">其他作品</a></li>
                 <li><a href="services.html">其他服務</a></li>
             </ul>
@@ -69,7 +71,8 @@
 
     </main>
 
-    <section class="cta-band">
+    <!-- morning ＝ 早晨海洋（亮色天空＋太陽雲朵） -->
+    <section class="cta-band morning">
         <div class="wave-top" aria-hidden="true">
             <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0,40 C220,86 420,4 660,32 C880,58 1040,88 1260,58 C1350,46 1400,34 1440,38 L1440,80 L0,80 Z"
@@ -82,6 +85,9 @@
             <p data-text="about.ctaText"></p>
             <a class="btn-light" data-text="about.ctaBtnText" data-href="about.ctaBtnHref"></a>
         </div>
+
+        <!-- 早晨天空：滑鼠移到太陽或雲朵上會顯示對應的字 -->
+        <div data-ocean="daysky" data-sun="" data-clouds=""></div>
 
         <!-- 海床：海草數量改 data-weeds，不要螃蟹就把 data-crab 改成 0 -->
         <div data-ocean="seabed" data-weeds="10" data-crab="1"></div>
@@ -102,6 +108,65 @@
     <script src="assets/js/render.js"></script>
     <script src="assets/js/ocean.js"></script>
     <script src="assets/js/ui.js"></script>
+    <script src="assets/js/sunfish.js"></script>
+    <script src="assets/js/game-hub.js"></script>
+
+
+    <!-- ================================================================
+         「浪潮迭起」小遊戲的視窗結構（主角叫太陽魚超人）
+         這些 id 是 assets/js/sunfish.js 指定的，不要改名：
+         sunfish-overlay / sunfish-canvas / sunfish-score / sunfish-best /
+         sunfish-start / sunfish-end / sunfish-final / sunfish-final-best
+         想調難度（重力、速度、縫隙大小）改 sunfish.js 最上面的 CFG
+         ================================================================ -->
+    <div class="game-overlay" id="sunfish-overlay" role="dialog" aria-modal="true" aria-label="浪潮迭起小遊戲">
+        <div class="game-panel">
+            <div class="game-bar">
+                <strong>浪潮迭起</strong>
+                <div class="game-stats">
+                    <span>分數 <b id="sunfish-score">0</b></span>
+                    <span>最佳 <b id="sunfish-best">0</b></span>
+                </div>
+                <button class="game-close" type="button" aria-label="關閉遊戲" onclick="closeSunfish()">×</button>
+            </div>
+
+            <div class="game-stage">
+                <canvas id="sunfish-canvas" class="game-canvas" width="420" height="520"></canvas>
+
+                <div class="game-screen" id="sunfish-start">
+                    <div class="sunfish-hero" aria-hidden="true">
+                        <svg viewBox="0 0 64 64">
+                            <path d="M20 32 L8 24 L8 40 Z" fill="#F0B36B"/>
+                            <path d="M22 22 Q8 30 12 44 Q18 38 24 40 Z" fill="#E8909C"/>
+                            <g stroke="#FFCF7A" stroke-width="3" stroke-linecap="round">
+                                <path d="M36 8v6M36 50v6M14 32h0M56 32h6M21 17l4 4M51 43l4 4M55 17l-4 4M25 43l-4 4"/>
+                            </g>
+                            <circle cx="36" cy="32" r="15" fill="#FFD98A"/>
+                            <circle cx="31" cy="27" r="5" fill="#FFF1C8" opacity=".8"/>
+                            <circle cx="42" cy="28" r="2.4" fill="#0A2A3D"/>
+                            <path d="M39 35 a3.4 3.4 0 0 0 6 0" fill="none" stroke="#0A2A3D" stroke-width="1.8" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>浪潮迭起</h3>
+                    <p>操控太陽魚超人：點畫面往上衝，不點就往下沉。<br>穿過雲和海草之間的縫隙，越遠越好。</p>
+                    <div class="sunfish-keys">
+                        <span>點畫面</span>
+                        <span class="only-desktop">或 <kbd>空白鍵</kbd> <kbd>↑</kbd></span>
+                    </div>
+                    <button class="game-btn" type="button" onclick="startSunfish()">開始</button>
+                </div>
+
+                <div class="game-screen" id="sunfish-end" hidden>
+                    <h3>撞到了</h3>
+                    <div class="game-score-big" id="sunfish-final">0</div>
+                    <p class="sunfish-best">最佳紀錄 <b id="sunfish-final-best">0</b></p>
+                    <button class="game-btn" type="button" onclick="startSunfish()">再玩一次</button>
+                </div>
+            </div>
+
+            <div class="game-hint">點畫面上升 ・ 空白鍵也可以 ・ Esc 關閉</div>
+        </div>
+    </div>
 
 </body>
 </html>

@@ -250,7 +250,7 @@
 
     // 星星的固定位置（避開中間的文字欄，也避開下方海床）
     var STAR_SPOTS = [
-        { top: 16, left: 10, size: 16, tw: 3.0, twd: 0.0 },
+        { top: 24, left: 10, size: 16, tw: 3.0, twd: 0.0 },
         { top: 36, left: 20, size: 12, tw: 2.4, twd: 0.8 },
         { top: 27, left: 58, size: 14, tw: 3.6, twd: 1.6 },   /* 別放太高，會落在淺色的海浪上看不見 */
         { top: 42, left: 89, size: 13, tw: 2.8, twd: 0.4 },
@@ -260,9 +260,11 @@
         { top: 50, left: 46, size: 13, tw: 2.9, twd: 2.5 }
     ];
 
-    var MOON_SPOT = { top: 8, left: 80, size: 62 };
+    /* ★ top 不要小於 23：上面那道淺色的浪固定 76px 高（最深處約 51px），
+       擺太高的東西會被浪蓋住（浪的 z-index 比天空層高）。 */
+    var MOON_SPOT = { top: 23, left: 80, size: 62 };
 
-    function skyObj(cls, spot, label, inner, games) {
+    function skyObj(cls, spot, label, inner, games, extraStyle) {
         // 太靠上緣的話，提示文字改成往下顯示，避免被區塊裁掉
         var below = spot.top < 22 ? ' tip-below' : '';
         // 太靠左右邊的星星，提示改成貼齊自己的邊，名字長才不會被區塊裁掉
@@ -272,7 +274,8 @@
         return '<div class="sky-obj ' + cls + below + side + (game ? ' has-game' : '') + '" ' +
                'data-label="' + label + '" title="' + label + (game ? '（點我玩）' : '') + '" ' +
                (game ? 'data-game="' + game + '" role="button" tabindex="0" ' : '') +
-               'style="top:' + spot.top + '%;left:' + spot.left + '%;width:' + spot.size + 'px;">' +
+               'style="top:' + spot.top + '%;left:' + spot.left + '%;width:' + spot.size + 'px;' +
+               (extraStyle || '') + '">' +
                '<span class="sky-twinkle" style="--tw:' + (spot.tw || 6) + 's;--twd:' + (spot.twd || 0) + 's;">' +
                inner + '</span></div>';
     }
@@ -312,6 +315,218 @@
         });
 
         el.classList.add('nightsky');
+        el.innerHTML = html;
+    }
+
+
+    /* ---------- 早晨天空：太陽與雲朵 ---------- */
+
+    /* 雲朵的位置。飄動幅度用 --drift（左右各飄多少 px）和 --dd（起始時間差）控制 */
+    /* 位置刻意避開中間的標題和按鈕（大約 left 24~76 / top 18~68 那一塊），
+       所以雲都排在左右兩側和按鈕下方，文字才不會被壓到。 */
+    var CLOUD_SPOTS = [
+        { top: 23, left:  5, size: 84, drift: 16, dur: 17, dd: 0.0 },
+        { top: 34, left: 82, size: 62, drift: 11, dur: 21, dd: 2.4 },
+        { top: 50, left:  3, size: 64, drift: 13, dur: 19, dd: 1.2 },
+        { top: 24, left: 44, size: 52, drift: 12, dur: 23, dd: 3.6 },
+        { top: 60, left: 78, size: 76, drift: 14, dur: 18, dd: 0.8 },
+        { top: 74, left:  8, size: 58, drift: 10, dur: 25, dd: 4.2 },
+        { top: 24, left: 27, size: 46, drift: 10, dur: 20, dd: 1.9 },
+        { top: 66, left: 88, size: 48, drift:  9, dur: 22, dd: 3.1 }
+    ];
+
+    /* ★ top 不要小於 23：上面那道淺色的浪固定 76px 高（最深處約 51px），
+       擺太高的東西會被浪蓋住（浪的 z-index 比天空層高）。 */
+    var SUN_SPOT = { top: 23, left: 80, size: 72 };
+
+    function sunSVG(uid) {
+        var rays = '', i, a;
+        for (i = 0; i < 12; i++) {
+            a = i * 30;
+            rays += '<line x1="36" y1="5.5" x2="36" y2="12" transform="rotate(' + a + ' 36 36)"/>';
+        }
+        return '<svg viewBox="0 0 72 72">' +
+            '<defs><radialGradient id="sg' + uid + '">' +
+              '<stop offset="46%" stop-color="#FFC66B" stop-opacity=".42"/>' +
+              '<stop offset="100%" stop-color="#FFC66B" stop-opacity="0"/>' +
+            '</radialGradient></defs>' +
+            '<circle cx="36" cy="36" r="35" fill="url(#sg' + uid + ')"/>' +
+            '<g class="sun-rays" stroke="#FFCF7A" stroke-width="3.4" stroke-linecap="round">' + rays + '</g>' +
+            '<circle cx="36" cy="36" r="17" fill="#FFD98A"/>' +
+            '<circle cx="30" cy="30" r="6.5" fill="#FFF1C8" opacity=".7"/>' +
+            '</svg>';
+    }
+
+    /* 三個圓疊成的雲，底部拉平 */
+    function cloudSVG() {
+        return '<svg viewBox="0 0 120 62">' +
+            '<g fill="#FFFFFF">' +
+              '<circle cx="40" cy="34" r="22"/>' +
+              '<circle cx="68" cy="28" r="26"/>' +
+              '<circle cx="92" cy="38" r="18"/>' +
+              '<circle cx="24" cy="42" r="15"/>' +
+              '<rect x="24" y="40" width="80" height="16" rx="8"/>' +
+            '</g>' +
+            '<ellipse cx="60" cy="52" rx="40" ry="6" fill="#CFE6F2" opacity=".5"/>' +
+            '</svg>';
+    }
+
+    /*
+      早晨天空：滑鼠移到太陽或雲朵上會顯示一個字，做法跟 nightsky 一樣
+        <div data-ocean="daysky" data-sun="早安" data-clouds="A,B,C"></div>
+      雲朵數量＝data-clouds 逗號分隔的字數，最多 8 朵（位置排好的，不重疊）。
+      也吃 data-games（跟夜空一樣，可以在某朵雲上掛小遊戲）。
+    */
+    function buildDaySky(el) {
+        var sunLabel = el.getAttribute('data-sun') || '';
+
+        var games = {};
+        (el.getAttribute('data-games') || '').split(',').forEach(function (pair) {
+            var kv = pair.split(':');
+            if (kv.length === 2 && kv[0].trim() && kv[1].trim()) games[kv[0].trim()] = kv[1].trim();
+        });
+
+        var cloudLabels = (el.getAttribute('data-clouds') || '')
+                            .split(',').map(function (t) { return t.trim(); })
+                            .filter(function (t) { return t; });
+        var uid = Math.floor(Math.random() * 1e6);
+        var html = '';
+
+        if (sunLabel) html += skyObj('is-sun', SUN_SPOT, sunLabel, sunSVG(uid), games);
+
+        cloudLabels.forEach(function (label, i) {
+            if (i >= CLOUD_SPOTS.length) {
+                console.warn('[ocean.js] 雲朵最多 ' + CLOUD_SPOTS.length + ' 朵，「' + label + '」沒有位置可放');
+                return;
+            }
+            var spot = CLOUD_SPOTS[i];
+            /* 多帶一個 c1~c8 的編號 class，手機版才有辦法用 CSS 單獨搬位置 */
+            html += skyObj('is-cloud c' + (i + 1), spot, label, cloudSVG(), games,
+                           '--drift:' + spot.drift + 'px;--cdur:' + spot.dur + 's;--cdd:-' + spot.dd + 's;');
+        });
+
+        el.classList.add('daysky');
+        el.innerHTML = html;
+    }
+
+
+    /* ---------- 黃昏天空：夕陽、晚霞雲、飛鳥 ---------- */
+
+    /* 純裝飾，沒有滑過去顯示字的功能，所以不用 skyObj，也不吃滑鼠事件 */
+
+    /* 太陽要壓在漸層的暖色帶上（也就是海平面附近），才像在落海，
+       所以 top 給得很低，一部分會沉到海床那一層去 —— .dusksky 因此不能設 overflow:hidden */
+    var DUSK_SUN = { top: 84, left: 76, size: 96 };
+
+    /* 位置一樣避開中間的標題、內文和按鈕 */
+    var DUSK_CLOUDS = [
+        { top: 23, left:  3, size: 92, tone: 0, drift: 16, dur: 23, dd: 0.0 },
+        { top: 30, left: 84, size: 58, tone: 1, drift: 12, dur: 19, dd: 2.6 },
+        { top: 46, left:  2, size: 66, tone: 1, drift: 14, dur: 26, dd: 1.3 },
+        { top: 66, left: 85, size: 60, tone: 2, drift: 12, dur: 21, dd: 3.8 },
+        { top: 23, left: 44, size: 50, tone: 0, drift: 10, dur: 24, dd: 0.7 },
+        { top: 76, left:  8, size: 68, tone: 2, drift: 15, dur: 20, dd: 4.4 }
+    ];
+
+    /* 晚霞把雲染成三種深淺，靠近太陽的偏暖 */
+    var DUSK_TONES = [
+        { top: '#FFD9B0', bottom: '#E3A279' },
+        { top: '#FFC79A', bottom: '#D18A73' },
+        { top: '#E8BFB2', bottom: '#B37C82' }
+    ];
+
+    /* 飛鳥：兩道弧線的剪影。位置都在上半部，離文字遠一點 */
+    /* 鳥要放在天空比較亮的中段，放太上面會跟深藍的夜色糊在一起看不見。
+       位置一樣避開中間的文字，飛行距離 fly 也刻意壓小，飛到底也不會撞到字。 */
+    var DUSK_BIRDS = [
+        { top: 42, left:  7, size: 28, fly: 48, dur: 26, dd: 0.0, flap: 1.6 },
+        { top: 84, left: 20, size: 20, fly: 38, dur: 31, dd: 5.0, flap: 2.1 },
+        { top: 48, left: 82, size: 24, fly: 40, dur: 28, dd: 2.4, flap: 1.8 },
+        { top: 88, left: 66, size: 16, fly: 32, dur: 34, dd: 7.5, flap: 2.4 },
+        { top: 26, left: 40, size: 19, fly: 42, dur: 29, dd: 3.7, flap: 1.9 },
+        { top: 30, left: 70, size: 16, fly: 34, dur: 36, dd: 6.1, flap: 2.6 }
+    ];
+
+    function duskSunSVG(uid) {
+        return '<svg viewBox="0 0 88 88">' +
+            '<defs>' +
+              '<radialGradient id="dg' + uid + '">' +
+                '<stop offset="30%" stop-color="#FFB877" stop-opacity=".55"/>' +
+                '<stop offset="70%" stop-color="#F0906B" stop-opacity=".22"/>' +
+                '<stop offset="100%" stop-color="#F0906B" stop-opacity="0"/>' +
+              '</radialGradient>' +
+              '<linearGradient id="dc' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+                '<stop offset="0%"   stop-color="#FFE0A8"/>' +
+                '<stop offset="55%"  stop-color="#FFB877"/>' +
+                '<stop offset="100%" stop-color="#F08E62"/>' +
+              '</linearGradient>' +
+            '</defs>' +
+            '<circle cx="44" cy="44" r="44" fill="url(#dg' + uid + ')"/>' +
+            '<circle cx="44" cy="44" r="19" fill="url(#dc' + uid + ')"/>' +
+            '</svg>';
+    }
+
+    function duskCloudSVG(uid, tone) {
+        var t = DUSK_TONES[tone] || DUSK_TONES[0];
+        var id = 'dk' + uid + '_' + tone;
+        return '<svg viewBox="0 0 120 62">' +
+            '<defs><linearGradient id="' + id + '" x1="0" y1="0" x2="0" y2="1">' +
+              '<stop offset="0%" stop-color="' + t.top + '"/>' +
+              '<stop offset="100%" stop-color="' + t.bottom + '"/>' +
+            '</linearGradient></defs>' +
+            '<g fill="url(#' + id + ')">' +
+              '<circle cx="40" cy="34" r="22"/>' +
+              '<circle cx="68" cy="28" r="26"/>' +
+              '<circle cx="92" cy="38" r="18"/>' +
+              '<circle cx="24" cy="42" r="15"/>' +
+              '<rect x="24" y="40" width="80" height="16" rx="8"/>' +
+            '</g></svg>';
+    }
+
+    function birdSVG() {
+        return '<svg viewBox="0 0 40 20">' +
+            '<g class="bird-wings" fill="none" stroke="#1B2942" stroke-width="2.6" ' +
+            'stroke-linecap="round">' +
+              '<path d="M2 12 Q10 2 20 11"/>' +
+              '<path d="M20 11 Q30 2 38 12"/>' +
+            '</g></svg>';
+    }
+
+    /*
+      黃昏天空：夕陽＋晚霞雲＋飛鳥，純裝飾（不會顯示文字、也擋不到點擊）
+        <div data-ocean="dusksky" data-clouds="5" data-birds="4"></div>
+      不要太陽就寫 data-sun="0"。雲最多 6 朵、鳥最多 6 隻。
+    */
+    function buildDuskSky(el) {
+        var nClouds = num(el, 'data-clouds', 5);
+        var nBirds  = num(el, 'data-birds', 4);
+        var wantSun = el.getAttribute('data-sun') !== '0';
+        var uid = Math.floor(Math.random() * 1e6);
+        var html = '', i, c, b;
+
+        if (wantSun) {
+            html += '<div class="dusk-obj dusk-sun" style="top:' + DUSK_SUN.top + '%;left:' +
+                    DUSK_SUN.left + '%;width:' + DUSK_SUN.size + 'px;">' +
+                    duskSunSVG(uid) + '</div>';
+        }
+
+        for (i = 0; i < Math.min(nClouds, DUSK_CLOUDS.length); i++) {
+            c = DUSK_CLOUDS[i];
+            html += '<div class="dusk-obj dusk-cloud dc' + (i + 1) + '" style="top:' + c.top +
+                    '%;left:' + c.left + '%;width:' + c.size + 'px;--drift:' + c.drift +
+                    'px;--cdur:' + c.dur + 's;--cdd:-' + c.dd + 's;">' +
+                    duskCloudSVG(uid, c.tone) + '</div>';
+        }
+
+        for (i = 0; i < Math.min(nBirds, DUSK_BIRDS.length); i++) {
+            b = DUSK_BIRDS[i];
+            html += '<div class="dusk-obj dusk-bird db' + (i + 1) + '" style="top:' + b.top +
+                    '%;left:' + b.left + '%;width:' + b.size + 'px;--fly:' + b.fly +
+                    'px;--bdur:' + b.dur + 's;--bdd:-' + b.dd + 's;--flap:' + b.flap + 's;">' +
+                    birdSVG() + '</div>';
+        }
+
+        el.classList.add('dusksky');
         el.innerHTML = html;
     }
 
@@ -376,6 +591,8 @@
         'btn-bubbles':  buildBtnBubbles,
         'card-fx':      buildCardFx,
         'nightsky':     buildNightSky,
+        'daysky':       buildDaySky,
+        'dusksky':      buildDuskSky,
         'jellyfish':    buildJellyfish
     };
 

@@ -1,0 +1,81 @@
+/* =========================================================
+   sunfish.css — 小遊戲「浪潮迭起」的外觀（主角叫太陽魚超人）
+   Catherine 個人網站 — 海洋藍主題套件
+
+   共用 game.css 的視窗外框（.game-overlay / .game-panel /
+   .game-bar / .game-screen / .game-btn），這裡只放這個遊戲專屬的。
+   ========================================================= */
+
+/* 畫布是直式的（420x520），視窗跟著窄一點才不會左右空一大片 */
+#sunfish-overlay .game-panel { width: min(92vw, 420px); }
+
+/* 畫布高度會超過手機螢幕，所以讓它跟著視窗高度縮 */
+#sunfish-overlay .game-canvas {
+    width: 100%;
+    height: auto;
+    max-height: calc(100vh - 190px);
+    object-fit: contain;
+    background: #8FCCE9;   /* 圖還沒畫出來前的底色，避免閃一下白 */
+    cursor: pointer;
+}
+
+/* 開始 / 結束畫面上的小圖示 */
+.sunfish-hero {
+    width: 62px;
+    height: 62px;
+    margin-bottom: 2px;
+}
+
+.sunfish-hero svg { width: 100%; height: 100%; display: block; }
+
+/* 操作說明那兩行 */
+.sunfish-keys {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: .8rem;
+    color: #A8DCF0;
+}
+
+.sunfish-keys kbd {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(168, 220, 240, .4);
+    background: rgba(168, 220, 240, .1);
+    font-family: inherit;
+    font-size: .78rem;
+    color: #FFF6DA;
+}
+
+/* 結束畫面的最佳紀錄 */
+.sunfish-best {
+    margin: 0;
+    font-size: .78rem;
+    letter-spacing: .08em;
+    color: rgba(168, 220, 240, .8);
+    font-variant-numeric: tabular-nums;
+}
+
+/* 觸控裝置防呆（同 game.css 的作法） */
+.sunfish-hero,
+.sunfish-keys,
+.sunfish-best {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* 手機上鍵盤提示沒有意義，只留「點畫面」 */
+@media (hover: none), (pointer: coarse) {
+    .sunfish-keys .only-desktop { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sunfish-hero svg { animation: none; }
+}

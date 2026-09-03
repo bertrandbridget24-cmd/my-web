@@ -363,6 +363,14 @@
 @media (max-width: 768px) {
     .nightsky { bottom: 120px; }
     .sky-obj::after { font-size: .92rem; padding: 5px 13px; }
+
+    /* 手機上標題幾乎佔滿整個寬度，月亮維持原本大小一定會壓到字。
+       用絕對 px 把它塞進浪（56px）和標題之間，並縮小一點。
+       百分比在這裡沒用：天空層高度會隨標題折幾行而變。 */
+    .nightsky .sky-obj.is-moon {
+        top: 58px !important;
+        width: 32px !important;
+    }
 }
 
 /* 靠近上緣的星星，提示改成往下顯示，才不會被區塊裁掉 */
@@ -384,6 +392,273 @@
 .sky-obj.tip-right:hover::after,
 .sky-obj.tip-below.tip-left:hover::after,
 .sky-obj.tip-below.tip-right:hover::after { transform: translate(0, 0); }
+
+/* ==================================================== */
+/* 早晨海洋：太陽與雲朵（.cta-band.morning）               */
+/* ==================================================== */
+/*
+   跟夜晚版（.cta-band.night）是同一套機制，只是換成白天的顏色。
+   結構也一樣：天空層 .daysky 疊在文字上方，海床 .seabed 在最底下。
+*/
+.cta-band.morning {
+    background: linear-gradient(180deg,
+                #BFE3F4 0%,
+                #8FCCE9 26%,
+                var(--sky) 58%,
+                var(--primary-color) 100%);
+}
+
+/* 晨光從太陽那一側灑下來 */
+.cta-band.morning::before {
+    background:
+        radial-gradient(ellipse 40% 52% at 78% 12%, rgba(255,214,138,0.55), transparent 64%),
+        radial-gradient(ellipse 64% 46% at 46% 100%, rgba(255,255,255,0.26), transparent 70%);
+}
+
+/* 早上的天空是亮的，白字會看不清楚，所以整區改成深海藍的字 */
+.cta-band.morning .cta-band-inner { color: var(--secondary-color); }
+
+.cta-band.morning .cta-band-inner h2 {
+    text-shadow: 0 1px 14px rgba(255,255,255,.55);
+}
+
+/* 內文用不透明的深海藍，半透明的話在天空比較深的地方對比會掉到 4.5 以下 */
+.cta-band.morning .cta-band-inner p { color: var(--secondary-color); }
+
+/* 按鈕本來就是白底深藍字，在亮天空上邊界會糊掉，補一圈淡淡的框 */
+.cta-band.morning .btn-light {
+    box-shadow: 0 10px 28px rgba(6,30,44,.2), 0 0 0 1px rgba(11,61,92,.1);
+}
+
+/*
+   手機上文字會折成兩三行、幾乎佔滿整個寬度，桌機版的雲朵位置一定會壓到字。
+   所以窄螢幕改成：只留前四朵，縮小後全部搬到標題上方那條空白帶。
+   （觸控裝置本來就沒有 hover，雲朵在手機上是純裝飾，少幾朵不影響。）
+*/
+@media (max-width: 768px) {
+    /* 太陽也要縮小往上移，不然會壓到折行後的標題 */
+    /* 手機上標題會折成兩三行，浪下面到標題之間只剩約 36px，
+       太陽要縮到塞得進去，不然一定會壓到字 */
+    /* ★ 這裡的 top 用絕對 px，不用百分比。
+       浪是固定 76px 高（最深約 51px），但天空層的高度會隨著標題折幾行而變，
+       同樣的百分比在 768px 和 390px 換算出來差很多，只有 px 能同時避開兩邊。 */
+    .daysky .sky-obj.is-sun {
+        top: 58px !important;
+        left: 74% !important;
+        width: 32px !important;
+    }
+
+    /* 手機上標題幾乎佔滿寬度，能放東西的只剩浪和標題之間那條約 34px 的空白帶，
+       所以只留兩朵雲。觸控裝置沒有 hover，雲在手機上是純裝飾，少幾朵不影響。 */
+    .daysky .sky-obj.is-cloud { display: none; }
+
+    .daysky .sky-obj.is-cloud.c1,
+    .daysky .sky-obj.is-cloud.c3 { display: block; }
+
+    /* ocean.js 是寫成 inline style 的，要蓋過它一定要加 !important */
+    .daysky .sky-obj.is-cloud.c1 { top: 58px !important; left:  2% !important; width: 48px !important; }
+    .daysky .sky-obj.is-cloud.c3 { top: 60px !important; left: 34% !important; width: 42px !important; }
+}
+
+/* 早上的海草和螃蟹維持原本的亮色，不像夜晚那樣壓暗 */
+
+/* ---------- 天空容器（不蓋到海床） ---------- */
+.daysky {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 150px;
+    /* 跟夜空同理：要比 .cta-band-inner（z-index:2）高，滑鼠才碰得到 */
+    z-index: 3;
+    pointer-events: none;   /* 只有太陽和雲本身可以被滑到 */
+}
+
+/* ---------- 太陽 ---------- */
+/* 不閃爍，改成很慢的呼吸；光芒獨立慢慢轉 */
+.sky-obj.is-sun .sky-twinkle {
+    animation-name: sun-glow;
+    animation-duration: 6s;
+}
+
+@keyframes sun-glow {
+    from { opacity: .92; transform: scale(1); }
+    to   { opacity: 1;   transform: scale(1.04); }
+}
+
+.sun-rays {
+    transform-origin: 36px 36px;
+    animation: sun-spin 64s linear infinite;
+}
+
+@keyframes sun-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+.sky-obj.is-sun:hover svg {
+    filter: drop-shadow(0 0 14px rgba(255,201,110,.95));
+}
+
+/* ---------- 雲朵 ---------- */
+/* 雲不閃爍，改成左右輕輕飄。--drift / --cdur / --cdd 由 ocean.js 帶進來 */
+.sky-obj.is-cloud .sky-twinkle {
+    animation-name: cloud-drift;
+    animation-duration: var(--cdur, 20s);
+    animation-delay: var(--cdd, 0s);   /* 負值＝一載入就在動畫中段，不會整排一起出發 */
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes cloud-drift {
+    from { transform: translateX(calc(var(--drift, 14px) * -1)); }
+    to   { transform: translateX(var(--drift, 14px)); }
+}
+
+.sky-obj.is-cloud svg { opacity: .92; }
+
+.sky-obj.is-cloud:hover svg {
+    opacity: 1;
+    filter: drop-shadow(0 3px 12px rgba(11,61,92,.42));
+}
+
+/* 白天的提示改成深海藍底，配亮底色比接近黑的好看，對比也夠 */
+.daysky .sky-obj::after {
+    color: #FFF6DA;
+    background: rgba(11,61,92,.9);
+    border-color: rgba(255,246,218,.5);
+    box-shadow: 0 6px 20px rgba(11,61,92,.35);
+}
+
+@media (max-width: 768px) {
+    .daysky { bottom: 120px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sun-rays { animation: none; }
+    .sky-obj.is-cloud .sky-twinkle { animation: none; }
+}
+
+/* ==================================================== */
+/* 黃昏海洋：夕陽、晚霞雲、飛鳥（.cta-band.dusk）           */
+/* ==================================================== */
+/*
+   跟早晨版一樣是加在 .cta-band 上的變體，但這一頁是純裝飾，
+   沒有滑過去顯示字的功能，所以用 .dusk-obj 而不是 .sky-obj。
+
+   ★ 漸層的深淺是配著文字排的：0~50% 要夠暗，白字才看得清楚
+     （標題在 22~31%、內文在 34~48%），暖色的晚霞集中在 52% 以下。
+*/
+.cta-band.dusk {
+    background: linear-gradient(180deg,
+                #24486E  0%,
+                #3A5C82 22%,
+                #55688C 40%,
+                #8E6E8E 52%,
+                #D9906F 64%,
+                #2C77A0 74%,
+                var(--secondary-color) 100%);
+}
+
+/* 夕陽在海面上暈開的暖光 */
+.cta-band.dusk::before {
+    background:
+        radial-gradient(ellipse 44% 40% at 80% 62%, rgba(255,168,110,0.55), transparent 66%),
+        radial-gradient(ellipse 80% 26% at 50% 68%, rgba(255,190,140,0.28), transparent 72%);
+}
+
+/* 黃昏的海草和螃蟹只壓暗一點，不像夜晚壓成剪影 */
+.cta-band.dusk .seabed { filter: brightness(.78) saturate(.94); }
+
+/* ---------- 天空容器（不蓋到海床，也完全不吃滑鼠事件） ---------- */
+.dusksky {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 150px;
+    z-index: 1;              /* 在文字（z-index:2）下面，純背景 */
+    pointer-events: none;
+    /* 不能設 overflow:hidden：夕陽要露出容器下緣才有落海的感覺，
+       外層 .cta-band 本來就有 overflow:hidden，不會溢出到頁面 */
+}
+
+.dusk-obj {
+    position: absolute;
+    line-height: 0;
+    pointer-events: none;
+}
+
+.dusk-obj svg { display: block; width: 100%; height: auto; }
+
+/* ---------- 夕陽 ---------- */
+.dusk-sun { animation: dusk-glow 8s ease-in-out infinite alternate; }
+
+@keyframes dusk-glow {
+    from { opacity: .9;  transform: scale(1); }
+    to   { opacity: 1;   transform: scale(1.05); }
+}
+
+/* ---------- 晚霞雲 ---------- */
+.dusk-cloud {
+    opacity: .88;
+    animation: cloud-drift var(--cdur, 22s) ease-in-out infinite alternate;
+    animation-delay: var(--cdd, 0s);   /* 負值＝載入時就在動畫中段 */
+}
+
+/* ---------- 飛鳥 ---------- */
+/* 外層負責慢慢往前飛，內層的翅膀自己拍，兩個動畫才不會互相蓋掉 */
+.dusk-bird {
+    opacity: .9;
+    animation: bird-fly var(--bdur, 30s) ease-in-out infinite alternate;
+    animation-delay: var(--bdd, 0s);
+}
+
+@keyframes bird-fly {
+    from { transform: translate(0, 0); }
+    to   { transform: translate(var(--fly, 80px), -14px); }
+}
+
+.bird-wings {
+    transform-origin: 20px 11px;
+    animation: bird-flap var(--flap, 2s) ease-in-out infinite alternate;
+}
+
+@keyframes bird-flap {
+    from { transform: scaleY(.55); }
+    to   { transform: scaleY(1.15); }
+}
+
+/*
+   手機上標題會折成兩三行、幾乎佔滿寬度，桌機的雲位置一定會壓到字，
+   所以窄螢幕只留三朵雲和三隻鳥，縮小後搬到標題上方的空白帶；
+   夕陽本來就在右下角的空白處，只需要縮小一點。
+*/
+@media (max-width: 768px) {
+    .dusksky .dusk-cloud,
+    .dusksky .dusk-bird { display: none; }
+
+    .dusksky .dusk-cloud.dc1,
+    .dusksky .dusk-cloud.dc3,
+    .dusksky .dusk-bird.db1,
+    .dusksky .dusk-bird.db2 { display: block; }
+
+    /* ★ 同上：top 用絕對 px，百分比在不同寬度換算差太多，避不開浪。
+       夕陽在區塊下半部，離浪很遠，維持百分比就好。 */
+    .dusksky .dusk-cloud.dc1 { top: 58px !important; left:  1% !important; width: 54px !important; }
+    .dusksky .dusk-cloud.dc3 { top: 60px !important; left: 62% !important; width: 44px !important; }
+
+    .dusksky .dusk-bird.db1 { top: 60px !important; left: 82% !important; width: 14px !important; }
+    .dusksky .dusk-bird.db2 { top: 62px !important; left: 40% !important; width: 12px !important; }
+
+    .dusksky .dusk-sun { width: 70px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dusk-sun,
+    .dusk-cloud,
+    .dusk-bird,
+    .bird-wings { animation: none; }
+}
 
 /* ==================================================== */
 /* 背景漂浮水母（給底色偏白的內頁用）                       */

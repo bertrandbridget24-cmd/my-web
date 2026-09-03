@@ -140,7 +140,19 @@ window.SITE_DATA = {
         "ctaTitle": "想進一步了解我的專業或交流美食心得嗎？",
         "ctaText": "不論是網站合作、技術交流，或只是想聊聊料理，都歡迎寫信給我。",
         "ctaBtnText": "聯繫我 →",
-        "ctaBtnHref": "mailto:bertrandbridget24@gmail.com"
+        "ctaBtnHref": "mailto:bertrandbridget24@gmail.com",
+
+        /* 早晨天空：太陽與雲朵滑到會顯示的字。雲朵最多 8 朵。 */
+        "daysky": {
+            "sun": "欣",
+            "clouds": ["Hing"],
+
+            /* 太陽或哪一朵雲藏遊戲。目前可用：sunfish（浪潮迭起）。
+               留空＝沒有遊戲。 */
+            "games": {
+                "欣": "sunfish"
+            }
+        }
     },
 
     /* ================= 烹飪作品 cooking.html ================= */

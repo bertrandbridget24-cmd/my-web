@@ -224,6 +224,19 @@
             el.innerHTML = fn(data);
         });
 
+        // 早晨天空：把太陽和雲朵的名單寫成 ocean.js 看得懂的屬性
+        var day = document.querySelector('[data-ocean="daysky"]');
+        var dayCfg = get('about.daysky');
+        if (day && dayCfg) {
+            day.setAttribute('data-sun', dayCfg.sun || '');
+            day.setAttribute('data-clouds', (dayCfg.clouds || []).join(','));
+            // 太陽／雲朵→遊戲的對應，格式跟夜空一樣："欣:sunfish"
+            var dayPairs = [];
+            var dg = dayCfg.games || {};
+            Object.keys(dg).forEach(function (k) { if (dg[k]) dayPairs.push(k + ':' + dg[k]); });
+            day.setAttribute('data-games', dayPairs.join(','));
+        }
+
         // 夜空：把星星名單寫成 ocean.js 看得懂的屬性（要在 ocean.js 執行前完成）
         var sky = document.querySelector('[data-ocean="nightsky"]');
         var cfg = get('services.nightsky');
