@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>網站後台 | Catherine</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+    <!-- ---------- 密碼 ---------- -->
+    <div class="gate" id="gate">
+        <div class="gate-box">
+            <h1>網站後台</h1>
+            <p>請輸入密碼</p>
+            <input type="password" id="pw" autocomplete="current-password" placeholder="密碼">
+            <div class="gate-err" id="pw-err"></div>
+            <button class="btn btn-primary" id="pw-go" style="width:100%;margin-top:6px;">進入</button>
+        </div>
+    </div>
+
+    <!-- ---------- 主畫面 ---------- -->
+    <div class="wrap">
+        <nav class="side">
+            <h2>編輯頁面</h2>
+            <div id="side-nav"></div>
+        </nav>
+
+        <main class="main">
+            <div class="bar">
+                <button class="btn btn-primary" id="btn-export">匯出 site-data.js</button>
+                <button class="btn btn-ghost"   id="btn-preview">預覽這一頁</button>
+                <span class="grow"></span>
+                <span class="status" id="status">尚未修改</span>
+                <button class="btn btn-danger btn-sm" id="btn-reset">還原成預設</button>
+            </div>
+
+            <div class="note">
+                <b>怎麼用：</b>在左邊選要編輯的頁面，改完按「預覽這一頁」看實際效果（會另開分頁）。
+                滿意之後按「<b>匯出 site-data.js</b>」下載檔案，把它蓋回
+                <b>blue\assets\js\site-data.js</b>，網站就更新了。<br>
+                修改會自動存成草稿，關掉分頁再回來還在，但<b>沒有匯出就不算真的更新網站</b>。
+            </div>
+
+            <div id="form"></div>
+        </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="assets/js/site-data.js"></script>
+    <script src="assets/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【Catherine】 | 跨界生活藝術家</title>
+    <style>
+        /* ==================================== */
+        /* 基礎 CSS 樣式 (Base Styles) */
+        /* ==================================== */
+        :root {
+            /* 定義主題顏色變數 */
+            --primary-color: #3498db; /* 主要顏色 (例如：藍色) */
+            --secondary-color: #e74c3c; /* 次要顏色 (例如：紅色/強調色) */
+            --text-color: #333;
+            --bg-color: #f4f4f4;
+            --white: #fff;
+            --black: #1a1a1a; /* 新增黑色變數 */
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* ==================================== */
+        /* 導覽列 (Navigation Bar) - 已修改為黑色 */
+        /* ==================================== */
+        .header {
+            background-color: var(--black); /* 背景改為黑色 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3); /* 陰影調整更明顯 */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        /* 新增：Logo 圖片樣式 */
+        .site-logo {
+            /* 圖片高度：設定一個合適的高度，讓它在導覽列中清晰可見 */
+            height: 40px; 
+            /* 圖片寬度：設為 auto 以保持圖片比例 */
+         width: auto;
+            /* 確保圖片與導覽列文字垂直對齊 (雖然這裡沒有其他文字了) */
+            display: block; 
+        }
+
+        /* 確保 Logo 容器沒有額外間距 */
+        .logo a {
+            padding: 0;
+        }
+
+        /* 如果您希望 Logo 佔用更多空間，可以調整 .navbar 的 padding */
+        .navbar {
+            /* 假設您希望導覽列整體變高一些來容納 Logo */
+            padding: 10px 20px; 
+        }
+
+        /* (可選) 在手機版上調整 Logo 大小，以節省空間 */
+        @media (max-width: 768px) {
+            .site-logo {
+                height: 30px; /* 手機上變小一點 */
+            }
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--white); /* 導覽連結文字改為白色 */
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color); /* 滑鼠懸停時使用主要顏色 */
+        }
+
+        /* 導覽列底部動畫效果 */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+            left: unset;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+            left: 0;
+            background: var(--primary-color);
+        }
+
+        /* ==================================== */
+        /* Hero 區塊 (首屏大圖/主標題) */
+        /* ==================================== */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('hero-background.jpg') no-repeat center center; /* 請替換為您的圖片 */
+            background-size: cover;
+            height: 70vh; /* 佔視窗高度的 70% */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .cta-buttons a {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .cta-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .cta-secondary {
+            background-color: var(--secondary-color);
+            color: var(--white);
+        }
+
+        .cta-primary:hover, .cta-secondary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* ==================================== */
+        /* 內容區塊 (Main Content) */
+        /* ==================================== */
+        .section {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 30px 20px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .section h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+
+        /* 快速預覽卡片 */
+        .preview-grid {
+            display: flex;
+            gap: 20px;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            flex-basis: calc(33% - 20px);
+            min-width: 280px;
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* 圖片容器 (需替換圖片) */
+        /* 這是原本的圖片容器樣式 */
+        .card-img {
+            height: 150px; /* 固定圖片高度 */
+            background-color: #eee; /* 移除這個灰色佔位背景 (可選) */
+            margin-bottom: 15px;
+            border-radius: 5px;
+    
+            /* 移除 display: flex, justify-content, align-items, color 等屬性，因為現在是放圖片不是文字 */
+        }
+
+        /* 新增或修改圖片的樣式 */
+        .preview-img-style {
+             width: 100%; /* 圖片寬度填滿容器 */
+            height: 100%; /* 圖片高度填滿容器 */
+            object-fit: cover; /* 關鍵：確保圖片填滿空間且不變形 */
+            border-radius: 5px; /* 與容器邊角弧度一致 */
+        }
+
+        /* ==================================== */
+        /* 響應式設計 (Responsive Design) */
+        /* ==================================== */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 10px 20px;
+            }
+
+            .nav-links {
+                margin-top: 10px;
+                justify-content: center;
+            }
+
+            .nav-links li {
+                margin: 0 10px;
+            }
+
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .hero p {
+                font-size: 1.2em;
+            }
+            
+            .card {
+                flex-basis: 100%; /* 手機上卡片佔滿寬度 */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.png" alt="Catherin 個人網站 Logo" class="site-logo">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">主頁</a></li>
+                <li><a href="about.html">個人介紹</a></li>
+                <li><a href="cooking.html">烹飪作品</a></li>
+                <li><a href="web-design.html">網頁作品</a></li>
+                <li><a href="other-works.html">其他作品</a></li>
+                <li><a href="services.html">其他服務</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h1>一位跨界的生活藝術家。</h1>
+        <p>程式碼與食材的完美融合：理性邏輯建構數位世界，感性熱情創造美味生活。</p>
+        <div class="cta-buttons">
+            <a href="web-design.html" class="cta-primary">查看我的網頁作品 →</a>
+            <a href="cooking.html" class="cta-secondary">探索我的美味食譜 →</a>
+        </div>
+    </section>
+
+    <section class="section intro-section">
+        <h2>我的理念</h2>
+        <p style="text-align: center; max-width: 700px; margin: 0 auto;">
+            嘿！我是Catherine。我擅長前端開發為顧客打造流暢的數位體驗。<br>
+            同時，我對烹飪有著深厚的熱情，特別鍾情於提拉米蘇！<br><br>
+            我相信，不論是設計網站或料理餐點，<br>
+            成功的關鍵都在於對細節的專注與對美感的追求。
+        </p>
+    </section>
+
+    <section class="section preview-section">
+        <h2>精選作品與服務</h2>
+        <div class="preview-grid"> 
+            <a href="web-design.html" class="card">
+                <div class="card-img">
+                    <img src="b.png" alt="網頁作品預覽圖" class="preview-img-style">
+                </div>
+                <h3>網頁設計精選</h3>
+                <p>探索我的響應式設計與最新的前端專案。</p>
+            </a>
+
+            <a href="cooking.html" class="card">
+                <div class="card-img">
+                    <img src="g.png" alt="私房食譜" class="preview-img-style">
+                </div>
+                <h3>我的私房食譜</h3>
+                <p>一窺我對美食的熱情與精緻料理的呈現。</p>
+            </p>
+
+            <a href="services.html" class="card">
+                <div class="card-img">
+                    <img src="h.png" alt="客製" class="preview-img-style">
+                </div>
+                <h3>客製</h3>
+                <p>提供個人化諮詢服務。</p>
+            </a>
+
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 20px; background-color: #333; color: var(--white);">
+        <p>&copy; 2024 catherine0429. All rights reserved.</p>
+        <div class="social-links" style="margin-top: 10px;">
+            <a href="https://www.instagram.com/wzy.8_8_23/" style="color: var(--white); margin: 0 10px;">IG</a>
+            <a href="#" style="color: var(--white); margin: 0 10px;">LinkedIn</a>
+            <a href="https://mail.google.com/mail/u/0/?ogbl#inbox?compose=DmwnWsTJvbnGBJTShSvqJzrMzLqKKMHwXggNFFKbvbCsBgcFtXdnCcwpDwkfLscGXXWVbzbGtRtl" style="color: var(--white); margin: 0 10px;">Email</a>
+        </div>
+    </footer>
+
+</body>
+</html>

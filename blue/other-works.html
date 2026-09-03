@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>其他作品 | Other</title>
+    <!-- 字型 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- 海洋藍主題套件（順序不要調換：tokens 要在最前面） -->
+    <link rel="stylesheet" href="assets/css/tokens.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/cards.css">
+    <link rel="stylesheet" href="assets/css/pages.css">
+    <link rel="stylesheet" href="assets/css/effects.css">
+</head>
+<body class="page-other-works">
+
+    <!-- 背景漂浮水母：沉在白色卡片後面，只在頁面底色露出來 -->
+    <div data-ocean="jellyfish" data-count="6"></div>
+
+
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="../logo-transparent.png" alt="Catherine 個人網站 Logo" class="site-logo">
+                </a>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">主頁</a></li>
+                <li><a href="about.html">個人介紹</a></li>
+                <li><a href="cooking.html">烹飪作品</a></li>
+                <li><a href="web-design.html">網頁作品</a></li>
+                <li><a href="other-works.html" class="active">其他作品</a></li>
+                <li><a href="services.html">其他服務</a></li>
+            </ul>
+            <button class="nav-toggle" type="button" aria-label="開啟選單"
+                    aria-expanded="false" aria-controls="nav-links">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <section class="portfolio-header">
+<h1 data-text="otherWorks.bannerTitle"></h1>
+        <p data-text="otherWorks.bannerSubtitle"></p>
+    </section>
+    
+<main class="other-works-grid reveal" data-list="otherWorks.cards"></main>
+    
+    <footer class="site-footer">
+        <div class="social-links">
+            <a href="https://www.instagram.com/wzy.8_8_23/">IG</a>
+            <a href="#">LinkedIn</a>
+            <a href="https://mail.google.com/mail/u/0/?ogbl#inbox?compose=DmwnWsTJvbnGBJTShSvqJzrMzLqKKMHwXggNFFKbvbCsBgcFtXdnCcwpDwkfLscGXXWVbzbGtRtl">Email</a>
+        </div>
+        <p class="copyright">&copy; 2026 catherine0429. All rights reserved.</p>
+    </footer>
+
+
+    <!-- 內容資料 → 渲染 → 特效，順序不能調換 -->
+    <script src="assets/js/site-data.js"></script>
+    <script src="assets/js/render.js"></script>
+    <script src="assets/js/ocean.js"></script>
+    <script src="assets/js/ui.js"></script>
+
+</body>
+</html>

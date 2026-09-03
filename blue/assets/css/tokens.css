@@ -1,0 +1,81 @@
+/* =========================================================
+   tokens.css — 設計變數與基礎排版
+   Catherine 個人網站 — 海洋藍主題套件
+   要改全站的顏色或字型，改這個檔案就好。
+   ========================================================= */
+
+/* ==================================================== */
+/* 色彩系統 (Color System) — 統一海洋藍色調                */
+/* ==================================================== */
+:root {
+    --primary-color: #1C7CB8;   /* 主色：海洋藍 */
+    --primary-dark:  #145A85;   /* 深潛藍：hover / 加深 */
+    --secondary-color: #0B3D5C; /* 次色：深海藍 */
+    --black:  #0A2A3D;          /* 深海墨藍：導覽列與頁尾 */
+    --sky:    #4FB3D9;          /* 天空藍：點綴 */
+    --sky-soft: #A8DCF0;        /* 淺天藍：光暈、細節 */
+
+    --text-color: #1F2D3A;      /* 內文 */
+    --muted:      #5A7183;      /* 輔助文字 */
+    --bg-color:   #EEF4F8;      /* 頁面底色：淺水藍 */
+    --white:      #fff;
+    --border:     #DDE8F0;
+
+    --shadow-sm: 0 2px 8px rgba(11,61,92,0.06);
+    --shadow-md: 0 8px 24px rgba(11,61,92,0.10);
+    --shadow-lg: 0 18px 44px rgba(11,61,92,0.16);
+
+    --service-color: #17708A;   /* 青藍：其他服務頁強調色 */
+    --accent-color:  #0E7C9B;   /* 湖水藍：其他作品頁強調色 */
+
+    --crab:      #E8909C;       /* 螃蟹：呼應 logo 的粉色 */
+    --crab-dark: #CE6C7B;       /* 螃蟹的腳 */
+
+    --radius: 14px;
+    --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Noto Sans TC', 'Helvetica Neue', 'Microsoft JhengHei', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+h1, h2, h3 {
+    font-family: 'Noto Serif TC', 'Noto Sans TC', serif;
+    letter-spacing: .02em;
+    line-height: 1.35;
+}
+
+/* 區塊小標籤（eyebrow） */
+.eyebrow {
+    font-size: .78rem;
+    letter-spacing: .34em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--sky);
+    margin: 0 0 12px;
+}
+
+/* 尊重使用者的「減少動態」系統設定 */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+    /* 小魚與螃蟹的靜止位置改由 assets/js/ocean.js 依實際數量安排 */
+    html { scroll-behavior: auto; }
+
+
+}

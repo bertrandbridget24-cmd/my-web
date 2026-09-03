@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>攝影作品詳情 | [作品名稱]</title>
+    <style>
+        /* ==================================== */
+        /* 基礎 CSS 樣式 (沿用) */
+        /* ==================================== */
+        :root {
+            --primary-color: #3498db; 
+            --secondary-color: #e74c3c; 
+            --text-color: #333;
+            --bg-color: #f4f4f4;
+            --white: #fff;
+            --black: #1a1a1a; 
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* 導覽列 */
+        .header {
+            background-color: var(--black); 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3); 
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .site-logo {
+            height: 40px; 
+            width: auto;
+            display: block; 
+        }
+
+        .logo a {
+            padding: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .site-logo {
+                height: 30px;
+            }
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--white); 
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active { 
+            color: var(--primary-color); 
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+            left: unset;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+            left: 0;
+            background: var(--primary-color);
+        }
+
+        /* ==================================== */
+        /* 攝影作品詳情頁面專屬 CSS */
+        /* ==================================== */
+
+        .detail-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .detail-header {
+            text-align: center;
+            padding: 40px 0 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-header h1 {
+            color: var(--text-color);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .detail-meta {
+            color: #777;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .detail-content {
+            padding: 20px 0 40px 0;
+        }
+
+        /* 內容區塊的 H2 樣式 (適用於 作品簡介, 主視覺照片, 系列作品集) */
+        .detail-content h2 {
+            color: var(--primary-color);
+            font-size: 1.5em;
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-top: 30px; /* 確保與上方內容有間距 */
+            margin-bottom: 20px;
+        }
+
+        .photo-gallery {
+            /* === 修正 1: 限制作品集容器的最大寬度，使其集中在中間 === */
+            max-width: 400px; 
+            margin: 30px auto; /* 加上 auto 確保置中 */
+
+            display: grid;
+            /* === 修正 2: 將最小寬度從 300px 改為 250px === */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item img:hover {
+            transform: scale(1.02);
+            cursor: zoom-in;
+        }
+        
+        .detail-description p {
+            font-size: 1.1em;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+        
+        /* 單張主圖樣式 (純粹用於圖片容器) */
+        .main-photo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .main-photo img {
+            /* 主圖的最大寬度為 550px */
+            max-width: 550px; 
+            width: 100%; 
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* 返回按鈕 */
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .back-link:hover {
+            background-color: #c0392b;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.png" alt="Catherin 個人網站 Logo" class="site-logo">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">主頁</a></li>
+                <li><a href="about.html">個人介紹</a></li>
+                <li><a href="cooking.html">烹飪作品</a></li>
+                <li><a href="web-design.html">網頁作品</a></li>
+                <li><a href="other-works.html" class="active">其他作品</a></li> 
+                <li><a href="services.html">其他服務</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="detail-container">
+        
+        <div class="detail-header">
+            <h1>一盤兩用：托盤變身記</h1>
+            <p class="detail-meta">
+                作品類型：手做木工 | 拍攝時間：2023年
+            </p>
+        </div>
+        
+        <div class="detail-content">
+            
+            <section class="detail-description">
+                <h2>作品簡介</h2>
+                <p>
+                    一個簡單木製托盤從下午茶點心盤，搖身一變成為兼具可愛與實用性的鑰匙收納掛架。
+                </p>
+            </section>
+            
+            <h2>主視覺照片</h2>
+            <section class="main-photo">
+                <img src="j.jpg" alt="城市夜景主圖">
+            </section>
+
+            <section>
+                <h2>系列作品集</h2>
+                <div class="photo-gallery">
+                    
+                    <div class="gallery-item">
+                        <img src="k.jpg" alt="系列圖 1">
+                    </div>
+                    
+                    </div>
+            </section>
+            
+            <a href="other-works.html" class="back-link">← 返回其他作品總覽</a>
+        </div>
+        
+    </main>
+
+
+    <footer style="text-align: center; padding: 20px; background-color: #333; color: var(--white); margin-top: 40px;">
+        <p>&copy; 2024 catherine0429. All rights reserved.</p>
+        <div class="social-links" style="margin-top: 10px;">
+            <a href="https://www.instagram.com/wzy.8_8_23/" style="color: var(--white); margin: 0 10px;">IG</a>
+            <a href="#" style="color: var(--white); margin: 0 10px;">LinkedIn</a>
+            <a href="https://mail.google.com/mail/u/0/?ogbl#inbox?compose=DmwnWsTJvbnGBJTShSvqJzrMzLqKKMHwXggNFFKbvbCsBgcFtXdnCcwpDwkfLscGXXWVbzbGtRtl" style="color: var(--white); margin: 0 10px;">Email</a>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>其他服務 | Other services</title>
+    <!-- 字型 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- 海洋藍主題套件（順序不要調換：tokens 要在最前面） -->
+    <link rel="stylesheet" href="assets/css/tokens.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/pages.css">
+    <link rel="stylesheet" href="assets/css/effects.css">
+    <link rel="stylesheet" href="assets/css/game.css">
+    <link rel="stylesheet" href="assets/css/fish.css">
+    <link rel="stylesheet" href="assets/css/maze.css">
+    <link rel="stylesheet" href="assets/css/life.css">
+</head>
+<body class="page-services">
+
+    <!-- 背景漂浮水母：沉在白色卡片後面，只在頁面底色露出來 -->
+    <div data-ocean="jellyfish" data-count="6"></div>
+
+
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="../logo-transparent.png" alt="Catherine 個人網站 Logo" class="site-logo">
+                </a>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">主頁</a></li>
+                <li><a href="about.html">個人介紹</a></li>
+                <li><a href="cooking.html">烹飪作品</a></li>
+                <li><a href="web-design.html">網頁作品</a></li>
+                <li><a href="other-works.html">其他作品</a></li>
+                <li><a href="services.html" class="active">其他服務</a></li>
+            </ul>
+            <button class="nav-toggle" type="button" aria-label="開啟選單"
+                    aria-expanded="false" aria-controls="nav-links">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <section class="services-header">
+<h1 data-text="services.bannerTitle"></h1>
+        <p data-text="services.bannerSubtitle"></p>
+    </section>
+    
+<main class="services-grid reveal" data-list="services.cards"></main>
+
+    <!-- night ＝ 夜晚海洋（深色夜空＋月亮星星） -->
+    <section class="cta-band night">
+        <div class="wave-top" aria-hidden="true">
+            <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,40 C220,86 420,4 660,32 C880,58 1040,88 1260,58 C1350,46 1400,34 1440,38 L1440,80 L0,80 Z"
+                      fill="#EEF4F8"></path>
+            </svg>
+        </div>
+
+        <div class="cta-band-inner">
+            <h2 data-text="services.ctaTitle"></h2>
+            <p data-text="services.ctaText"></p>
+            <a class="btn-light" data-text="services.ctaBtnText" data-href="services.ctaBtnHref"></a>
+        </div>
+
+        <!-- 夜空：滑鼠移到月亮或星星上會顯示對應的字 -->
+        <div data-ocean="nightsky" data-moon="孫" data-stars="欣,九日生,尤國任教授,宜,邱宏彬教授,哥哥,Hing"
+             data-games=""></div>
+
+        <!-- 海床：海草數量改 data-weeds，不要螃蟹就把 data-crab 改成 0 -->
+        <div data-ocean="seabed" data-weeds="10" data-crab="1"></div>
+    </section>
+
+
+    <footer class="site-footer">
+        <div class="social-links">
+            <a href="https://www.instagram.com/wzy.8_8_23/">IG</a>
+            <a href="#">LinkedIn</a>
+            <a href="https://mail.google.com/mail/u/0/?ogbl#inbox?compose=DmwnWsTJvbnGBJTShSvqJzrMzLqKKMHwXggNFFKbvbCsBgcFtXdnCcwpDwkfLscGXXWVbzbGtRtl">Email</a>
+        </div>
+        <p class="copyright">&copy; 2026 catherine0429. All rights reserved.</p>
+    </footer>
+
+
+    <!-- 內容資料 → 渲染 → 特效，順序不能調換 -->
+    <script src="assets/js/site-data.js"></script>
+    <script src="assets/js/render.js"></script>
+    <script src="assets/js/ocean.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/starship.js"></script>
+    <script src="assets/js/fishing.js"></script>
+    <script src="assets/js/maze.js"></script>
+    <script src="assets/js/life.js"></script>
+    <script src="assets/js/game-hub.js"></script>
+
+
+    <!-- ================================================================
+         釣魚小遊戲的視窗結構
+         這些 id 是 assets/js/fishing.js 指定的，不要改名：
+         fishing-overlay / fishing-svg / fish-layer / caught-fish-layer /
+         fishing-line / hook / score / time / screen-start / screen-end / final-score
+         ================================================================ -->
+    <div class="game-overlay" id="fishing-overlay" role="dialog" aria-modal="true" aria-label="釣魚小遊戲">
+        <div class="game-panel">
+            <div class="game-bar">
+                <strong>淺海垂釣</strong>
+                <div class="game-stats">
+                    <span>分數 <b id="score">0</b></span>
+                    <span>剩餘 <b id="time">30</b> 秒</span>
+                </div>
+                <button class="game-close" type="button" aria-label="關閉遊戲" onclick="closeGame()">×</button>
+            </div>
+
+            <div class="game-stage">
+                <svg id="fishing-svg" class="game-canvas" viewBox="0 0 480 500" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 天空與海水 -->
+                    <rect x="0" y="0" width="480" height="90" fill="#061626"/>
+                    <rect x="0" y="90" width="480" height="410" fill="#0B3D5C"/>
+                    <rect x="0" y="90" width="480" height="4" fill="#4FB3D9" opacity=".55"/>
+                    <!-- 小船 -->
+                    <g transform="translate(240, 60)">
+                        <path d="M-46 22 L46 22 L34 34 L-34 34 Z" fill="#1C7CB8"/>
+                        <rect x="-2" y="-24" width="4" height="46" rx="2" fill="#A8DCF0"/>
+                        <path d="M4 -22 L30 -2 L4 -2 Z" fill="#FFF3CE" opacity=".9"/>
+                    </g>
+                    <!-- 釣魚線（fishing.js 只改 y2） -->
+                    <line id="fishing-line" x1="240" y1="70" x2="240" y2="80"
+                          stroke="#A8DCF0" stroke-width="1.5" opacity=".8"/>
+                    <!-- 魚鉤（fishing.js 用 transform 移動） -->
+                    <g id="hook" transform="translate(240, 80)">
+                        <path d="M0 0 v8 a5 5 0 1 1 -5 -5" fill="none"
+                              stroke="#FFF6DA" stroke-width="2" stroke-linecap="round"/>
+                    </g>
+                    <!-- 游動中的魚 / 已上鉤的魚 -->
+                    <g id="fish-layer"></g>
+                    <g id="caught-fish-layer"></g>
+                </svg>
+
+                <div class="game-screen" id="screen-start">
+                    <h3>淺海垂釣</h3>
+                    <p>點畫面把鉤子放下去，碰到魚就會自動收線。<br>30 秒內分數越高越好。</p>
+                    <button class="game-btn" type="button" onclick="startGame()">開始</button>
+                </div>
+
+                <div class="game-screen" id="screen-end" hidden>
+                    <h3>時間到</h3>
+                    <div class="game-score-big" id="final-score">0</div>
+                    <button class="game-btn" type="button" onclick="startGame()">再玩一次</button>
+                </div>
+            </div>
+
+            <div class="game-hint">點畫面下鉤 ・ 淺藍魚 10 分、米白魚 30 分、深藍魚 50 分 ・ Esc 關閉</div>
+        </div>
+    </div>
+
+    <!-- ================================================================
+         迷宮小遊戲的視窗結構
+         這些 id 是 assets/js/maze.js 指定的，不要改名：
+         maze-overlay / maze-walls / maze-player / maze-goal /
+         maze-time / maze-start / maze-end / maze-final-time
+         迷宮是 21x21 格，CELL_SIZE = 280/21 ≒ 13.33，外框留 10 → viewBox 300x300
+         ================================================================ -->
+    <div class="game-overlay" id="maze-overlay" role="dialog" aria-modal="true" aria-label="迷宮小遊戲">
+        <div class="game-panel">
+            <div class="game-bar">
+                <strong>深海迷宮</strong>
+                <div class="game-stats">
+                    <span>時間 <b id="maze-time">0</b> 秒</span>
+                </div>
+                <button class="game-close" type="button" aria-label="關閉遊戲" onclick="closeMaze()">×</button>
+            </div>
+
+            <div class="game-stage">
+                <svg id="maze-svg" class="game-canvas" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- 珍珠的光澤：左上打光，往右下轉深 -->
+                        <radialGradient id="pearl-grad" cx="34%" cy="30%" r="72%">
+                            <stop offset="0%"   stop-color="#FFFFFF"/>
+                            <stop offset="42%"  stop-color="#E4F5FC"/>
+                            <stop offset="78%"  stop-color="#A8DCF0"/>
+                            <stop offset="100%" stop-color="#4FB3D9"/>
+                        </radialGradient>
+                        <!-- 珍珠外圈的柔光 -->
+                        <filter id="pearl-glow" x="-160%" y="-160%" width="420%" height="420%">
+                            <feGaussianBlur stdDeviation="2.2" result="blur"/>
+                            <feMerge>
+                                <feMergeNode in="blur"/>
+                                <feMergeNode in="blur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                        <!-- 海星的暖色漸層 -->
+                        <radialGradient id="star-grad" cx="38%" cy="32%" r="70%">
+                            <stop offset="0%"   stop-color="#FFF3CE"/>
+                            <stop offset="60%"  stop-color="#F0B36B"/>
+                            <stop offset="100%" stop-color="#E8909C"/>
+                        </radialGradient>
+                    </defs>
+
+                    <g id="maze-walls"></g>
+
+                    <!-- 終點：海星（maze.js 用 transform 移到右下角，所以畫在一格的座標內） -->
+                    <g id="maze-goal" transform="translate(10, 10)">
+                        <path d="M6.70 0.60 Q8.46 4.27 12.50 4.81 Q9.55 7.63 10.29 11.64 Q6.70 9.70 3.11 11.64 Q3.85 7.63 0.90 4.81 Q4.94 4.27 6.70 0.60 Z" fill="url(#star-grad)"
+                              stroke="#B4515F" stroke-width=".5" stroke-linejoin="round" opacity=".96"/>
+                        <!-- 海星身上的小點 -->
+                        <circle cx="6.7" cy="5.6" r=".55" fill="#B4515F" opacity=".55"/>
+                        <circle cx="5.3" cy="7.3" r=".45" fill="#B4515F" opacity=".45"/>
+                        <circle cx="8.1" cy="7.3" r=".45" fill="#B4515F" opacity=".45"/>
+                    </g>
+
+                    <!-- 玩家：會發光的珍珠（maze.js 直接改 cx / cy，所以外層不能包 g） -->
+                    <circle id="maze-player" cx="16.7" cy="16.7" r="4.4"
+                            fill="url(#pearl-grad)" filter="url(#pearl-glow)"/>
+                </svg>
+
+                <div class="game-screen" id="maze-start">
+                    <h3>深海迷宮</h3>
+                    <p>操控發光的珍珠，從左上角走到右下角的海星。<br>電腦用方向鍵或 WASD，手機用下方的方向鍵。</p>
+                    <button class="game-btn" type="button" onclick="startMaze()">開始</button>
+                </div>
+
+                <div class="game-screen" id="maze-end" hidden>
+                    <h3>走出來了！</h3>
+                    <div class="game-score-big" id="maze-final-time">0 秒</div>
+                    <button class="game-btn" type="button" onclick="startMaze()">再走一次</button>
+                </div>
+            </div>
+
+            <!-- 虛擬方向鍵：桌機會被 maze.css 隱藏起來 -->
+            <div class="maze-controls">
+                <div class="d-pad-row">
+                    <button class="d-pad" type="button" aria-label="上" data-move="0,-1">↑</button>
+                </div>
+                <div class="d-pad-row">
+                    <button class="d-pad" type="button" aria-label="左" data-move="-1,0">←</button>
+                    <button class="d-pad" type="button" aria-label="下" data-move="0,1">↓</button>
+                    <button class="d-pad" type="button" aria-label="右" data-move="1,0">→</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================
+         人生選擇小遊戲「潮汐之間」的視窗結構
+         內容由 assets/js/life.js 填進 data-life="stage"，
+         這三個標記不要改名：chapter / dots / stage
+         想改故事文字，直接改 life.js 最上面的 QUESTIONS 和 ENDINGS
+         ================================================================ -->
+    <div class="game-overlay" id="life-overlay" role="dialog" aria-modal="true" aria-label="人生選擇小遊戲">
+        <div class="game-panel">
+            <div class="game-bar">
+                <strong data-life="chapter">潮汐之間</strong>
+                <div class="life-dots" data-life="dots"></div>
+                <button class="game-close" type="button" aria-label="關閉遊戲" onclick="closeLife()">×</button>
+            </div>
+
+            <div class="life-stage" data-life="stage"></div>
+
+            <div class="game-hint">七個選擇 ・ 七種結局 ・ Esc 關閉</div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+/* =========================================================
+   深海迷宮專屬樣式
+   ========================================================= */
+#maze-svg {
+    background: rgba(2, 9, 15, 0.4); /* 讓迷宮區塊稍微深一點，突顯牆壁 */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.maze-wall {
+    stroke: #A8DCF0;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    opacity: 0.8;
+}
+
+#maze-player {
+    transition: cx 0.15s ease-out, cy 0.15s ease-out;
+    /* 珍珠的光輝：很慢地一亮一暗，走動時不會分心 */
+    animation: pearl-shine 2.6s ease-in-out infinite alternate;
+}
+
+@keyframes pearl-shine {
+    from { opacity: .88; }
+    to   { opacity: 1; }
+}
+
+/* 終點的海星慢慢轉，比較好找 */
+#maze-goal {
+    transform-box: view-box;
+    animation: starfish-sway 6s ease-in-out infinite alternate;
+    transform-origin: center;
+}
+
+@keyframes starfish-sway {
+    from { filter: drop-shadow(0 0 1px rgba(240,179,107,.5)); }
+    to   { filter: drop-shadow(0 0 5px rgba(240,179,107,.95)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #maze-player, #maze-goal { animation: none; }
+}
+
+/* 虛擬方向鍵 (主要給手機版使用) */
+.maze-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 0 20px;
+    background: rgba(2,9,15,.3);
+    border-top: 1px solid rgba(168,220,240,.14);
+}
+
+.d-pad-row {
+    display: flex;
+    gap: 16px;
+}
+
+.d-pad {
+    appearance: none;
+    background: rgba(168,220,240,.15);
+    border: 1px solid rgba(168,220,240,.3);
+    color: #FFF6DA;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s;
+}
+
+.d-pad:active {
+    background: rgba(168,220,240,.4);
+    transform: scale(0.95);
+}
+
+/* 只有「真的桌機」才隱藏方向鍵。
+   原本只看寬度，但 iPad 橫向有 1024px 卻沒有鍵盤，會變成不能玩，
+   所以再加上 hover / pointer 判斷：有滑鼠才算桌機。 */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+    .maze-controls {
+        display: none;
+    }
+}

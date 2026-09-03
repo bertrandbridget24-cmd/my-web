@@ -1,0 +1,452 @@
+/* =========================================================
+   effects.css — 海洋特效：氣泡 / 小魚 / 海草螃蟹 / 泡泡 / 珍珠串
+   Catherine 個人網站 — 海洋藍主題套件
+   搭配 assets/js/ocean.js 使用；HTML 只要寫 data-ocean 屬性即可。
+   ========================================================= */
+
+/* 上升的氣泡 */
+.bubbles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.bubbles span {
+    position: absolute;
+    bottom: -140px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 30%, rgba(255,255,255,0.75), rgba(168,220,240,0.16) 60%, transparent 72%);
+    border: 1px solid rgba(255,255,255,0.28);
+    animation: rise linear infinite;
+}
+
+@keyframes rise {
+    0%   { transform: translateY(0) translateX(0) scale(.6); opacity: 0; }
+    12%  { opacity: .75; }
+    80%  { opacity: .45; }
+    100% { transform: translateY(-118vh) translateX(28px) scale(1.15); opacity: 0; }
+}
+
+/* ---------- 悠游的小魚 ---------- */
+/* 結構：.fish（左右游動）> .flip（面向）> .bob（上下浮沉）> svg（尾巴擺動） */
+.school {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.fish {
+    position: absolute;
+    left: 0;
+    width: var(--size, 54px);
+    animation: swim-right var(--dur, 28s) linear infinite;
+    animation-delay: var(--delay, 0s);
+    will-change: transform;
+}
+
+.fish.to-left { animation-name: swim-left; }
+
+.fish .flip { transform-origin: center; }
+.fish.to-right .flip { transform: scaleX(-1); } /* 魚頭原本朝左，往右游時翻面 */
+
+.fish .bob {
+    animation: bob var(--bob, 3.4s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+}
+
+.fish svg { width: 100%; height: auto; display: block; }
+
+.fish .tail {
+    transform-box: view-box;
+    transform-origin: 44px 18px;
+    animation: waggle .6s ease-in-out infinite alternate;
+}
+
+@keyframes swim-right {
+    from { transform: translateX(-16vw); }
+    to   { transform: translateX(116vw); }
+}
+
+@keyframes swim-left {
+    from { transform: translateX(116vw); }
+    to   { transform: translateX(-16vw); }
+}
+
+@keyframes bob {
+    0%, 100% { transform: translateY(0)    rotate(0deg); }
+    50%      { transform: translateY(-14px) rotate(-3deg); }
+}
+
+@keyframes waggle {
+    from { transform: rotate(-11deg); }
+    to   { transform: rotate(11deg); }
+}
+
+/* ---------- Hero 按鈕 hover：從上緣冒泡泡 ---------- */
+.btn-bubbles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* 不裁切，讓泡泡可以飄到按鈕外面的深色背景上 */
+}
+
+.btn-bubbles i {
+    position: absolute;
+    top: 4px;
+    border-radius: 50%;
+    opacity: 0;
+    background: radial-gradient(circle at 32% 30%,
+                rgba(255,255,255,.98),
+                rgba(168,220,240,.55) 56%,
+                rgba(168,220,240,0) 74%);
+    border: 1.5px solid rgba(255,255,255,.9);
+    box-shadow: 0 0 10px rgba(255,255,255,.35);
+}
+
+.cta-buttons a:hover .btn-bubbles i {
+    animation: btn-bubble var(--bd, 1.9s) ease-in infinite;
+    animation-delay: var(--bdl, 0s);
+}
+
+@keyframes btn-bubble {
+    0%   { transform: translateY(0) translateX(0) scale(.35); opacity: 0; }
+    18%  { opacity: .95; }
+    75%  { opacity: .75; }
+    100% { transform: translateY(-82px) translateX(var(--bx, 8px)) scale(1.05); opacity: 0; }
+}
+
+/* ---------- 卡片 hover：從底部冒泡泡 ---------- */
+.hover-bubbles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;              /* 泡泡不會飄出卡片 */
+    border-radius: inherit;        /* 跟著卡片的圓角走 */
+    pointer-events: none;
+    z-index: 3;
+}
+
+.hover-bubbles i {
+    position: absolute;
+    bottom: -20px;
+    border-radius: 50%;
+    opacity: 0;
+    background: radial-gradient(circle at 32% 30%,
+                rgba(255,255,255,.95),
+                rgba(79,179,217,.55) 56%,
+                rgba(79,179,217,.10) 74%);
+    border: 1.5px solid rgba(28,124,184,.62);
+    box-shadow: 0 1px 4px rgba(11,61,92,.14);
+}
+
+/* 用 data-ocean 屬性當選擇器，不綁死在 .card；
+   內頁的卡片叫 .recipe-card / .project-card / .work-card，一樣能吃到 */
+[data-ocean="card-fx"]:hover .hover-bubbles i {
+    animation: card-bubble var(--bd, 2.6s) ease-in infinite;
+    animation-delay: var(--bdl, 0s);
+}
+
+@keyframes card-bubble {
+    0%   { transform: translateY(0) translateX(0) scale(.45); opacity: 0; }
+    14%  { opacity: .95; }
+    78%  { opacity: .7; }
+    100% { transform: translateY(-330px) translateX(var(--bx, 12px)) scale(1.15); opacity: 0; }
+}
+
+/* ---------- 卡片 hover：上緣長出珍珠串 ---------- */
+.pearls {
+    position: absolute;
+    top: -8px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.pearls i {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 34% 28%,
+                #ffffff 0%,
+                var(--sky) 46%,
+                var(--primary-color) 100%);
+    box-shadow: 0 3px 8px rgba(11,61,92,.30);
+    opacity: 0;
+    transform: scale(0) translateY(8px);
+    /* 回彈曲線，長出來的時候會有一點 Q 彈感 */
+    transition: transform .5s cubic-bezier(.34,1.56,.64,1), opacity .28s ease;
+}
+
+[data-ocean="card-fx"]:hover .pearls i { opacity: 1; transform: scale(1) translateY(0); }
+
+/* 大小交錯 + 高低錯落，看起來像一串真的果實而不是一排點點 */
+.pearls i:nth-child(even) { width: 10px; height: 10px; }
+.pearls i:nth-child(3n)   { margin-top: 6px; }
+.pearls i:nth-child(4n)   { margin-top: 3px; }
+
+/* 由左而右依序長出的延遲，由 assets/js/ocean.js 逐顆設定 */
+
+/* ==================================================== */
+/* 海床：隨波搖曳的海草 + 走來走去的螃蟹                    */
+/* ==================================================== */
+.seabed {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 150px;
+    z-index: 1;
+    pointer-events: none;
+    /* 底部壓深，讓海草像長在海床上而不是浮在空中 */
+    background: linear-gradient(180deg, transparent 0%, rgba(6,30,44,.16) 62%, rgba(6,30,44,.34) 100%);
+}
+
+/* ---------- 海草 ---------- */
+.weed {
+    position: absolute;
+    bottom: -4px;
+    transform-origin: 50% 100%;   /* 從根部擺動 */
+    animation: sway var(--sw, 5s) ease-in-out infinite alternate;
+    animation-delay: var(--swd, 0s);
+}
+
+.weed svg { display: block; width: 100%; height: 100%; }
+
+@keyframes sway {
+    from { transform: rotate(-6deg) skewX(3deg); }
+    to   { transform: rotate(7deg)  skewX(-4deg); }
+}
+
+/* ---------- 螃蟹 ---------- */
+.crab {
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    width: 76px;
+    animation: crab-walk 38s linear infinite;
+}
+
+.crab-bob { animation: crab-bob .5s ease-in-out infinite alternate; }
+
+.crab svg { display: block; width: 100%; height: auto; }
+
+/* 螃蟹橫著走過整片海床 */
+@keyframes crab-walk {
+    from { transform: translateX(-90px); }
+    to   { transform: translateX(calc(100vw + 40px)); }
+}
+
+/* 走路時上下顛一下 */
+@keyframes crab-bob {
+    from { transform: translateY(0)    rotate(-2deg); }
+    to   { transform: translateY(-4px) rotate(2deg); }
+}
+
+/* 揮舞的大螯 */
+.claw-wave {
+    transform-box: view-box;
+    transform-origin: 26px 38px;
+    animation: claw .9s ease-in-out infinite alternate;
+}
+
+@keyframes claw {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(-26deg); }
+}
+
+/* ==================================================== */
+/* 夜晚海洋：月亮與星星（.cta-band.night）                 */
+/* ==================================================== */
+.cta-band.night {
+    background: linear-gradient(180deg,
+                #02090F 0%,
+                #061626 28%,
+                var(--black) 58%,
+                var(--secondary-color) 100%);
+}
+
+/* 月光暈染整片海面 */
+.cta-band.night::before {
+    background:
+        radial-gradient(ellipse 34% 46% at 82% 14%, rgba(255,246,214,0.22), transparent 62%),
+        radial-gradient(ellipse 60% 50% at 50% 100%, rgba(28,124,184,0.30), transparent 68%);
+}
+
+/* 夜裡的海草與螃蟹壓暗成剪影 */
+.cta-band.night .seabed { filter: brightness(.44) saturate(.72); }
+
+/* ---------- 星空容器（不蓋到海床） ---------- */
+.nightsky {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 150px;
+    /* 要比 .cta-band-inner（z-index:2）高，否則文字區塊的方框會擋住星星的滑鼠事件 */
+    z-index: 3;
+    pointer-events: none;   /* 只有月亮和星星本身可以被滑到 */
+}
+
+.sky-obj {
+    position: absolute;
+    pointer-events: auto;
+    cursor: help;
+    line-height: 0;
+}
+
+.sky-obj svg { display: block; width: 100%; height: auto; }
+
+/* 滑鼠移上去時發光 */
+.sky-obj:hover svg { filter: drop-shadow(0 0 10px rgba(255,244,208,.95)); }
+
+/* ---------- 閃爍 ---------- */
+.sky-twinkle {
+    display: block;
+    animation: twinkle var(--tw, 3.2s) ease-in-out infinite alternate;
+    animation-delay: var(--twd, 0s);
+}
+
+@keyframes twinkle {
+    from { opacity: .48; transform: scale(.88); }
+    to   { opacity: 1;   transform: scale(1.12); }
+}
+
+/* 月亮不閃，只有很慢的呼吸感 */
+.sky-obj.is-moon .sky-twinkle {
+    animation-name: moon-glow;
+    animation-duration: 7s;
+}
+
+@keyframes moon-glow {
+    from { opacity: .88; }
+    to   { opacity: 1; }
+}
+
+/* ---------- 滑到才出現的字 ---------- */
+.sky-obj::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    white-space: nowrap;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-family: 'Noto Serif TC', 'Noto Sans TC', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: .08em;
+    line-height: 1.5;
+    color: #FFF6DA;
+    background: rgba(2,9,15,.82);
+    border: 1px solid rgba(255,246,218,.42);
+    box-shadow: 0 6px 20px rgba(0,0,0,.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    transform: translate(-50%, 8px);
+    transition: opacity .28s var(--ease), transform .28s var(--ease);
+    pointer-events: none;
+}
+
+.sky-obj:hover::after {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media (max-width: 768px) {
+    .nightsky { bottom: 120px; }
+    .sky-obj::after { font-size: .92rem; padding: 5px 13px; }
+}
+
+/* 靠近上緣的星星，提示改成往下顯示，才不會被區塊裁掉 */
+.sky-obj.tip-below::after {
+    bottom: auto;
+    top: calc(100% + 12px);
+    transform: translate(-50%, -8px);
+}
+
+.sky-obj.tip-below:hover::after { transform: translate(-50%, 0); }
+
+/* 靠左右兩側的星星：提示改成貼齊自己的邊，名字長也不會超出區塊被裁掉 */
+.sky-obj.tip-left::after  { left: 0; transform: translate(0, 8px); }
+.sky-obj.tip-right::after { left: auto; right: 0; transform: translate(0, 8px); }
+.sky-obj.tip-below.tip-left::after,
+.sky-obj.tip-below.tip-right::after { transform: translate(0, -8px); }
+
+.sky-obj.tip-left:hover::after,
+.sky-obj.tip-right:hover::after,
+.sky-obj.tip-below.tip-left:hover::after,
+.sky-obj.tip-below.tip-right:hover::after { transform: translate(0, 0); }
+
+/* ==================================================== */
+/* 背景漂浮水母（給底色偏白的內頁用）                       */
+/* ==================================================== */
+/*
+   z-index: -1 是關鍵：水母會畫在頁面底色之上、但在白色卡片之下，
+   所以只有在卡片之間的縫隙和左右留白才看得到，不會壓到內容。
+   position: fixed 讓它不隨頁面捲動，捲動時會有淡淡的景深感。
+*/
+.drift {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    /* 順便替頁面底色加一層很淡的水藍漸層，白色卡片才不會浮在一片死白上 */
+    background: linear-gradient(180deg,
+                rgba(28,124,184,.05) 0%,
+                rgba(28,124,184,.11) 55%,
+                rgba(11,61,92,.14) 100%);
+}
+
+/* 三層：上浮 > 左右擺 > 傘部收縮 */
+.jelly {
+    position: absolute;
+    bottom: -180px;
+    width: var(--jsize, 54px);
+    animation: jelly-up var(--jdur, 46s) linear infinite;
+    animation-delay: var(--jdelay, 0s);
+    will-change: transform;
+}
+
+.jelly-sway {
+    display: block;
+    animation: jelly-sway var(--jsway, 9s) ease-in-out infinite alternate;
+    animation-delay: var(--jdelay, 0s);
+}
+
+.jelly-pulse {
+    display: block;
+    transform-origin: 50% 30%;
+    animation: jelly-pulse var(--jpulse, 3.2s) ease-in-out infinite alternate;
+}
+
+.jelly svg { display: block; width: 100%; height: auto; }
+
+@keyframes jelly-up {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-125vh); }
+}
+
+@keyframes jelly-sway {
+    from { transform: translateX(-26px) rotate(-4deg); }
+    to   { transform: translateX(26px)  rotate(4deg); }
+}
+
+/* 傘部一縮一放，像真的在划水 */
+@keyframes jelly-pulse {
+    from { transform: scale(1.06, 0.92); }
+    to   { transform: scale(0.94, 1.08); }
+}
+
+@media (max-width: 768px) {
+    /* 手機畫面窄，卡片幾乎佔滿寬度，水母看不太到，留兩隻就好 */
+    .jelly:nth-of-type(n+3) { display: none; }
+}

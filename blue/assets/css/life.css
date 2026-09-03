@@ -1,0 +1,270 @@
+/* =========================================================
+   life.css — 人生選擇小遊戲「潮汐之間」的外觀
+   Catherine 個人網站 — 海洋藍主題套件
+
+   搭配 assets/js/life.js 使用，共用 game.css 的視窗外框
+   （.game-overlay / .game-panel / .game-bar / .game-btn）。
+   ========================================================= */
+
+/* 這個遊戲沒有畫布，文字比較多，視窗做寬一點 */
+#life-overlay .game-panel { width: min(94vw, 520px); }
+
+/* ---------- 進度點 ---------- */
+.life-dots {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.life-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(168, 220, 240, .28);
+    transition: background-color .3s var(--ease, ease), transform .3s var(--ease, ease);
+}
+
+.life-dot.done { background: rgba(255, 246, 218, .75); }
+
+.life-dot.now {
+    background: #FFF3CE;
+    transform: scale(1.5);
+    box-shadow: 0 0 10px rgba(255, 243, 206, .8);
+}
+
+/* ---------- 內容區 ---------- */
+.life-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 26px 24px 30px;
+    text-align: center;
+    color: #FFF6DA;
+    /* 內容長度會變，用最小高度讓視窗不要一直跳 */
+    min-height: 260px;
+    /* 結局那頁比較長，超出畫面就讓它自己捲，不要把視窗撐出螢幕 */
+    max-height: calc(100vh - 190px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    animation: life-in .4s var(--ease, ease) both;
+}
+
+/* 垂直置中，但內容超過高度時不會把最上面切掉。
+   （直接用 justify-content: center 的話，超出的部分會被裁掉而且捲不回去，
+     改用頭尾的 auto margin：有空間才會把內容推到中間，沒空間就自動變 0。） */
+.life-stage > *:first-child { margin-top: auto; }
+.life-stage > *:last-child  { margin-bottom: auto; }
+
+/* 下面還有內容沒看到的時候，底部淡出一小段當提示（class 由 life.js 加上） */
+.life-stage.has-more {
+    -webkit-mask-image: linear-gradient(#000 calc(100% - 40px), transparent);
+            mask-image: linear-gradient(#000 calc(100% - 40px), transparent);
+}
+
+/* 每換一個畫面就淡入一次（用 key 觸發重新播放） */
+@keyframes life-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.life-text {
+    margin: 0;
+    font-size: .94rem;
+    line-height: 2;
+    letter-spacing: .03em;
+    color: rgba(255, 246, 218, .9);
+    max-width: 34em;
+}
+
+/* ---------- 選項 ---------- */
+.life-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 380px;
+}
+
+.life-option {
+    appearance: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    padding: 14px 18px;
+    text-align: left;
+    font-family: inherit;
+    color: #FFF6DA;
+    background: rgba(168, 220, 240, .07);
+    border: 1px solid rgba(168, 220, 240, .26);
+    border-radius: 14px;
+    transition: background-color .25s var(--ease, ease),
+                border-color .25s var(--ease, ease),
+                transform .25s var(--ease, ease);
+}
+
+.life-option strong {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: .04em;
+}
+
+.life-option span {
+    font-size: .8rem;
+    line-height: 1.8;
+    color: rgba(168, 220, 240, .82);
+}
+
+.life-option:hover,
+.life-option:focus-visible {
+    background: rgba(255, 243, 206, .13);
+    border-color: rgba(255, 243, 206, .7);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+/* ---------- 選完之後的「後來發生了什麼」 ---------- */
+.life-choice {
+    margin: 0;
+    font-family: 'Noto Serif TC', serif;
+    font-size: .85rem;
+    letter-spacing: .12em;
+    color: rgba(255, 243, 206, .85);
+}
+
+.life-choice::before,
+.life-choice::after {
+    content: '　—';
+    opacity: .45;
+}
+
+.life-choice::before { content: '—　'; }
+
+/* 後續的文字左右各留一點，讀起來像一小段故事 */
+.life-outcome {
+    text-align: left;
+    padding: 16px 18px;
+    border-left: 2px solid rgba(255, 243, 206, .45);
+    background: rgba(168, 220, 240, .06);
+    border-radius: 0 12px 12px 0;
+}
+
+/* ---------- 結局 ---------- */
+.life-icon {
+    width: 74px;
+    height: 74px;
+    animation: life-pop .5s var(--ease, ease) both;
+}
+
+.life-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter: drop-shadow(0 0 12px currentColor);
+}
+
+@keyframes life-pop {
+    from { opacity: 0; transform: scale(.6); }
+    to   { opacity: 1; transform: none; }
+}
+
+.life-title {
+    margin: 0;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: .06em;
+    color: #FFF6DA;
+}
+
+/* ---------- 結局裡的「你走過的路」 ---------- */
+.life-recap {
+    width: 100%;
+    max-width: 380px;
+    padding: 14px 16px;
+    border: 1px solid rgba(168, 220, 240, .2);
+    border-radius: 14px;
+    background: rgba(168, 220, 240, .05);
+}
+
+.life-recap-title {
+    margin: 0 0 10px;
+    font-size: .74rem;
+    letter-spacing: .16em;
+    color: rgba(255, 243, 206, .7);
+}
+
+.life-recap-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 5px 0;
+    border-top: 1px solid rgba(168, 220, 240, .12);
+    text-align: left;
+}
+
+.life-recap-row:first-of-type { border-top: none; }
+
+.life-recap-ch {
+    flex: 0 0 auto;
+    font-size: .72rem;
+    letter-spacing: .04em;
+    color: rgba(168, 220, 240, .6);
+    white-space: nowrap;
+}
+
+.life-recap-pick {
+    flex: 1 1 auto;
+    text-align: right;
+    font-size: .8rem;
+    color: rgba(255, 246, 218, .92);
+}
+
+.life-score {
+    margin: 0;
+    font-size: .78rem;
+    letter-spacing: .1em;
+    color: rgba(168, 220, 240, .8);
+    font-variant-numeric: tabular-nums;
+}
+
+.life-hint {
+    margin: 0;
+    font-size: .72rem;
+    letter-spacing: .04em;
+    color: rgba(168, 220, 240, .55);
+}
+
+/* ---------- 觸控裝置防呆（同 game.css 的作法） ---------- */
+.life-stage,
+.life-option,
+.life-recap,
+.life-dots {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .life-stage,
+    .life-icon { animation: none; }
+    .life-option:hover { transform: none; }
+    .life-icon svg { filter: none; }
+}
+
+@media (max-width: 480px) {
+    .life-stage { padding: 22px 18px 26px; gap: 15px; }
+    .life-text  { font-size: .88rem; }
+    .life-title { font-size: 1.2rem; }
+    .life-outcome { padding: 13px 14px; }
+    /* 手機上章節名和選項擠在同一行會太窄，改成上下兩行 */
+    .life-recap-row  { flex-direction: column; gap: 2px; }
+    .life-recap-pick { text-align: left; }
+}

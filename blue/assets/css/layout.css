@@ -1,0 +1,501 @@
+/* =========================================================
+   layout.css — 版面：導覽列 / Hero / 區塊 / CTA / 頁尾
+   Catherine 個人網站 — 海洋藍主題套件
+   依賴 tokens.css，請在它之後載入。
+   ========================================================= */
+
+/* ==================================================== */
+/* 導覽列 (Navigation Bar)                               */
+/* ==================================================== */
+.header {
+    background-color: rgba(10,42,61,0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background-color .35s var(--ease), box-shadow .35s var(--ease);
+}
+
+.header.scrolled {
+    background-color: rgba(10,42,61,0.97);
+    box-shadow: 0 4px 24px rgba(11,61,92,0.28);
+}
+
+.navbar {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+}
+
+.site-logo {
+    height: 48px; /* 去背後沒有黑框留白，稍微放大讓字更清楚 */
+    width: auto;
+    display: block;
+    transition: transform .35s var(--ease);
+}
+
+.logo a { padding: 0; display: block; }
+.logo a:hover .site-logo { transform: scale(1.05); }
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-links li { margin-left: 26px; }
+
+.nav-links a {
+    text-decoration: none;
+    color: rgba(255,255,255,0.88);
+    font-weight: 400;
+    font-size: .95rem;
+    transition: color .3s;
+    padding: 5px 0;
+    position: relative;
+}
+
+.nav-links a:hover,
+.nav-links a.active { color: var(--sky); }   /* .active ＝ 標示目前所在頁面 */
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 4px;
+    right: 0;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--sky), var(--sky-soft));
+    transition: width .35s var(--ease);
+    left: unset;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after { width: 100%; left: 0; }
+
+/* ---------- 漢堡按鈕（只在窄螢幕出現） ---------- */
+.nav-toggle {
+    display: none;                 /* 桌機不顯示 */
+    position: relative;
+    width: 44px;                   /* 44px 是手指好按的最小尺寸 */
+    height: 44px;
+    padding: 0;
+    appearance: none;
+    background: none;
+    border: 1px solid rgba(255,255,255,.26);
+    border-radius: 10px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color .25s, background-color .25s;
+}
+
+.nav-toggle:hover { border-color: var(--sky); background: rgba(79,179,217,.14); }
+
+.nav-toggle span {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    height: 2px;
+    border-radius: 2px;
+    background: #fff;
+    transition: transform .32s var(--ease), opacity .2s;
+}
+
+.nav-toggle span:nth-child(1) { top: 14px; }
+.nav-toggle span:nth-child(2) { top: 21px; }
+.nav-toggle span:nth-child(3) { top: 28px; }
+
+/* 展開時三條線變成叉叉 */
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ==================================================== */
+/* Hero 區塊：深海 → 天空                                 */
+/* ==================================================== */
+.hero {
+    position: relative;
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 90px 24px 150px;
+    color: var(--white);
+    background: linear-gradient(168deg,
+                #061E2C 0%,
+                var(--black) 22%,
+                var(--secondary-color) 48%,
+                var(--primary-color) 78%,
+                var(--sky) 100%);
+    overflow: hidden;
+}
+
+/* 海面光暈 */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 40% at 78% 88%, rgba(168,220,240,0.34), transparent 62%),
+        radial-gradient(ellipse 44% 34% at 18% 14%, rgba(79,179,217,0.20), transparent 65%);
+    pointer-events: none;
+}
+
+.hero-inner { position: relative; z-index: 2; max-width: 860px; }
+
+.hero .eyebrow { color: var(--sky-soft); }
+
+.hero h1 {
+    font-size: clamp(2.2rem, 5.6vw, 4rem);
+    margin: 0 0 18px;
+    font-weight: 700;
+    text-shadow: 0 6px 34px rgba(6,30,44,0.42);
+}
+
+.hero p.lead {
+    font-size: clamp(1rem, 1.9vw, 1.28rem);
+    margin: 0 auto 42px;
+    font-weight: 300;
+    max-width: 760px;
+    color: rgba(255,255,255,0.92);
+}
+
+.cta-buttons a {
+    position: relative;
+    display: inline-block;
+    padding: 14px 34px;
+    margin: 8px 8px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: .04em;
+    transition: transform .3s var(--ease), box-shadow .3s var(--ease),
+                background-color .3s, color .3s;
+}
+
+.cta-primary {
+    background-color: var(--white);
+    color: var(--secondary-color);
+    box-shadow: 0 10px 30px rgba(6,30,44,0.30);
+}
+
+.cta-secondary {
+    background-color: transparent;
+    color: var(--white);
+    border: 1.5px solid rgba(255,255,255,0.62);
+}
+
+.cta-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(6,30,44,0.40);
+}
+
+.cta-secondary:hover {
+    transform: translateY(-3px);
+    background-color: rgba(255,255,255,0.14);
+    border-color: var(--white);
+}
+
+/* 向下捲動提示 */
+.scroll-cue {
+    position: absolute;
+    bottom: 104px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    color: rgba(255,255,255,0.72);
+    text-decoration: none;
+    font-size: .72rem;
+    letter-spacing: .28em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.scroll-cue::after {
+    content: '';
+    width: 1px;
+    height: 34px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.7), transparent);
+    animation: cue 2s var(--ease) infinite;
+}
+
+@keyframes cue {
+    0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+    40%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+    60%  { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+    100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+}
+
+/* 海浪分隔 */
+.wave-divider {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    line-height: 0;
+    z-index: 2;
+}
+
+.wave-divider svg { display: block; width: 100%; height: 110px; }
+
+/* ==================================================== */
+/* 內容區塊                                              */
+/* ==================================================== */
+.section {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 84px 24px;
+}
+
+.section-head { text-align: center; margin-bottom: 52px; }
+
+.section-head h2 {
+    color: var(--secondary-color);
+    font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+    margin: 0 0 16px;
+    font-weight: 700;
+}
+
+/* 標題底下的裝飾線 */
+.rule {
+    width: 74px;
+    height: 3px;
+    margin: 0 auto;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--primary-color), var(--sky));
+}
+
+/* --- 我的理念 --- */
+.intro-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 56px 48px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+/* 卡片左側的漸層飾條 */
+.intro-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+    background: linear-gradient(180deg, var(--secondary-color), var(--primary-color), var(--sky));
+}
+
+/* 淡淡的引號 */
+.intro-card::after {
+    content: '“';
+    position: absolute;
+    top: -34px;
+    right: 26px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 11rem;
+    color: rgba(28,124,184,0.07);
+    line-height: 1;
+    pointer-events: none;
+}
+
+.intro-card p {
+    position: relative;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.06rem;
+    color: var(--text-color);
+}
+
+/* ==================================================== */
+/* 結尾行動呼籲 (CTA Band)                                */
+/* ==================================================== */
+.cta-band {
+    position: relative;
+    background: linear-gradient(120deg, var(--secondary-color), var(--primary-color) 72%, #2790C9 100%);
+    color: var(--white);
+    text-align: center;
+    padding: 92px 24px 128px; /* 底部留白加大，讓出海床的空間 */
+    overflow: hidden;
+    margin-top: 30px;
+}
+
+.cta-band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 52% 60% at 82% 20%, rgba(168,220,240,0.24), transparent 66%);
+}
+
+.cta-band .wave-top {
+    position: absolute;
+    top: -1px; left: 0;
+    width: 100%;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.cta-band .wave-top svg { display: block; width: 100%; height: 76px; }
+
+.cta-band-inner { position: relative; z-index: 2; }
+
+.cta-band h2 {
+    margin: 0 0 14px;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+}
+
+.cta-band p {
+    margin: 0 auto 34px;
+    max-width: 560px;
+    color: rgba(255,255,255,0.9);
+    font-weight: 300;
+}
+
+.btn-light {
+    display: inline-block;
+    padding: 14px 40px;
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: .04em;
+    box-shadow: 0 10px 28px rgba(6,30,44,0.26);
+    transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+
+.btn-light:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 38px rgba(6,30,44,0.34);
+}
+
+/* ==================================================== */
+/* 頁尾                                                  */
+/* ==================================================== */
+.site-footer {
+    background-color: var(--black);
+    color: rgba(255,255,255,0.72);
+    text-align: center;
+    padding: 44px 24px 36px;
+    font-size: .9rem;
+}
+
+.social-links {
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.social-links a {
+    color: rgba(255,255,255,0.86);
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 999px;
+    padding: 7px 22px;
+    font-size: .85rem;
+    letter-spacing: .06em;
+    transition: background-color .3s, border-color .3s, transform .3s var(--ease);
+}
+
+.social-links a:hover {
+    background-color: rgba(79,179,217,0.20);
+    border-color: var(--sky);
+    transform: translateY(-2px);
+}
+
+.site-footer .copyright { margin: 0; font-size: .82rem; color: rgba(255,255,255,0.5); }
+
+/* ==================================================== */
+/* 捲動進場動畫                                          */
+/* ==================================================== */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .8s var(--ease), transform .8s var(--ease);
+}
+
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ==================================================== */
+/* 響應式                                                */
+/* ==================================================== */
+@media (max-width: 900px) {
+    .intro-card { padding: 44px 28px; }
+    .intro-card::after { font-size: 8rem; right: 10px; }
+}
+
+/* ---------- 平板與手機：選單收進漢堡 ----------
+   判斷條件有三個，符合任一個就變漢堡：
+     max-width: 900px  → 窄螢幕
+     hover: none       → 沒有滑鼠可以懸停
+     pointer: coarse   → 用手指操作
+   只看寬度的話，iPad 橫向有 1024px 卻沒有鍵盤滑鼠，會拿到桌機版選單。 */
+@media (max-width: 900px), (hover: none), (pointer: coarse) {
+    .navbar { flex-direction: row; padding: 10px 18px; }
+    .nav-toggle { display: block; }
+
+    /* 選單變成從導覽列底下滑出的整片面板 */
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        margin: 0;
+        padding: 4px 0 12px;
+        background: rgba(10,42,61,.98);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-top: 1px solid rgba(255,255,255,.08);
+        box-shadow: 0 18px 40px rgba(11,61,92,.32);
+        /* 收合時要同時關掉 visibility，否則會蓋住底下的內容擋住點擊 */
+        max-height: 0;
+        opacity: 0;
+        visibility: hidden;
+        overflow: hidden;
+        transition: max-height .34s var(--ease), opacity .24s, visibility 0s linear .34s;
+    }
+
+    .header.nav-open .nav-links {
+        max-height: 72vh;
+        opacity: 1;
+        visibility: visible;
+        overflow-y: auto;
+        transition: max-height .34s var(--ease), opacity .24s, visibility 0s;
+    }
+
+    .nav-links li { margin: 0; }
+
+    .nav-links a {
+        display: block;
+        padding: 14px 24px;
+        font-size: 1rem;
+    }
+
+    /* 直式選單用底線動畫不好看，改成整條反白 */
+    .nav-links a::after { display: none; }
+    .nav-links a.active { background: rgba(79,179,217,.16); color: var(--sky); }
+}
+
+@media (max-width: 768px) {
+    .site-logo { height: 30px; }
+    .hero { min-height: 78vh; padding: 70px 20px 130px; }
+    .scroll-cue { display: none; }
+    .section { padding: 62px 20px; }
+    .wave-divider svg { height: 70px; }
+}

@@ -1,0 +1,101 @@
+/* =========================================================
+   cards.css — 作品卡片
+   Catherine 個人網站 — 海洋藍主題套件
+   依賴 tokens.css。
+   ========================================================= */
+
+/* --- 精選作品卡片 --- */
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: visible; /* 讓珍珠串可以長到卡片外面 */
+    text-decoration: none;
+    color: var(--text-color);
+    box-shadow: var(--shadow-sm);
+    transition: transform .4s var(--ease), box-shadow .4s var(--ease),
+                border-color .4s var(--ease);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(28,124,184,0.32);
+}
+
+.card-img {
+    height: 210px;
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--radius) var(--radius) 0 0; /* 卡片改成 overflow:visible 後要自己切圓角 */
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+}
+
+/* 圖片上的藍色薄膜，讓不同色調的照片看起來像同一組 */
+.card-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(11,61,92,0.00) 45%, rgba(11,61,92,0.42) 100%);
+    transition: opacity .4s var(--ease);
+}
+
+.card:hover .card-img::after { opacity: .55; }
+
+.preview-img-style {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .6s var(--ease);
+}
+
+.card:hover .preview-img-style { transform: scale(1.07); }
+
+.card-body {
+    padding: 26px 26px 30px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.card-body .eyebrow { margin-bottom: 8px; color: var(--primary-color); font-size: .7rem; }
+
+.card-body h3 {
+    margin: 0 0 10px;
+    font-size: 1.24rem;
+    color: var(--secondary-color);
+}
+
+.card-body p {
+    margin: 0 0 20px;
+    color: var(--muted);
+    font-size: .95rem;
+    flex-grow: 1;
+}
+
+.card-more {
+    font-size: .9rem;
+    font-weight: 500;
+    color: var(--primary-color);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-more span {
+    transition: transform .35s var(--ease);
+    display: inline-block;
+}
+
+.card:hover .card-more span { transform: translateX(6px); }

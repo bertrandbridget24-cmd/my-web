@@ -1,0 +1,218 @@
+/* =========================================================
+   game.css — 飛船射擊小遊戲的外觀
+   Catherine 個人網站 — 海洋藍主題套件
+
+   搭配 assets/js/starship.js 使用。
+   在任何元素加上 data-game="starship"，點擊就會開啟遊戲。
+   ========================================================= */
+
+/* ---------- 可以點的星星：加一圈會脈動的光暈提示 ---------- */
+.sky-obj.has-game { cursor: pointer; }
+
+.sky-obj.has-game::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 300%;
+    height: 300%;
+    margin: -150% 0 0 -150%;
+    border-radius: 50%;
+    border: 1px solid rgba(255,246,218,.55);
+    animation: game-ping 2.6s ease-out infinite;
+    pointer-events: none;
+}
+
+@keyframes game-ping {
+    0%   { transform: scale(.35); opacity: 0; }
+    22%  { opacity: .85; }
+    100% { transform: scale(1);   opacity: 0; }
+}
+
+/* ---------- 遊戲視窗 ---------- */
+.game-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(2,9,15,.86);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    /* 關閉時一定要同時關掉 visibility 和 pointer-events。
+       只設 opacity:0 的話元素還在，會蓋住整個畫面攔截所有點擊，
+       導致遊戲關掉之後整頁的連結和按鈕都按不動。
+       visibility 的 transition 延遲 .3s，等淡出動畫播完才真正隱藏。 */
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .3s var(--ease, ease), visibility 0s linear .3s;
+}
+
+.game-overlay.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity .3s var(--ease, ease), visibility 0s;
+}
+
+.game-panel {
+    position: relative;
+    width: min(94vw, 460px);
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #02090F, #061626 60%, #0A2A3D);
+    border: 1px solid rgba(168,220,240,.28);
+    box-shadow: 0 30px 80px rgba(0,0,0,.6);
+    transform: translateY(14px) scale(.98);
+    transition: transform .32s var(--ease, ease);
+}
+
+.game-overlay.open .game-panel { transform: none; }
+
+/* ---------- 標題列 ---------- */
+.game-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px 12px 18px;
+    border-bottom: 1px solid rgba(168,220,240,.16);
+    color: #FFF6DA;
+    font-size: .86rem;
+    letter-spacing: .06em;
+}
+
+.game-bar strong {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 500;
+    font-size: .95rem;
+}
+
+.game-stats { display: flex; gap: 14px; color: #A8DCF0; font-variant-numeric: tabular-nums; }
+
+.game-close {
+    appearance: none;
+    border: 1px solid rgba(255,246,218,.32);
+    background: transparent;
+    color: #FFF6DA;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color .25s, border-color .25s;
+}
+
+.game-close:hover { background: rgba(255,246,218,.16); border-color: #FFF6DA; }
+
+/* ---------- 畫布 ---------- */
+.game-stage { position: relative; line-height: 0; }
+
+.game-canvas { display: block; width: 100%; height: auto; touch-action: none; }
+
+/* ---------- 蓋在畫布上的提示畫面 ---------- */
+.game-screen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 24px;
+    text-align: center;
+    color: #FFF6DA;
+    background: rgba(2,9,15,.72);
+    line-height: 1.9;
+}
+
+.game-screen[hidden] { display: none; }
+
+.game-screen h3 {
+    margin: 0;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.4rem;
+    color: #FFF6DA;
+}
+
+.game-screen p { margin: 0; font-size: .88rem; color: #A8DCF0; }
+
+.game-screen .game-score-big {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #FFF6DA;
+    font-variant-numeric: tabular-nums;
+}
+
+.game-btn {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    padding: 11px 30px;
+    border-radius: 999px;
+    background: #FFF3CE;
+    color: #0B3D5C;
+    font-family: inherit;
+    font-size: .95rem;
+    font-weight: 500;
+    letter-spacing: .06em;
+    box-shadow: 0 8px 22px rgba(0,0,0,.4);
+    transition: transform .25s var(--ease, ease), box-shadow .25s var(--ease, ease);
+}
+
+.game-btn:hover { transform: translateY(-2px); box-shadow: 0 13px 30px rgba(0,0,0,.5); }
+
+/* ---------- 手機上的操作提示 ---------- */
+.game-hint {
+    padding: 10px 18px 14px;
+    text-align: center;
+    font-size: .76rem;
+    letter-spacing: .04em;
+    color: rgba(168,220,240,.72);
+    border-top: 1px solid rgba(168,220,240,.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sky-obj.has-game::before { animation: none; opacity: .5; transform: scale(.8); }
+}
+
+
+/* ==================================================== */
+/* 觸控裝置防呆                                          */
+/* ==================================================== */
+/*
+   iOS 上快速點兩下會被當成「選字」或「放大」，遊戲就會卡住。
+   關掉遊戲介面的文字選取、長按選單與雙擊縮放。
+*/
+.game-overlay,
+.game-panel,
+.game-bar,
+.game-stage,
+.game-screen,
+.game-btn,
+.game-close,
+.game-hint,
+.maze-controls,
+.d-pad,
+.sky-obj {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;      /* 長按不跳出「拷貝／查詢」選單 */
+    touch-action: manipulation;       /* 關掉雙擊放大，點擊不再延遲 300ms */
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* 畫布要完全接管手勢，不然拖曳會變成捲動頁面 */
+.game-canvas {
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* 遊戲開著的時候鎖住背景捲動（starship.js 也會設 body overflow） */
+.game-overlay.open { overscroll-behavior: contain; }

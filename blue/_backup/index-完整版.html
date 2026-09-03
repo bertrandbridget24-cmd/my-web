@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【Catherine】 | 跨界生活藝術家</title>
+
+    <!-- Google Fonts：Noto Serif TC（標題）＋ Noto Sans TC（內文） -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==================================================== */
+        /* 色彩系統 (Color System) — 統一海洋藍色調                */
+        /* ==================================================== */
+        :root {
+            --primary-color: #1C7CB8;   /* 主色：海洋藍 */
+            --primary-dark:  #145A85;   /* 深潛藍：hover / 加深 */
+            --secondary-color: #0B3D5C; /* 次色：深海藍 */
+            --black:  #0A2A3D;          /* 深海墨藍：導覽列與頁尾 */
+            --sky:    #4FB3D9;          /* 天空藍：點綴 */
+            --sky-soft: #A8DCF0;        /* 淺天藍：光暈、細節 */
+
+            --text-color: #1F2D3A;      /* 內文 */
+            --muted:      #5A7183;      /* 輔助文字 */
+            --bg-color:   #EEF4F8;      /* 頁面底色：淺水藍 */
+            --white:      #fff;
+            --border:     #DDE8F0;
+
+            --shadow-sm: 0 2px 8px rgba(11,61,92,0.06);
+            --shadow-md: 0 8px 24px rgba(11,61,92,0.10);
+            --shadow-lg: 0 18px 44px rgba(11,61,92,0.16);
+
+            --crab:      #E8909C;       /* 螃蟹：呼應 logo 的粉色 */
+            --crab-dark: #CE6C7B;       /* 螃蟹的腳 */
+
+            --radius: 14px;
+            --ease: cubic-bezier(.22,.61,.36,1);
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Noto Sans TC', 'Helvetica Neue', 'Microsoft JhengHei', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.85;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Noto Serif TC', 'Noto Sans TC', serif;
+            letter-spacing: .02em;
+            line-height: 1.35;
+        }
+
+        /* 區塊小標籤（eyebrow） */
+        .eyebrow {
+            font-size: .78rem;
+            letter-spacing: .34em;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: var(--sky);
+            margin: 0 0 12px;
+        }
+
+        /* ==================================================== */
+        /* 導覽列 (Navigation Bar)                               */
+        /* ==================================================== */
+        .header {
+            background-color: rgba(10,42,61,0.82);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color .35s var(--ease), box-shadow .35s var(--ease);
+        }
+
+        .header.scrolled {
+            background-color: rgba(10,42,61,0.97);
+            box-shadow: 0 4px 24px rgba(11,61,92,0.28);
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+        }
+
+        .site-logo {
+            height: 48px; /* 去背後沒有黑框留白，稍微放大讓字更清楚 */
+            width: auto;
+            display: block;
+            transition: transform .35s var(--ease);
+        }
+
+        .logo a { padding: 0; display: block; }
+        .logo a:hover .site-logo { transform: scale(1.05); }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li { margin-left: 26px; }
+
+        .nav-links a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.88);
+            font-weight: 400;
+            font-size: .95rem;
+            transition: color .3s;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .nav-links a:hover { color: var(--sky); }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 4px;
+            right: 0;
+            border-radius: 2px;
+            background: linear-gradient(90deg, var(--sky), var(--sky-soft));
+            transition: width .35s var(--ease);
+            left: unset;
+        }
+
+        .nav-links a:hover::after { width: 100%; left: 0; }
+
+        /* ==================================================== */
+        /* Hero 區塊：深海 → 天空                                 */
+        /* ==================================================== */
+        .hero {
+            position: relative;
+            min-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 90px 24px 150px;
+            color: var(--white);
+            background: linear-gradient(168deg,
+                        #061E2C 0%,
+                        var(--black) 22%,
+                        var(--secondary-color) 48%,
+                        var(--primary-color) 78%,
+                        var(--sky) 100%);
+            overflow: hidden;
+        }
+
+        /* 海面光暈 */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 40% at 78% 88%, rgba(168,220,240,0.34), transparent 62%),
+                radial-gradient(ellipse 44% 34% at 18% 14%, rgba(79,179,217,0.20), transparent 65%);
+            pointer-events: none;
+        }
+
+        /* 上升的氣泡 */
+        .bubbles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bubbles span {
+            position: absolute;
+            bottom: -140px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 32% 30%, rgba(255,255,255,0.75), rgba(168,220,240,0.16) 60%, transparent 72%);
+            border: 1px solid rgba(255,255,255,0.28);
+            animation: rise linear infinite;
+        }
+
+        @keyframes rise {
+            0%   { transform: translateY(0) translateX(0) scale(.6); opacity: 0; }
+            12%  { opacity: .75; }
+            80%  { opacity: .45; }
+            100% { transform: translateY(-118vh) translateX(28px) scale(1.15); opacity: 0; }
+        }
+
+        /* ---------- 悠游的小魚 ---------- */
+        /* 結構：.fish（左右游動）> .flip（面向）> .bob（上下浮沉）> svg（尾巴擺動） */
+        .school {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .fish {
+            position: absolute;
+            left: 0;
+            width: var(--size, 54px);
+            animation: swim-right var(--dur, 28s) linear infinite;
+            animation-delay: var(--delay, 0s);
+            will-change: transform;
+        }
+
+        .fish.to-left { animation-name: swim-left; }
+
+        .fish .flip { transform-origin: center; }
+        .fish.to-right .flip { transform: scaleX(-1); } /* 魚頭原本朝左，往右游時翻面 */
+
+        .fish .bob {
+            animation: bob var(--bob, 3.4s) ease-in-out infinite;
+            animation-delay: var(--delay, 0s);
+        }
+
+        .fish svg { width: 100%; height: auto; display: block; }
+
+        .fish .tail {
+            transform-box: view-box;
+            transform-origin: 44px 18px;
+            animation: waggle .6s ease-in-out infinite alternate;
+        }
+
+        @keyframes swim-right {
+            from { transform: translateX(-16vw); }
+            to   { transform: translateX(116vw); }
+        }
+
+        @keyframes swim-left {
+            from { transform: translateX(116vw); }
+            to   { transform: translateX(-16vw); }
+        }
+
+        @keyframes bob {
+            0%, 100% { transform: translateY(0)    rotate(0deg); }
+            50%      { transform: translateY(-14px) rotate(-3deg); }
+        }
+
+        @keyframes waggle {
+            from { transform: rotate(-11deg); }
+            to   { transform: rotate(11deg); }
+        }
+
+        .hero-inner { position: relative; z-index: 2; max-width: 860px; }
+
+        .hero .eyebrow { color: var(--sky-soft); }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5.6vw, 4rem);
+            margin: 0 0 18px;
+            font-weight: 700;
+            text-shadow: 0 6px 34px rgba(6,30,44,0.42);
+        }
+
+        .hero p.lead {
+            font-size: clamp(1rem, 1.9vw, 1.28rem);
+            margin: 0 auto 42px;
+            font-weight: 300;
+            max-width: 760px;
+            color: rgba(255,255,255,0.92);
+        }
+
+        .cta-buttons a {
+            position: relative;
+            display: inline-block;
+            padding: 14px 34px;
+            margin: 8px 8px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            letter-spacing: .04em;
+            transition: transform .3s var(--ease), box-shadow .3s var(--ease),
+                        background-color .3s, color .3s;
+        }
+
+        .cta-primary {
+            background-color: var(--white);
+            color: var(--secondary-color);
+            box-shadow: 0 10px 30px rgba(6,30,44,0.30);
+        }
+
+        .cta-secondary {
+            background-color: transparent;
+            color: var(--white);
+            border: 1.5px solid rgba(255,255,255,0.62);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 40px rgba(6,30,44,0.40);
+        }
+
+        .cta-secondary:hover {
+            transform: translateY(-3px);
+            background-color: rgba(255,255,255,0.14);
+            border-color: var(--white);
+        }
+
+        /* ---------- Hero 按鈕 hover：從上緣冒泡泡 ---------- */
+        .btn-bubbles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            /* 不裁切，讓泡泡可以飄到按鈕外面的深色背景上 */
+        }
+
+        .btn-bubbles i {
+            position: absolute;
+            top: 4px;
+            border-radius: 50%;
+            opacity: 0;
+            background: radial-gradient(circle at 32% 30%,
+                        rgba(255,255,255,.98),
+                        rgba(168,220,240,.55) 56%,
+                        rgba(168,220,240,0) 74%);
+            border: 1.5px solid rgba(255,255,255,.9);
+            box-shadow: 0 0 10px rgba(255,255,255,.35);
+        }
+
+        .cta-buttons a:hover .btn-bubbles i {
+            animation: btn-bubble var(--bd, 1.9s) ease-in infinite;
+            animation-delay: var(--bdl, 0s);
+        }
+
+        @keyframes btn-bubble {
+            0%   { transform: translateY(0) translateX(0) scale(.35); opacity: 0; }
+            18%  { opacity: .95; }
+            75%  { opacity: .75; }
+            100% { transform: translateY(-82px) translateX(var(--bx, 8px)) scale(1.05); opacity: 0; }
+        }
+
+        /* 向下捲動提示 */
+        .scroll-cue {
+            position: absolute;
+            bottom: 104px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            color: rgba(255,255,255,0.72);
+            text-decoration: none;
+            font-size: .72rem;
+            letter-spacing: .28em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .scroll-cue::after {
+            content: '';
+            width: 1px;
+            height: 34px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.7), transparent);
+            animation: cue 2s var(--ease) infinite;
+        }
+
+        @keyframes cue {
+            0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+            40%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+            60%  { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+            100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+        }
+
+        /* 海浪分隔 */
+        .wave-divider {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            line-height: 0;
+            z-index: 2;
+        }
+
+        .wave-divider svg { display: block; width: 100%; height: 110px; }
+
+        /* ==================================================== */
+        /* 內容區塊                                              */
+        /* ==================================================== */
+        .section {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 84px 24px;
+        }
+
+        .section-head { text-align: center; margin-bottom: 52px; }
+
+        .section-head h2 {
+            color: var(--secondary-color);
+            font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+            margin: 0 0 16px;
+            font-weight: 700;
+        }
+
+        /* 標題底下的裝飾線 */
+        .rule {
+            width: 74px;
+            height: 3px;
+            margin: 0 auto;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--sky));
+        }
+
+        /* --- 我的理念 --- */
+        .intro-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            padding: 56px 48px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        /* 卡片左側的漸層飾條 */
+        .intro-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 5px;
+            background: linear-gradient(180deg, var(--secondary-color), var(--primary-color), var(--sky));
+        }
+
+        /* 淡淡的引號 */
+        .intro-card::after {
+            content: '“';
+            position: absolute;
+            top: -34px;
+            right: 26px;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 11rem;
+            color: rgba(28,124,184,0.07);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .intro-card p {
+            position: relative;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.06rem;
+            color: var(--text-color);
+        }
+
+        /* --- 精選作品卡片 --- */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: visible; /* 讓珍珠串可以長到卡片外面 */
+            text-decoration: none;
+            color: var(--text-color);
+            box-shadow: var(--shadow-sm);
+            transition: transform .4s var(--ease), box-shadow .4s var(--ease),
+                        border-color .4s var(--ease);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(28,124,184,0.32);
+        }
+
+        .card-img {
+            height: 210px;
+            overflow: hidden;
+            position: relative;
+            border-radius: var(--radius) var(--radius) 0 0; /* 卡片改成 overflow:visible 後要自己切圓角 */
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+
+        /* 圖片上的藍色薄膜，讓不同色調的照片看起來像同一組 */
+        .card-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(11,61,92,0.00) 45%, rgba(11,61,92,0.42) 100%);
+            transition: opacity .4s var(--ease);
+        }
+
+        .card:hover .card-img::after { opacity: .55; }
+
+        .preview-img-style {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .6s var(--ease);
+        }
+
+        .card:hover .preview-img-style { transform: scale(1.07); }
+
+        .card-body {
+            padding: 26px 26px 30px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .card-body .eyebrow { margin-bottom: 8px; color: var(--primary-color); font-size: .7rem; }
+
+        .card-body h3 {
+            margin: 0 0 10px;
+            font-size: 1.24rem;
+            color: var(--secondary-color);
+        }
+
+        .card-body p {
+            margin: 0 0 20px;
+            color: var(--muted);
+            font-size: .95rem;
+            flex-grow: 1;
+        }
+
+        .card-more {
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-more span {
+            transition: transform .35s var(--ease);
+            display: inline-block;
+        }
+
+        .card:hover .card-more span { transform: translateX(6px); }
+
+        /* ---------- 卡片 hover：從底部冒泡泡 ---------- */
+        .hover-bubbles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;              /* 泡泡不會飄出卡片 */
+            border-radius: var(--radius);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .hover-bubbles i {
+            position: absolute;
+            bottom: -20px;
+            border-radius: 50%;
+            opacity: 0;
+            background: radial-gradient(circle at 32% 30%,
+                        rgba(255,255,255,.95),
+                        rgba(79,179,217,.55) 56%,
+                        rgba(79,179,217,.10) 74%);
+            border: 1.5px solid rgba(28,124,184,.62);
+            box-shadow: 0 1px 4px rgba(11,61,92,.14);
+        }
+
+        .card:hover .hover-bubbles i {
+            animation: card-bubble var(--bd, 2.6s) ease-in infinite;
+            animation-delay: var(--bdl, 0s);
+        }
+
+        @keyframes card-bubble {
+            0%   { transform: translateY(0) translateX(0) scale(.45); opacity: 0; }
+            14%  { opacity: .95; }
+            78%  { opacity: .7; }
+            100% { transform: translateY(-330px) translateX(var(--bx, 12px)) scale(1.15); opacity: 0; }
+        }
+
+        /* ---------- 卡片 hover：上緣長出珍珠串 ---------- */
+        .pearls {
+            position: absolute;
+            top: -8px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .pearls i {
+            display: block;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 34% 28%,
+                        #ffffff 0%,
+                        var(--sky) 46%,
+                        var(--primary-color) 100%);
+            box-shadow: 0 3px 8px rgba(11,61,92,.30);
+            opacity: 0;
+            transform: scale(0) translateY(8px);
+            /* 回彈曲線，長出來的時候會有一點 Q 彈感 */
+            transition: transform .5s cubic-bezier(.34,1.56,.64,1), opacity .28s ease;
+        }
+
+        .card:hover .pearls i { opacity: 1; transform: scale(1) translateY(0); }
+
+        /* 大小交錯 + 高低錯落，看起來像一串真的果實而不是一排點點 */
+        .pearls i:nth-child(even) { width: 10px; height: 10px; }
+        .pearls i:nth-child(3n)   { margin-top: 6px; }
+        .pearls i:nth-child(4n)   { margin-top: 3px; }
+
+        /* 由左而右依序長出 */
+        .pearls i:nth-child(1) { transition-delay: .00s, .00s; }
+        .pearls i:nth-child(2) { transition-delay: .04s, .04s; }
+        .pearls i:nth-child(3) { transition-delay: .08s, .08s; }
+        .pearls i:nth-child(4) { transition-delay: .12s, .12s; }
+        .pearls i:nth-child(5) { transition-delay: .16s, .16s; }
+        .pearls i:nth-child(6) { transition-delay: .20s, .20s; }
+        .pearls i:nth-child(7) { transition-delay: .24s, .24s; }
+        .pearls i:nth-child(8) { transition-delay: .28s, .28s; }
+        .pearls i:nth-child(9) { transition-delay: .32s, .32s; }
+
+        /* ==================================================== */
+        /* 結尾行動呼籲 (CTA Band)                                */
+        /* ==================================================== */
+        .cta-band {
+            position: relative;
+            background: linear-gradient(120deg, var(--secondary-color), var(--primary-color) 72%, #2790C9 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 92px 24px 128px; /* 底部留白加大，讓出海床的空間 */
+            overflow: hidden;
+            margin-top: 30px;
+        }
+
+        .cta-band::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 52% 60% at 82% 20%, rgba(168,220,240,0.24), transparent 66%);
+        }
+
+        .cta-band .wave-top {
+            position: absolute;
+            top: -1px; left: 0;
+            width: 100%;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+
+        .cta-band .wave-top svg { display: block; width: 100%; height: 76px; }
+
+        /* ==================================================== */
+        /* 海床：隨波搖曳的海草 + 走來走去的螃蟹                    */
+        /* ==================================================== */
+        .seabed {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 150px;
+            z-index: 1;
+            pointer-events: none;
+            /* 底部壓深，讓海草像長在海床上而不是浮在空中 */
+            background: linear-gradient(180deg, transparent 0%, rgba(6,30,44,.16) 62%, rgba(6,30,44,.34) 100%);
+        }
+
+        /* ---------- 海草 ---------- */
+        .weed {
+            position: absolute;
+            bottom: -4px;
+            transform-origin: 50% 100%;   /* 從根部擺動 */
+            animation: sway var(--sw, 5s) ease-in-out infinite alternate;
+            animation-delay: var(--swd, 0s);
+        }
+
+        .weed svg { display: block; width: 100%; height: 100%; }
+
+        @keyframes sway {
+            from { transform: rotate(-6deg) skewX(3deg); }
+            to   { transform: rotate(7deg)  skewX(-4deg); }
+        }
+
+        /* ---------- 螃蟹 ---------- */
+        .crab {
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 76px;
+            animation: crab-walk 38s linear infinite;
+        }
+
+        .crab-bob { animation: crab-bob .5s ease-in-out infinite alternate; }
+
+        .crab svg { display: block; width: 100%; height: auto; }
+
+        /* 螃蟹橫著走過整片海床 */
+        @keyframes crab-walk {
+            from { transform: translateX(-90px); }
+            to   { transform: translateX(calc(100vw + 40px)); }
+        }
+
+        /* 走路時上下顛一下 */
+        @keyframes crab-bob {
+            from { transform: translateY(0)    rotate(-2deg); }
+            to   { transform: translateY(-4px) rotate(2deg); }
+        }
+
+        /* 揮舞的大螯 */
+        .claw-wave {
+            transform-box: view-box;
+            transform-origin: 26px 38px;
+            animation: claw .9s ease-in-out infinite alternate;
+        }
+
+        @keyframes claw {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(-26deg); }
+        }
+
+        .cta-band-inner { position: relative; z-index: 2; }
+
+        .cta-band h2 {
+            margin: 0 0 14px;
+            font-size: clamp(1.5rem, 3vw, 2.1rem);
+        }
+
+        .cta-band p {
+            margin: 0 auto 34px;
+            max-width: 560px;
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
+        }
+
+        .btn-light {
+            display: inline-block;
+            padding: 14px 40px;
+            border-radius: 999px;
+            background: var(--white);
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: .04em;
+            box-shadow: 0 10px 28px rgba(6,30,44,0.26);
+            transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+        }
+
+        .btn-light:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 38px rgba(6,30,44,0.34);
+        }
+
+        /* ==================================================== */
+        /* 頁尾                                                  */
+        /* ==================================================== */
+        .site-footer {
+            background-color: var(--black);
+            color: rgba(255,255,255,0.72);
+            text-align: center;
+            padding: 44px 24px 36px;
+            font-size: .9rem;
+        }
+
+        .social-links {
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: rgba(255,255,255,0.86);
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 999px;
+            padding: 7px 22px;
+            font-size: .85rem;
+            letter-spacing: .06em;
+            transition: background-color .3s, border-color .3s, transform .3s var(--ease);
+        }
+
+        .social-links a:hover {
+            background-color: rgba(79,179,217,0.20);
+            border-color: var(--sky);
+            transform: translateY(-2px);
+        }
+
+        .site-footer .copyright { margin: 0; font-size: .82rem; color: rgba(255,255,255,0.5); }
+
+        /* ==================================================== */
+        /* 捲動進場動畫                                          */
+        /* ==================================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .8s var(--ease), transform .8s var(--ease);
+        }
+
+        .reveal.visible { opacity: 1; transform: none; }
+
+        /* 尊重使用者的「減少動態」系統設定 */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .001ms !important;
+            }
+            .reveal { opacity: 1; transform: none; }
+            html { scroll-behavior: auto; }
+
+            /* 關閉動畫時，小魚不會停在畫面外，改成靜靜地散佈在畫面上 */
+            .fish:nth-of-type(1) { transform: translateX(14vw); }
+            .fish:nth-of-type(2) { transform: translateX(72vw); }
+            .fish:nth-of-type(3) { transform: translateX(38vw); }
+            .fish:nth-of-type(4) { transform: translateX(84vw); }
+            .fish:nth-of-type(5) { transform: translateX(22vw); }
+            .fish:nth-of-type(6) { transform: translateX(60vw); }
+            .fish:nth-of-type(7) { transform: translateX(30vw); }
+            .fish:nth-of-type(8) { transform: translateX(78vw); }
+
+            /* 螃蟹不會停在畫面外，改成停在海床上 */
+            .crab { transform: translateX(24vw); }
+        }
+
+        /* ==================================================== */
+        /* 響應式                                                */
+        /* ==================================================== */
+        @media (max-width: 900px) {
+            .intro-card { padding: 44px 28px; }
+            .intro-card::after { font-size: 8rem; right: 10px; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; padding: 12px 18px; }
+            .site-logo { height: 30px; }
+            .nav-links { margin-top: 10px; justify-content: center; flex-wrap: wrap; }
+            .nav-links li { margin: 0 10px; }
+            .hero { min-height: 78vh; padding: 70px 20px 130px; }
+            .scroll-cue { display: none; }
+            .section { padding: 62px 20px; }
+            .wave-divider svg { height: 70px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header" id="siteHeader">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="../logo-transparent.png" alt="Catherin 個人網站 Logo" class="site-logo">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">主頁</a></li>
+                <li><a href="about.html">個人介紹</a></li>
+                <li><a href="cooking.html">烹飪作品</a></li>
+                <li><a href="web-design.html">網頁作品</a></li>
+                <li><a href="other-works.html">其他作品</a></li>
+                <li><a href="services.html">其他服務</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="bubbles" aria-hidden="true">
+            <span style="left:8%;  width:14px; height:14px; animation-duration:17s; animation-delay:0s;"></span>
+            <span style="left:18%; width:8px;  height:8px;  animation-duration:13s; animation-delay:3s;"></span>
+            <span style="left:29%; width:20px; height:20px; animation-duration:21s; animation-delay:6s;"></span>
+            <span style="left:41%; width:10px; height:10px; animation-duration:15s; animation-delay:1.5s;"></span>
+            <span style="left:53%; width:16px; height:16px; animation-duration:19s; animation-delay:8s;"></span>
+            <span style="left:64%; width:7px;  height:7px;  animation-duration:12s; animation-delay:4s;"></span>
+            <span style="left:74%; width:22px; height:22px; animation-duration:23s; animation-delay:2s;"></span>
+            <span style="left:86%; width:11px; height:11px; animation-duration:16s; animation-delay:9s;"></span>
+            <span style="left:94%; width:9px;  height:9px;  animation-duration:14s; animation-delay:5.5s;"></span>
+        </div>
+
+        <!-- 悠游的小魚：想增減就整段複製／刪除一個 .fish 區塊即可              -->
+        <!-- top=垂直位置  --size=大小  --dur=游一趟的秒數  --delay=出場延遲     -->
+        <!-- to-right / to-left = 游動方向   color = 魚的顏色                  -->
+        <div class="school" aria-hidden="true">
+
+            <div class="fish to-right" style="top:16%; --size:62px; --dur:30s; --delay:0s;  --bob:3.8s; color:#A8DCF0; opacity:.55;">
+                <div class="flip"><div class="bob"><svg viewBox="0 0 64 36">
+                    <path class="tail" d="M44 18 L63 6 L63 30 Z" fill="currentColor" opacity=".85"/>
+                    <ellipse cx="26" cy="18" rx="21" ry="12.5" fill="currentColor"/>
+                    <path d="M20 6.5 Q27 -1.5 34 7 Z" fill="currentColor" opacity=".75"/>
+                    <path d="M22 27.5 Q28 35.5 34 28 Z" fill="currentColor" opacity=".65"/>
+                    <circle cx="13" cy="15" r="3.4" fill="#fff"/>
+                    <circle cx="11.8" cy="15" r="1.7" fill="#0A2A3D"/>
+                </svg></div></div>
+            </div>
+
+            <div class="fish to-left" style="top:29%; --size:40px; --dur:24s; --delay:6s; --bob:3.1s; color:#CDEBF7; opacity:.48;">
+                <div class="flip"><div class="bob"><svg viewBox="0 0 64 36">
+                    <path class="tail" d="M44 18 L63 6 L63 30 Z" fill="currentColor" opacity=".85"/>
+                    <ellipse cx="26" cy="18" rx="21" ry="12.5" fill="currentColor"/>
+                    <path d="M20 6.5 Q27 -1.5 34 7 Z" fill="currentColor" opacity=".75"/>
+                    <path d="M22 27.5 Q28 35.5 34 28 Z" fill="currentColor" opacity=".65"/>
+                    <circle cx="13" cy="15" r="3.4" fill="#fff"/>
+                    <circle cx="11.8" cy="15" r="1.7" fill="#0A2A3D"/>
+                </svg></div></div>
+            </div>
+
+            <div class="fish to-left" style="top:37%; --size:24px; --dur:17s; --delay:3s; --bob:2.2s; color:#E4F5FC; opacity:.40;">
+                <div class="flip"><div class="bob"><svg viewBox="0 0 64 36">
+                    <path class="tail" d="M44 18 L63 6 L63 30 Z" fill="currentColor" opacity=".85"/>
+                    <ellipse cx="26" cy="18" rx="21" ry="12.5" fill="currentColor"/>
+                    <path d="M20 6.5 Q27 -1.5 34 7 Z" fill="currentColor" opacity=".75"/>
+                    <path d="M22 27.5 Q28 35.5 34 28 Z" fill="currentColor" opacity=".65"/>
+                    <circle cx="13" cy="15" r="3.4" fill="#fff"/>
+                    <circle cx="11.8" cy="15" r="1.7" fill="#0A2A3D"/>
+                </svg></div></div>
+            </div>
+
+            <div class="fish to-right" style="top:47%; --size:74px; --dur:36s; --delay:2s; --bob:4.4s; color:#7FCBE8; opacity:.38;">
+                <div class="flip"><div class="bob"><svg viewBox="0 0 64 36">
+                    <path class="tail" d="M44 18 L63 6 L63 30 Z" fill="currentColor" opacity=".85"/>
+                    <ellipse cx="26" cy="18" rx="21" ry="12.5" fill="currentColor"/>
+                    <path d="M20 6.5 Q27 -1.5 34 7 Z" fill="currentColor" opacity=".75"/>
+                    <path d="M22 27.5 Q28 35.5 34 28 Z" fill="currentColor" opacity=".65"/>
+                    <circle cx="13" cy="15" r="3.4" fill="#fff"/>
+                    <circle cx="11.8" cy="15" r="1.7" fill="#0A2A3D"/>
+                </svg></div></div>
+            </div>
+
+            <div class="fish to-left" style="top:57%; --size:34px; --dur:20s; --delay:9s; --bob:2.8s; color:#E4F5FC; opacity:.55;">
+                <div class="flip"><div class="bob"><svg viewBox="0 0 64 36">
+                    <path class="tail" d="M44 18 L63 6 L63 30 Z" fill="currentColor" opacity=".85"/>
+                    <ellipse cx="26" cy="18" rx="21" ry="12.5" fill="currentColor"/>
+                    <path d="M20 6.5 Q27 -1.5 34 7 Z" fill="currentColor" opacity=".75"/>
+                    <path d="M22 27.5 Q28 35.5 34 28 Z" fill="currentColor" opacity=".65"/>
+                    <circle cx="13" cy="15" r="3.4" fill="#fff"/>
+                    <circle cx="11.8" cy="15" r="1.7" fill="#0A2A3D"/>
+                </svg></div></div>
+            </div>
+
+            <div class="fish to-right" style="top:67%; --size:52px; --dur:27s; --delay:4s; --bob:3.5s; color:#A8DCF0; opacity:.50;">
+                <div class="flip"><div class="bob"><svg viewBox="0 0 64 36">
+                    <path class="tail" d="M44 18 L63 6 L63 30 Z" fill="currentColor" opacity=".85"/>
+                    <ellipse cx="26" cy="18" rx="21" ry="12.5" fill="currentColor"/>
+                    <path d="M20 6.5 Q27 -1.5 34 7 Z" fill="currentColor" opacity=".75"/>
+                    <path d="M22 27.5 Q28 35.5 34 28 Z" fill="currentColor" opacity=".65"/>
+                    <circle cx="13" cy="15" r="3.4" fill="#fff"/>
+                    <circle cx="11.8" cy="15" r="1.7" fill="#0A2A3D"/>
+                </svg></div></div>
+            </div>
+
+            <div class="fish to-right" style="top:75%; --size:30px; --dur:22s; --delay:12s; --bob:2.6s; color:#CDEBF7; opacity:.45;">
+                <div class="flip"><div class="bob"><svg viewBox="0 0 64 36">
+                    <path class="tail" d="M44 18 L63 6 L63 30 Z" fill="currentColor" opacity=".85"/>
+                    <ellipse cx="26" cy="18" rx="21" ry="12.5" fill="currentColor"/>
+                    <path d="M20 6.5 Q27 -1.5 34 7 Z" fill="currentColor" opacity=".75"/>
+                    <path d="M22 27.5 Q28 35.5 34 28 Z" fill="currentColor" opacity=".65"/>
+                    <circle cx="13" cy="15" r="3.4" fill="#fff"/>
+                    <circle cx="11.8" cy="15" r="1.7" fill="#0A2A3D"/>
+                </svg></div></div>
+            </div>
+
+            <div class="fish to-right" style="top:23%; --size:28px; --dur:19s; --delay:14s; --bob:2.4s; color:#E4F5FC; opacity:.38;">
+                <div class="flip"><div class="bob"><svg viewBox="0 0 64 36">
+                    <path class="tail" d="M44 18 L63 6 L63 30 Z" fill="currentColor" opacity=".85"/>
+                    <ellipse cx="26" cy="18" rx="21" ry="12.5" fill="currentColor"/>
+                    <path d="M20 6.5 Q27 -1.5 34 7 Z" fill="currentColor" opacity=".75"/>
+                    <path d="M22 27.5 Q28 35.5 34 28 Z" fill="currentColor" opacity=".65"/>
+                    <circle cx="13" cy="15" r="3.4" fill="#fff"/>
+                    <circle cx="11.8" cy="15" r="1.7" fill="#0A2A3D"/>
+                </svg></div></div>
+            </div>
+
+        </div>
+
+        <div class="hero-inner">
+            <p class="eyebrow">Catherine &nbsp;·&nbsp; Portfolio</p>
+            <h1>一位跨界的生活藝術家。</h1>
+            <p class="lead">程式碼與食材的完美融合：理性邏輯建構數位世界，感性熱情創造美味生活。</p>
+            <div class="cta-buttons">
+                <a href="web-design.html" class="cta-primary">查看我的網頁作品 →<span class="btn-bubbles" aria-hidden="true">
+                    <i style="left:14%; width:14px;  height:14px;  --bd:2.0s; --bdl:0s;   --bx:10px;"></i>
+                    <i style="left:32%; width:9px;  height:9px;  --bd:1.6s; --bdl:.4s;  --bx:-8px;"></i>
+                    <i style="left:52%; width:16px; height:16px; --bd:2.4s; --bdl:.2s;  --bx:7px;"></i>
+                    <i style="left:70%; width:10px;  height:10px;  --bd:1.8s; --bdl:.65s; --bx:-11px;"></i>
+                    <i style="left:86%; width:12px;  height:12px;  --bd:2.2s; --bdl:.9s;  --bx:6px;"></i>
+                </span></a>
+                <a href="cooking.html" class="cta-secondary">探索我的美味食譜 →<span class="btn-bubbles" aria-hidden="true">
+                    <i style="left:12%; width:10px;  height:10px;  --bd:1.7s; --bdl:.3s;  --bx:-9px;"></i>
+                    <i style="left:30%; width:15px; height:15px; --bd:2.3s; --bdl:0s;   --bx:8px;"></i>
+                    <i style="left:50%; width:9px;  height:9px;  --bd:1.5s; --bdl:.75s; --bx:-6px;"></i>
+                    <i style="left:68%; width:16px; height:16px; --bd:2.5s; --bdl:.45s; --bx:11px;"></i>
+                    <i style="left:88%; width:12px;  height:12px;  --bd:1.9s; --bdl:1.0s; --bx:-7px;"></i>
+                </span></a>
+            </div>
+        </div>
+
+        <a href="#intro" class="scroll-cue" aria-label="向下捲動">SCROLL</a>
+
+        <div class="wave-divider" aria-hidden="true">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,64 C180,110 340,10 560,44 C780,78 900,120 1120,88 C1280,64 1360,34 1440,44 L1440,120 L0,120 Z"
+                      fill="#EEF4F8" opacity="0.45"></path>
+                <path d="M0,86 C200,120 360,42 600,66 C820,88 980,124 1200,96 C1320,80 1390,62 1440,70 L1440,120 L0,120 Z"
+                      fill="#EEF4F8"></path>
+            </svg>
+        </div>
+    </section>
+
+    <section class="section reveal" id="intro">
+        <div class="section-head">
+            <p class="eyebrow" style="color:var(--primary-color);">About</p>
+            <h2>我的理念</h2>
+            <div class="rule"></div>
+        </div>
+        <div class="intro-card">
+            <p>
+                嘿！我是Catherine。我擅長前端開發為顧客打造流暢的數位體驗。<br>
+                同時，我對烹飪有著深厚的熱情，特別鍾情於提拉米蘇！<br><br>
+                我相信，不論是設計網站或料理餐點，<br>
+                成功的關鍵都在於對細節的專注與對美感的追求。
+            </p>
+        </div>
+    </section>
+
+    <section class="section reveal" id="works">
+        <div class="section-head">
+            <p class="eyebrow" style="color:var(--primary-color);">Selected Works</p>
+            <h2>精選作品與服務</h2>
+            <div class="rule"></div>
+        </div>
+
+        <div class="preview-grid">
+            <a href="web-design.html" class="card">
+                <div class="card-img">
+                    <img src="../b.png" alt="網頁作品預覽圖" class="preview-img-style">
+                </div>
+                <div class="card-body">
+                    <p class="eyebrow">Web Design</p>
+                    <h3>網頁設計精選</h3>
+                    <p>探索我的響應式設計與最新的前端專案。</p>
+                    <div class="card-more">查看作品 <span>→</span></div>
+                </div>
+
+                <!-- hover：從底部冒出的泡泡（left=水平位置, --bd=飄升秒數, --bdl=延遲, --bx=左右飄移） -->
+                <span class="hover-bubbles" aria-hidden="true">
+                    <i style="left:14%; width:11px; height:11px; --bd:2.7s; --bdl:0s;   --bx:16px;"></i>
+                    <i style="left:31%; width:7px;  height:7px;  --bd:2.1s; --bdl:.35s; --bx:-12px;"></i>
+                    <i style="left:48%; width:14px; height:14px; --bd:3.2s; --bdl:.60s; --bx:10px;"></i>
+                    <i style="left:63%; width:8px;  height:8px;  --bd:2.4s; --bdl:.15s; --bx:-16px;"></i>
+                    <i style="left:78%; width:12px; height:12px; --bd:2.9s; --bdl:.85s; --bx:8px;"></i>
+                    <i style="left:89%; width:6px;  height:6px;  --bd:1.9s; --bdl:.50s; --bx:-9px;"></i>
+                </span>
+
+                <!-- hover：上緣長出的珍珠串（想多幾顆就多加一個 <i>） -->
+                <span class="pearls" aria-hidden="true">
+                    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                </span>
+            </a>
+
+            <a href="cooking.html" class="card">
+                <div class="card-img">
+                    <img src="../g.png" alt="私房食譜" class="preview-img-style">
+                </div>
+                <div class="card-body">
+                    <p class="eyebrow">Cooking</p>
+                    <h3>我的私房食譜</h3>
+                    <p>一窺我對美食的熱情與精緻料理的呈現。</p>
+                    <div class="card-more">查看食譜 <span>→</span></div>
+                </div>
+
+                <span class="hover-bubbles" aria-hidden="true">
+                    <i style="left:11%; width:8px;  height:8px;  --bd:2.3s; --bdl:.2s;  --bx:13px;"></i>
+                    <i style="left:27%; width:13px; height:13px; --bd:3.0s; --bdl:.55s; --bx:-14px;"></i>
+                    <i style="left:44%; width:6px;  height:6px;  --bd:1.8s; --bdl:0s;   --bx:9px;"></i>
+                    <i style="left:59%; width:12px; height:12px; --bd:2.8s; --bdl:.75s; --bx:-11px;"></i>
+                    <i style="left:74%; width:9px;  height:9px;  --bd:2.2s; --bdl:.35s; --bx:15px;"></i>
+                    <i style="left:88%; width:11px; height:11px; --bd:3.1s; --bdl:.95s; --bx:-8px;"></i>
+                </span>
+
+                <span class="pearls" aria-hidden="true">
+                    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                </span>
+            </a>
+
+            <a href="services.html" class="card">
+                <div class="card-img">
+                    <img src="../h.png" alt="客製" class="preview-img-style">
+                </div>
+                <div class="card-body">
+                    <p class="eyebrow">Services</p>
+                    <h3>客製</h3>
+                    <p>提供個人化諮詢服務。</p>
+                    <div class="card-more">了解服務 <span>→</span></div>
+                </div>
+
+                <span class="hover-bubbles" aria-hidden="true">
+                    <i style="left:16%; width:12px; height:12px; --bd:2.9s; --bdl:.45s; --bx:-13px;"></i>
+                    <i style="left:33%; width:6px;  height:6px;  --bd:1.9s; --bdl:.1s;  --bx:11px;"></i>
+                    <i style="left:50%; width:10px; height:10px; --bd:2.5s; --bdl:.7s;  --bx:-9px;"></i>
+                    <i style="left:66%; width:14px; height:14px; --bd:3.3s; --bdl:.25s; --bx:14px;"></i>
+                    <i style="left:81%; width:7px;  height:7px;  --bd:2.0s; --bdl:.9s;  --bx:-15px;"></i>
+                    <i style="left:92%; width:9px;  height:9px;  --bd:2.6s; --bdl:.6s;  --bx:7px;"></i>
+                </span>
+
+                <span class="pearls" aria-hidden="true">
+                    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                </span>
+            </a>
+        </div>
+    </section>
+
+    <section class="cta-band">
+        <div class="wave-top" aria-hidden="true">
+            <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,40 C220,86 420,4 660,32 C880,58 1040,88 1260,58 C1350,46 1400,34 1440,38 L1440,80 L0,80 Z"
+                      fill="#EEF4F8"></path>
+            </svg>
+        </div>
+        <div class="cta-band-inner">
+            <h2>想聊聊你的想法嗎？</h2>
+            <p>不論是網站合作、技術諮詢，或是一場難忘的美食體驗，都歡迎隨時與我聯繫。</p>
+            <a href="services.html" class="btn-light">查看我的服務 →</a>
+        </div>
+
+        <!-- ============ 海床：海草 + 螃蟹 ============ -->
+        <!-- 海草參數：left 水平位置 / width 寬 / height 高 / --sw 擺動秒數 / --swd 延遲 -->
+        <div class="seabed" aria-hidden="true">
+
+            <div class="weed" style="left:4%;  width:42px; height:104px; --sw:5.2s; --swd:0s;   color:#17708A; opacity:0.71;">
+                <svg viewBox="0 0 40 160" preserveAspectRatio="none"><path fill="currentColor" d="M20,160 C12,124 9,86 14,46 C16,28 18,12 20,0 C24,14 27,30 29,50 C33,90 28,126 20,160 Z"/></svg>
+            </div>
+
+            <div class="weed" style="left:9%;  width:28px; height:68px;  --sw:4.1s; --swd:.6s;  color:#0E7C9B; opacity:0.61;">
+                <svg viewBox="0 0 40 160" preserveAspectRatio="none"><path fill="currentColor" d="M18,160 C22,120 8,92 16,58 C21,38 14,20 20,0 C29,20 22,40 27,60 C34,90 24,124 22,160 Z"/></svg>
+            </div>
+
+            <div class="weed" style="left:15%; width:50px; height:128px; --sw:6.4s; --swd:1.2s; color:#4FB3D9; opacity:0.50;">
+                <svg viewBox="0 0 40 160" preserveAspectRatio="none"><path fill="currentColor" d="M20,160 C12,124 9,86 14,46 C16,28 18,12 20,0 C24,14 27,30 29,50 C33,90 28,126 20,160 Z"/></svg>
+            </div>
+
+            <div class="weed" style="left:27%; width:32px; height:82px;  --sw:4.7s; --swd:.3s;  color:#17708A; opacity:0.66;">
+                <svg viewBox="0 0 40 160" preserveAspectRatio="none"><path fill="currentColor" d="M18,160 C22,120 8,92 16,58 C21,38 14,20 20,0 C29,20 22,40 27,60 C34,90 24,124 22,160 Z"/></svg>
+            </div>
+
+            <div class="weed" style="left:38%; width:24px; height:56px;  --sw:3.6s; --swd:1.8s; color:#A8DCF0; opacity:0.48;">
+                <svg viewBox="0 0 40 160" preserveAspectRatio="none"><path fill="currentColor" d="M20,160 C12,124 9,86 14,46 C16,28 18,12 20,0 C24,14 27,30 29,50 C33,90 28,126 20,160 Z"/></svg>
+            </div>
+
+            <div class="weed" style="left:52%; width:40px; height:98px;  --sw:5.8s; --swd:.9s;  color:#0E7C9B; opacity:0.58;">
+                <svg viewBox="0 0 40 160" preserveAspectRatio="none"><path fill="currentColor" d="M18,160 C22,120 8,92 16,58 C21,38 14,20 20,0 C29,20 22,40 27,60 C34,90 24,124 22,160 Z"/></svg>
+            </div>
+
+            <div class="weed" style="left:64%; width:30px; height:74px;  --sw:4.4s; --swd:2.2s; color:#4FB3D9; opacity:0.56;">
+                <svg viewBox="0 0 40 160" preserveAspectRatio="none"><path fill="currentColor" d="M20,160 C12,124 9,86 14,46 C16,28 18,12 20,0 C24,14 27,30 29,50 C33,90 28,126 20,160 Z"/></svg>
+            </div>
+
+            <div class="weed" style="left:78%; width:46px; height:116px; --sw:6.0s; --swd:.15s; color:#17708A; opacity:0.64;">
+                <svg viewBox="0 0 40 160" preserveAspectRatio="none"><path fill="currentColor" d="M18,160 C22,120 8,92 16,58 C21,38 14,20 20,0 C29,20 22,40 27,60 C34,90 24,124 22,160 Z"/></svg>
+            </div>
+
+            <div class="weed" style="left:86%; width:26px; height:62px;  --sw:3.9s; --swd:1.5s; color:#A8DCF0; opacity:0.50;">
+                <svg viewBox="0 0 40 160" preserveAspectRatio="none"><path fill="currentColor" d="M20,160 C12,124 9,86 14,46 C16,28 18,12 20,0 C24,14 27,30 29,50 C33,90 28,126 20,160 Z"/></svg>
+            </div>
+
+            <div class="weed" style="left:93%; width:38px; height:92px;  --sw:5.5s; --swd:2.6s; color:#0E7C9B; opacity:0.60;">
+                <svg viewBox="0 0 40 160" preserveAspectRatio="none"><path fill="currentColor" d="M18,160 C22,120 8,92 16,58 C21,38 14,20 20,0 C29,20 22,40 27,60 C34,90 24,124 22,160 Z"/></svg>
+            </div>
+
+            <!-- 螃蟹：橫著走過整片海床，左螯會一直揮 -->
+            <div class="crab">
+                <div class="crab-bob">
+                    <svg viewBox="0 0 100 72">
+                        <g stroke="var(--crab-dark)" stroke-width="3.4" stroke-linecap="round" fill="none">
+                            <path d="M34 50 q-9 5 -13 13"/>
+                            <path d="M40 55 q-7 7 -8 15"/>
+                            <path d="M47 57 q-3 8 -2 14"/>
+                            <path d="M66 50 q9 5 13 13"/>
+                            <path d="M60 55 q7 7 8 15"/>
+                            <path d="M53 57 q3 8 2 14"/>
+                        </g>
+                        <g class="claw-wave" fill="var(--crab)">
+                            <rect x="22" y="36" width="14" height="6" rx="3"/>
+                            <path d="M8 30 Q22 26 26 36 Q16 38 8 35 Z"/>
+                            <path d="M8 44 Q22 46 26 38 Q16 37 8 39 Z"/>
+                        </g>
+                        <g fill="var(--crab)">
+                            <rect x="64" y="36" width="14" height="6" rx="3"/>
+                            <path d="M92 30 Q78 26 74 36 Q84 38 92 35 Z"/>
+                            <path d="M92 44 Q78 46 74 38 Q84 37 92 39 Z"/>
+                        </g>
+                        <ellipse cx="50" cy="42" rx="24" ry="17" fill="var(--crab)"/>
+                        <ellipse cx="42" cy="35" rx="8" ry="4.5" fill="#fff" opacity=".30"/>
+                        <rect x="41.5" y="18" width="3.4" height="12" rx="1.7" fill="var(--crab)"/>
+                        <rect x="55.1" y="18" width="3.4" height="12" rx="1.7" fill="var(--crab)"/>
+                        <circle cx="43.2" cy="16" r="5.6" fill="#fff"/>
+                        <circle cx="56.8" cy="16" r="5.6" fill="#fff"/>
+                        <circle cx="44.4" cy="16.4" r="2.7" fill="#0A2A3D"/>
+                        <circle cx="58" cy="16.4" r="2.7" fill="#0A2A3D"/>
+                        <path d="M44 47 Q50 52.5 56 47" stroke="#0A2A3D" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="social-links">
+            <a href="https://www.instagram.com/wzy.8_8_23/">IG</a>
+            <a href="#">LinkedIn</a>
+            <a href="https://mail.google.com/mail/u/0/?ogbl#inbox?compose=DmwnWsTJvbnGBJTShSvqJzrMzLqKKMHwXggNFFKbvbCsBgcFtXdnCcwpDwkfLscGXXWVbzbGtRtl">Email</a>
+        </div>
+        <p class="copyright">&copy; 2026 catherine0429. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // 導覽列捲動時加深背景
+        var header = document.getElementById('siteHeader');
+        window.addEventListener('scroll', function () {
+            header.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
+
+        // 區塊進場淡入
+        var items = document.querySelectorAll('.reveal');
+        if ('IntersectionObserver' in window) {
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('visible');
+                        io.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+            items.forEach(function (el) { io.observe(el); });
+        } else {
+            items.forEach(function (el) { el.classList.add('visible'); });
+        }
+    </script>
+
+</body>
+</html>
