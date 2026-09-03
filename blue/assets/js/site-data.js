@@ -12,13 +12,13 @@
 
 window.SITE_DATA = {
 
-    /* 後台圖片下拉選單會列出這些檔案（放在 my-web-main 資料夾裡的圖） */
+    /* 後台圖片下拉選單會列出這些檔案（放在 blue\assets\img\ 裡的圖） */
     "images": [
-        "../1.jpg", "../2.jpg", "../3.jpg", "../4.jpg", "../5.jpg",
-        "../6.jpg", "../7.jpg", "../8.jpg", "../9.jpg", "../10.jpg",
-        "../a.PNG", "../b.png", "../c.jpg", "../d.jpg", "../e.jpg",
-        "../f.jpg", "../g.png", "../h.png", "../i.PNG", "../j.jpg",
-        "../k.jpg", "../logo-transparent.png"
+        "assets/img/1.jpg", "assets/img/2.jpg", "assets/img/3.jpg", "assets/img/4.jpg", "assets/img/5.jpg",
+        "assets/img/6.jpg", "assets/img/7.jpg", "assets/img/8.jpg", "assets/img/9.jpg", "assets/img/10.jpg",
+        "assets/img/a.PNG", "assets/img/b.png", "assets/img/c.jpg", "assets/img/d.jpg", "assets/img/e.jpg",
+        "assets/img/f.jpg", "assets/img/g.png", "assets/img/h.png", "assets/img/i.PNG", "assets/img/j.jpg",
+        "assets/img/k.jpg", "assets/img/logo-transparent.png"
     ],
 
     /* ================= 首頁 index.html ================= */
@@ -45,7 +45,7 @@ window.SITE_DATA = {
         "worksTitle": "精選作品與服務",
         "cards": [
             {
-                "img": "../b.png",
+                "img": "assets/img/b.png",
                 "alt": "網頁作品預覽圖",
                 "eyebrow": "Web Design",
                 "title": "網頁設計精選",
@@ -54,7 +54,7 @@ window.SITE_DATA = {
                 "href": "web-design.html"
             },
             {
-                "img": "../g.png",
+                "img": "assets/img/g.png",
                 "alt": "私房食譜",
                 "eyebrow": "Cooking",
                 "title": "我的私房食譜",
@@ -63,7 +63,7 @@ window.SITE_DATA = {
                 "href": "cooking.html"
             },
             {
-                "img": "../h.png",
+                "img": "assets/img/h.png",
                 "alt": "客製",
                 "eyebrow": "Services",
                 "title": "客製",
@@ -84,7 +84,7 @@ window.SITE_DATA = {
         "bannerTitle": "認識 Catherine：理性與感性的交會",
         "bannerSubtitle": "專業網頁開發者與美食愛好者，致力於創造兼具美感與實用性的體驗。",
 
-        "photo": "../c.jpg",
+        "photo": "assets/img/c.jpg",
         "photoAlt": "您的專業個人照片",
         "name": "Catherine",
         "nickname": "你也可以叫我水豚老大、葡萄、夏天...等等，在保持禮貌的前提想怎麼稱呼就怎麼稱呼！",
@@ -158,19 +158,19 @@ window.SITE_DATA = {
 
         "cards": [
             {
-                "img": "../f.jpg",
+                "img": "assets/img/f.jpg",
                 "title": "椰子奶酥麵包",
                 "desc": "經典甜點。精確的酸甜平衡，搭配酥脆塔皮。考驗耐心與精準度。",
                 "category": "dessert"
             },
             {
-                "img": "../d.jpg",
+                "img": "assets/img/d.jpg",
                 "title": "奶油白醬焗烤義大利麵(螺旋)",
                 "desc": "利用低溫舒肥技術精準控制熟度，展現食材最原始的風味。",
                 "category": "main-course"
             },
             {
-                "img": "../e.jpg",
+                "img": "assets/img/e.jpg",
                 "title": "草莓糖葫蘆",
                 "desc": "簡單食材，多層次風味的堆疊，展現快速邏輯的烹飪哲學。",
                 "category": "dessert"
@@ -185,7 +185,7 @@ window.SITE_DATA = {
 
         "cards": [
             {
-                "img": "../b.png",
+                "img": "assets/img/b.png",
                 "alt": "專案一截圖：電商網站",
                 "title": "響應式購物平台",
                 "desc": "目標：建置多種裝置適配購物網頁。",
@@ -210,7 +210,7 @@ window.SITE_DATA = {
 
         "cards": [
             {
-                "img": "../1.jpg",
+                "img": "assets/img/1.jpg",
                 "alt": "城市夜景攝影",
                 "title": "日常攝影系列",
                 "desc": "捕捉生活間的光影。",
@@ -218,7 +218,7 @@ window.SITE_DATA = {
                 "href": "photography-detail.html"
             },
             {
-                "img": "../i.PNG",
+                "img": "assets/img/i.PNG",
                 "alt": "數位插畫",
                 "title": "隨手一畫",
                 "desc": "使用 Linearty Curve 創作的數位插畫，充滿想像。",
@@ -226,7 +226,7 @@ window.SITE_DATA = {
                 "href": "illustration-detail.html"
             },
             {
-                "img": "../j.jpg",
+                "img": "assets/img/j.jpg",
                 "alt": "手工木製飾品盒",
                 "title": "木製托盤(洞洞板、托盤二合一)",
                 "desc": "利用細木作工藝完成，結合實用性與設計感。",

@@ -271,7 +271,7 @@
         opt0.value = '';
         sel.appendChild(opt0);
         (data.images || []).forEach(function (src) {
-            var o = el('option', null, src.replace('../', ''));
+            var o = el('option', null, src.replace('assets/img/', ''));
             o.value = src;
             sel.appendChild(o);
         });
